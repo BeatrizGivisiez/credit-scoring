@@ -1,0 +1,55 @@
+.tabStyles {
+    color: white;
+    cursor: pointer;
+    font-size: 0.875rem;
+    font-weight: bold;
+    background-color: transparent;
+    width: 100%;
+    padding: 10px 12px;
+    margin: 6px;
+    border: none;
+    border-radius: 8px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+}
+
+.tabStyles:hover {
+    background-color: #0EB4DA;
+}
+
+.tabStyles:focus {
+    color: #fff;
+    outline: 2px solid #eeeeee;
+}
+
+.activeTab {
+    background-color: transparent;
+    color: white;
+    border: 2px solid #fff;
+}
+
+.tabStyles.Mui-disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.tabPanelStyles {
+    width: 100%;
+    font-size: 0.875rem;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.tabsListStyles {
+    background-color: #103780;
+    border-radius: 12px;
+    margin-bottom: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    align-content: space-between;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);
+}

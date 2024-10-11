@@ -1,0 +1,20 @@
+const SPACING = {
+  NONE: 0, // SPACING_NONE, 0px
+  QUARCK: 1, // SPACING_QUARCK, 4px
+  NANO: 2, // SPACING_NANO, 8px
+  XII: 3, // SPACING_XII, 12px
+  XXXS: 4, // SPACING_XXXS, 16px
+  XX: 5, // SPACING_XX, 20px
+  XXS: 6, // SPACING_XXS, 24px
+  XS: 7, // SPACING_XS, 32px
+  SM: 8, // SPACING_SM, 40px
+  MD: 9, // SPACING_MD, 48px
+  LG: 10, // SPACING_LG, 56px
+  XL: 11, // SPACING_XL, 64px
+  XXL: 12, // SPACING_XXL, 80px
+  XXXL: 13, // SPACING_XXXL, 120px
+  HUGE: 14, // SPACING_HUGE, 160px
+  GIANT: 15 // SPACING_GIANT, 200px
+};
+
+export default SPACING;

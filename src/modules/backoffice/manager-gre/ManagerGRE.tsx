@@ -1,0 +1,99 @@
+"use client";
+
+import { useState } from "react";
+
+import {
+  Alert,
+  Breadcrumbs,
+  Button,
+  Card,
+  ModalRelationAdd,
+  TableListRelation
+} from "@/components";
+import { breadcrumbsBackofficeGRE } from "@/constants/breadcrumbs";
+import useFetchCharacteristicRelation from "@/hooks/useFetchCharacteristicRelation";
+import PALETTE from "@/styles/_palette";
+import { getTodayDate } from "@/utils/getTodayDate";
+import { Box, CircularProgress, Stack, Typography } from "@mui/material";
+import { Check, Plus } from "@phosphor-icons/react";
+
+import { backoffice__box, backoffice__manager } from "../styles";
+
+export const ManagerGREPage = () => {
+  const [modalOpen, setModalOpen] = useState(false);
+  const { characteristicRelation, loading, error } = useFetchCharacteristicRelation(1);
+
+  // Função para adicionar nova relação à lista
+  const handleAddRelation = (newRelation: any) => {
+    // const formattedRelation = {
+    //   id: newRelation.id,
+    //   characteristicRelation: newRelation.label, // Mapeando o campo correto
+    //   status: "Ativo", // Ou conforme necessário
+    //   createdAt: getTodayDate(), // Ou outro campo relevante
+    //   deletedAt: ""
+    // };
+    // Atualize o estado se necessário, caso esteja gerenciando localmente
+  };
+
+  // Função para inativar uma relação
+  const handleInactivateRelation = (id: number) => {
+    // Aqui você pode adicionar a lógica para inativar uma relação, se necessário
+  };
+
+  return (
+    <>
+      <Box sx={backoffice__box}>
+        <Stack sx={backoffice__manager}>
+          <Breadcrumbs breadcrumbs={breadcrumbsBackofficeGRE} />
+          <Button
+            iconEnd={Plus}
+            label={"Criar Característica"}
+            onClick={() => setModalOpen(true)}
+          />
+        </Stack>
+        <Card>
+          <Typography variant="h6" mb={2} color={PALETTE.PRIMARY_MAIN}>
+            Lista da Característica Relação
+          </Typography>
+          {loading && (
+            <Box
+              sx={{
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+                height: "100px"
+              }}
+            >
+              <CircularProgress />
+            </Box>
+          )}
+
+          {error && (
+            <Alert severity="error" label={`Erro ao carregar dados: ${error}`} icon={Check} />
+          )}
+
+          {!loading && !error && (
+            <TableListRelation
+              pageSize={10}
+              relationList={characteristicRelation.map((item) => ({
+                id: item.id,
+                characteristicRelation: item.label,
+                status: "Ativo",
+                createdAt: getTodayDate(),
+                deletedAt: ""
+              }))}
+              onInactivate={handleInactivateRelation}
+            />
+          )}
+        </Card>
+      </Box>
+
+      <ModalRelationAdd
+        open={modalOpen}
+        handleClose={() => setModalOpen(false)}
+        onSave={handleAddRelation}
+        relationList={[]} // ou ajuste conforme necessário
+      />
+    </>
+  );
+};

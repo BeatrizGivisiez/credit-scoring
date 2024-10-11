@@ -1,0 +1,57 @@
+const PALETTE = {
+  // PRIMARY_MAIN: "#90caf9",
+  // PRIMARY_LIGHT: "#e3f2fd",
+  // PRIMARY_DARK: "#42a5f5",
+  // DEFAULT
+
+  PRIMARY_MAIN: "#103780",
+  PRIMARY_LIGHT: "#90caf9",
+  PRIMARY_DARK: "#0EB4DA",
+  // PKF
+
+  // PRIMARY_MAIN: "#424242",
+  // PRIMARY_LIGHT: "#616161",
+  // PRIMARY_DARK: "#212121",
+
+  // SECONDARY_MAIN: "#ce93d8",
+  SECONDARY_MAIN: "#F1EFE7",
+  SECONDARY_LIGHT: "#f3e5f5",
+  SECONDARY_DARK: "#ab47bc",
+
+  ERROR_MAIN: "#f44336",
+  ERROR_LIGHT: "#e57373",
+  ERROR_DARK: "#d32f2f",
+
+  WARNING_MAIN: "#ffa726",
+  WARNING_LIGHT: "#ffb74d",
+  WARNING_DARK: "#f57c00",
+
+  INFO_MAIN: "#29b6f6",
+  INFO_LIGHT: "#4fc3f7",
+  INFO_DARK: "#0288d1",
+
+  SUCCESS_MAIN: "#66bb6a",
+  SUCCESS_LIGHT: "#81c784",
+  SUCCESS_DARK: "#388e3c",
+
+  WHITE: "#FFFFFF",
+  GRAY_100: "#fafafa",
+  GRAY_200: "#EEEEEE",
+  GRAY_300: "#e0e0e0",
+  GRAY_400: "#bdbdbd",
+  GRAY_500: "#9e9e9e",
+  GRAY_600: "#757575",
+  GRAY_700: "#616161",
+  GRAY_800: "#424242",
+  GRAY_900: "#212121",
+  BLACK: "#000000",
+
+  GRAFIC1: "#01A76F",
+  GRAFIC2: "#FFBC50",
+  GRAFIC3: "#FF7A5E",
+  GRAFIC4: "#00B8D9",
+  GRAFIC5: "#22C55D",
+  GRAFIC6: "#FBF6BC"
+};
+
+export default PALETTE;
