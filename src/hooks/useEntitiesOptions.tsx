@@ -1,5 +1,5 @@
-import { EntitiesDto } from "@/dto/entitiesDto";
-import useFetchEntities from "@/hooks/useFetchEntities";
+import { EntityDTO } from "@/dto/EntityDto";
+import useFetchEntities from "@/hooks/entity/useFetchEntity";
 
 export const useEntitiesOptions = (): [
   {
@@ -7,15 +7,15 @@ export const useEntitiesOptions = (): [
     value: string;
   }[],
   boolean,
-  Array<EntitiesDto>
+  Array<EntityDTO>
 ] => {
-  const { entities, loading } = useFetchEntities(1); // Obtém entidades e estado de carregamento
+  const { entity, loading } = useFetchEntities(); // Obtém entidades e estado de carregamento
 
   // Mapeia as entidades para um formato de opções
-  const entitiesOptions = entities.map((entity: EntitiesDto) => ({
-    label: `${entity.nmReduzido} - ${entity.docId}`,
-    value: entity["@id"] // O value pode ser apenas docId, ou conforme sua necessidade
+  const entityOptions = entity.map((entity: EntityDTO) => ({
+    label: `${entity.name} - ${entity.documentId}`,
+    value: entity.documentNumber // O value pode ser apenas docId, ou conforme sua necessidade
   }));
 
-  return [entitiesOptions, loading, entities]; // Retorna as opções e o estado de carregamento
+  return [entityOptions, loading, entity]; // Retorna as opções e o estado de carregamento
 };
