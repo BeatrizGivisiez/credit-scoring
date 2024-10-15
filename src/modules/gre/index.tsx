@@ -30,9 +30,10 @@ export const EconomicGroupsPage = () => {
       } else {
         const lowercasedQuery = query.toLowerCase();
         const filtered = economicGroup.filter(
+          // NOME DO GRUPO, NOME ENTIDADE MAE E FILHA, NIF MAE E FILHA
           (group: any) =>
-            group.parentDetails.nmReduzido.toLowerCase().includes(lowercasedQuery) ||
-            group.parentDetails.docId.toLowerCase().includes(lowercasedQuery)
+            group.name.toLowerCase().includes(lowercasedQuery) ||
+            group.entityMother.toLowerCase().includes(lowercasedQuery)
         );
         setFilteredGroups(filtered);
       }
