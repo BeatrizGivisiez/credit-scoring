@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 
 import { EconomicGroupRelationDTO } from "@/app/dto/EconomicGroupRelationDto";
 
-const useFetchEconomicGroupRelation = (page: number) => {
+export const useFetchEconomicGroupRelation = () => {
   const [economicGroupRelation, setEconomicGroupRelation] = useState<EconomicGroupRelationDTO[]>(
     []
   );
@@ -13,7 +13,7 @@ const useFetchEconomicGroupRelation = (page: number) => {
   useEffect(() => {
     const fetchEconomicGroupRelation = async () => {
       try {
-        const response = await fetch(`/api/economicGroupRelation?page=${page}`, {
+        const response = await fetch(`/api/economicGroupRelation?page`, {
           method: "GET",
           headers: {
             accept: "application/ld+json"
@@ -24,13 +24,9 @@ const useFetchEconomicGroupRelation = (page: number) => {
           throw new Error(`Error fetching data: ${response.statusText}`);
         }
 
-        const data = await response.json();
-        if (data.member) {
-          setEconomicGroupRelation(data.member); // Atualiza o estado
-          console.log("Dados recebidos setEconomicGroupRelation:", data.member); // Log para verificar a resposta
-        } else {
-          console.error("A propriedade 'member' não está definida na resposta.");
-        }
+        const data: EconomicGroupRelationDTO[] = await response.json(); // API retorna um array
+        setEconomicGroupRelation(data);
+        console.log("Dados recebidos setEconomicGroupRelation:", data);
       } catch (err: any) {
         setError(err.message);
       } finally {
@@ -39,9 +35,7 @@ const useFetchEconomicGroupRelation = (page: number) => {
     };
 
     fetchEconomicGroupRelation();
-  }, [page]);
+  }, []);
 
   return { economicGroupRelation, loading, error };
 };
-
-export default useFetchEconomicGroupRelation;

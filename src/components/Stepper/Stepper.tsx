@@ -12,7 +12,12 @@ import {
   TableAssociateEntity
 } from "@/components";
 import { EntityDTO } from "@/app/dto/EntityDto";
-import { useFetchCharacteristicRelation, useEntitySelect, useCreateEconomicGroup } from "@/hooks";
+import {
+  useFetchCharacteristicRelation,
+  useEntitySelect,
+  useCreateEconomicGroup,
+  useCreateEconomicGroupRelation
+} from "@/hooks";
 import PALETTE from "@/styles/_palette";
 import {
   Box,
@@ -27,7 +32,6 @@ import { ArrowLeft, ArrowRight, Check, FloppyDiskBack } from "@phosphor-icons/re
 
 import { SeverityType } from "../Alert/types";
 import { stepper__1step, stepper__active, stepper__box } from "./styles";
-import useCreateEconomicGroupRelation from "@/hooks/economicGroupRelation/useCreateEconomicGroupRelation";
 
 const steps = ["Dados do Grupo", "Associar Entidade"];
 
