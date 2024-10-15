@@ -8,7 +8,7 @@ import Box from "@mui/material/Box";
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
 import { Pencil, Trash } from "@phosphor-icons/react";
 
-import { gridcoldef } from "./styles";
+import { tableassociateentity__box, tableassociateentity__datagrid } from "./styles";
 import { TableAssociateEntityProps } from "./types";
 
 export const TableAssociateEntity = ({
@@ -35,7 +35,7 @@ export const TableAssociateEntity = ({
   // Função para obter o label de característica de relação
   const getCharacteristicRelationLabel = (id: number) => {
     const option = characteristicRelation.find((option) => option.economicGroupTypeId === id);
-    return option ? option.name : "Desconhecido"; // Retorna o label ou "Desconhecido" se não encontrar
+    return option ? option.name : "Desconhecido"; // Retorna "Desconhecido" se não encontrar
   };
 
   const columns: GridColDef<(typeof createGroups)[number]>[] = [
@@ -52,7 +52,7 @@ export const TableAssociateEntity = ({
       headerName: "Ações",
       width: 100,
       renderCell: (params) => (
-        <Box sx={gridcoldef}>
+        <Box sx={tableassociateentity__box}>
           <ButtonIcon
             placement="top-start"
             title="Editar"
@@ -86,17 +86,7 @@ export const TableAssociateEntity = ({
           }}
           pageSizeOptions={[5]}
           disableRowSelectionOnClick
-          sx={{
-            "& .MuiDataGrid-root": {
-              fontSize: "14px" // Aplica o tamanho da fonte
-            },
-            "& .MuiDataGrid-columnHeaders": {
-              fontSize: "15px" // Aplica o tamanho da fonte aos cabeçalhos
-            },
-            "& .MuiDataGrid-cell": {
-              fontSize: "14px" // Aplica o tamanho da fonte às células
-            }
-          }}
+          sx={tableassociateentity__datagrid}
         />
       </Box>
       {createGroupEditOpen && createGroupEditData && (

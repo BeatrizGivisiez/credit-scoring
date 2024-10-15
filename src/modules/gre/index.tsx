@@ -1,35 +1,21 @@
 "use client";
 
 import { useCallback, useEffect, useState } from "react";
-
-import { RELATION_ENTITY } from "@/app/_mocks/relationentity";
 import { breadcrumbsGREConsult } from "@/constants/breadcrumbs";
+import { useFetchEconomicGroup } from "@/hooks";
 import { Box } from "@mui/material";
-
 import { ConsultGREPage } from "./consult-gre/ConsultGRE";
 import { CreateGREPage } from "./create-gre/CreateGRE";
-import { economicgroup__box } from "./styles";
 import { HomeGREPage } from "./home-gre/HomeGRE";
-import useFetchEconomicGroup from "@/hooks/useFetchEconomicGroup";
+import { economicgroup__box } from "./styles";
 
 export const EconomicGroupsPage = () => {
-  const { fetchEconomicGroup, economicGroup, loading, error, totalItens } = useFetchEconomicGroup();
+  const { economicGroup, loading, error } = useFetchEconomicGroup();
 
-  const [isConsult, setIsConsult] = useState(true);
-  const [isCreatingGroup, setIsCreatingGroup] = useState(false);
+  const [currentMode, setCurrentMode] = useState<"home" | "consult" | "create">("home");
   const [filteredGroups, setFilteredGroups] = useState(economicGroup);
   const [selectedGroup, setSelectedGroup] = useState<any | null>(null);
-  const [modalOpenView, setModalOpenView] = useState(false);
-  const [modalOpenEdit, setModalOpenEdit] = useState(false);
-  const [page, setPage] = useState<number>(1);
-  const [itemsPerPage, setItemsPerPage] = useState<number>(10);
-
-  // Função para alterar o número de itens por página
-  const handleSetItemsPerPage = (newItemsPerPage: number) => {
-    if (newItemsPerPage !== itemsPerPage) {
-      setItemsPerPage(newItemsPerPage);
-    }
-  };
+  const [modalMode, setModalMode] = useState<"view" | "edit" | null>(null);
 
   useEffect(() => {
     if (economicGroup.length > 0) {
@@ -54,82 +40,41 @@ export const EconomicGroupsPage = () => {
     [economicGroup]
   );
 
-  const handleOpenModalView = useCallback(
-    (group: any) => {
-      if (selectedGroup?.id !== group.id || !modalOpenView) {
-        setSelectedGroup(group);
-        setModalOpenView(true);
-        setModalOpenEdit(false);
-      }
-    },
-    [selectedGroup, modalOpenView]
-  );
-
-  const handleOpenModalEdit = useCallback(
-    (group: any) => {
-      if (selectedGroup?.id !== group.id || !modalOpenEdit) {
-        setSelectedGroup(group);
-        setModalOpenEdit(true);
-        setModalOpenView(false);
-      }
-    },
-    [selectedGroup, modalOpenEdit]
-  );
+  const handleOpenModal = useCallback((group: any, mode: "view" | "edit") => {
+    setSelectedGroup(group);
+    setModalMode(mode);
+  }, []);
 
   const handleCloseModal = useCallback(() => {
-    setModalOpenView(false);
-    setModalOpenEdit(false);
+    setModalMode(null);
     setSelectedGroup(null);
   }, []);
 
-  const handleSetPage = (e: any) => {
-    // Somente altere a página se o valor for diferente
-    if (e?.page && e.page !== page && e.page > 0) {
-      setPage(e.page);
-    }
-  };
-
-  useEffect(() => {
-    fetchEconomicGroup(page, itemsPerPage);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [page, itemsPerPage]);
-
   return (
     <Box sx={economicgroup__box}>
-      {isCreatingGroup ? (
+      {currentMode === "create" ? (
         <CreateGREPage
-          setIsCreatingGroup={setIsCreatingGroup}
-          setIsConsult={setIsConsult}
-          isConsult={isConsult}
+          setIsCreatingGroup={() => setCurrentMode("home")}
+          setIsConsult={() => setCurrentMode("consult")}
+        />
+      ) : currentMode === "consult" ? (
+        <ConsultGREPage
+          isConsult={currentMode === "consult"}
+          setIsConsult={() => setCurrentMode("consult")}
+          handleSearch={handleSearch}
+          filteredGroups={filteredGroups}
+          setIsCreatingGroup={() => setCurrentMode("create")}
+          handleOpenModalView={(group) => handleOpenModal(group, "view")}
+          handleOpenModalEdit={(group) => handleOpenModal(group, "edit")}
+          modalMode={modalMode}
+          selectedGroup={selectedGroup}
+          handleCloseModal={handleCloseModal}
+          breadcrumbsGREConsult={breadcrumbsGREConsult}
+          loading={loading}
+          error={error}
         />
       ) : (
-        <>
-          {isConsult ? (
-            <HomeGREPage isConsult={isConsult} setIsConsult={setIsConsult} />
-          ) : (
-            <ConsultGREPage
-              isConsult={isConsult}
-              setIsConsult={setIsConsult}
-              handleSearch={handleSearch}
-              filteredGroups={filteredGroups}
-              setIsCreatingGroup={setIsCreatingGroup}
-              handleOpenModalView={handleOpenModalView}
-              handleOpenModalEdit={handleOpenModalEdit}
-              modalOpenView={modalOpenView}
-              modalOpenEdit={modalOpenEdit}
-              selectedGroup={selectedGroup}
-              handleCloseModal={handleCloseModal}
-              breadcrumbsGREConsult={breadcrumbsGREConsult}
-              RELATION_ENTITY={RELATION_ENTITY}
-              loading={loading}
-              error={error}
-              handleSetPage={handleSetPage}
-              rowCount={totalItens}
-              itemsPerPage={itemsPerPage}
-              setItemsPerPage={handleSetItemsPerPage}
-            />
-          )}
-        </>
+        <HomeGREPage isConsult={true} setIsConsult={() => setCurrentMode("consult")} />
       )}
     </Box>
   );

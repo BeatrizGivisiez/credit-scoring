@@ -1,6 +1,7 @@
 "use client";
-import { CharacteristicRelationDTO } from "@/dto/CharacteristicRelationDto";
 import { useEffect, useState } from "react";
+
+import { CharacteristicRelationDTO } from "@/dto/CharacteristicRelationDto";
 
 export const useFetchCharacteristicRelation = () => {
   const [characteristicRelation, setCharacteristicRelation] = useState<CharacteristicRelationDTO[]>(

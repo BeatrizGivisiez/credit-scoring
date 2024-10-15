@@ -1,15 +1,17 @@
 "use client";
 import { useState } from "react";
-import { EconomicGroupCreateDto } from "@/dto/economicGroupDto";
 
-const useCreateEconomicGroup = () => {
+import { EconomicGroupRelationDTO } from "@/dto/EconomicGroupRelationDto";
+
+const useCreateEconomicGroupRelation = () => {
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
 
-  const createEconomicGroup = async (newRelation: EconomicGroupCreateDto) => {
+  const createEconomicGroupRelation = async (newRelation: EconomicGroupRelationDTO) => {
     setLoading(true);
+
     try {
-      const response = await fetch(`/api/economicGroup`, {
+      const response = await fetch(`/api/economicGroupRelation`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -25,13 +27,14 @@ const useCreateEconomicGroup = () => {
       // Retorna os dados criados ou uma confirmação se necessário
       return await response.json();
     } catch (err: any) {
+      console.log("Error", err);
       setError(err.message);
     } finally {
       setLoading(false);
     }
   };
 
-  return { createEconomicGroup, loading, error };
+  return { createEconomicGroupRelation, loading, error };
 };
 
-export default useCreateEconomicGroup;
+export default useCreateEconomicGroupRelation;

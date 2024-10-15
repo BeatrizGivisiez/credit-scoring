@@ -12,9 +12,7 @@ import {
   TableAssociateEntity
 } from "@/components";
 import { EntityDTO } from "@/dto/EntityDto";
-import { useFetchCharacteristicRelation, useEntitySelect } from "@/hooks";
-import useCreateEconomicGroup from "@/hooks/useCreateEconomicGroup";
-import useCreateEconomicGroupRelation from "@/hooks/useCreateEconomicGroupRelation";
+import { useFetchCharacteristicRelation, useEntitySelect, useCreateEconomicGroup } from "@/hooks";
 import PALETTE from "@/styles/_palette";
 import {
   Box,
@@ -29,6 +27,7 @@ import { ArrowLeft, ArrowRight, Check, FloppyDiskBack } from "@phosphor-icons/re
 
 import { SeverityType } from "../Alert/types";
 import { stepper__1step, stepper__active, stepper__box } from "./styles";
+import useCreateEconomicGroupRelation from "@/hooks/economicGroupRelation/useCreateEconomicGroupRelation";
 
 const steps = ["Dados do Grupo", "Associar Entidade"];
 
@@ -112,45 +111,43 @@ export const Stepper = () => {
       setActiveStep((prevActiveStep) => prevActiveStep + 1);
     } else {
       // Submete o passo 2
-      createEconomicGroup({
-        name: groupName,
-        parent: parentGroup
-      }).then((response) => {
-        console.log("Resposta da criação do grupo econômico:", response);
-
-        Promise.all(
-          associatefilhos.map((c) => {
-            const parentId = response.parent || response.id;
-            if (!parentId) {
-              console.error("Erro: ID do grupo econômico não encontrado!");
-              return;
-            }
-            const childEntity = c.documentNumber ? `/api/entity/${c.documentNumber}` : null;
-            const characteristicRelation = `/api/entity_relationship_types/${c.optionRelation}`;
-            const startDate = new Date(response.createdAt);
-
-            if (!childEntity) {
-              console.error("ID da entidade-filho não encontrado:", c);
-              return Promise.reject("ID da entidade-filho não encontrado");
-            }
-            return createEconomicGroupRelation({
-              parentEntity: parentId,
-              childEntity: childEntity,
-              relationCharacteristic: characteristicRelation,
-              startDate: startDate
-            });
-          })
-        )
-          .then(() => {
-            console.log("Associação de entidades-filho concluída com sucesso.");
-            setAlertData({ message: "Grupo criado com sucesso!", type: "success" });
-            setActiveStep((prevActiveStep) => prevActiveStep + 1);
-          })
-          .catch((e) => {
-            console.error("Erro ao associar entidades-filho:", e);
-            setAlertData({ message: "Erro ao associar entidades-filho!", type: "error" });
-          });
-      });
+      // createEconomicGroup({
+      //   name: groupName,
+      //   parent: parentGroup
+      // }).then((response) => {
+      //   console.log("Resposta da criação do grupo econômico:", response);
+      //   Promise.all(
+      //     associatefilhos.map((c) => {
+      //       const parentId = response.parent || response.id;
+      //       if (!parentId) {
+      //         console.error("Erro: ID do grupo econômico não encontrado!");
+      //         return;
+      //       }
+      //       const childEntity = c.documentNumber ? `/api/entity/${c.documentNumber}` : null;
+      //       const characteristicRelation = `/api/entity_relationship_types/${c.optionRelation}`;
+      //       const startDate = new Date(response.createdAt);
+      //       if (!childEntity) {
+      //         console.error("ID da entidade-filho não encontrado:", c);
+      //         return Promise.reject("ID da entidade-filho não encontrado");
+      //       }
+      //       return createEconomicGroupRelation({
+      //         parentEntity: parentId,
+      //         childEntity: childEntity,
+      //         relationCharacteristic: characteristicRelation,
+      //         startDate: startDate
+      //       });
+      //     })
+      //   )
+      //     .then(() => {
+      //       console.log("Associação de entidades-filho concluída com sucesso.");
+      //       setAlertData({ message: "Grupo criado com sucesso!", type: "success" });
+      //       setActiveStep((prevActiveStep) => prevActiveStep + 1);
+      //     })
+      //     .catch((e) => {
+      //       console.error("Erro ao associar entidades-filho:", e);
+      //       setAlertData({ message: "Erro ao associar entidades-filho!", type: "error" });
+      //     });
+      // });
     }
   };
 
@@ -230,7 +227,6 @@ export const Stepper = () => {
                 <Typography variant="h6" marginBottom={2} color={PALETTE.PRIMARY_MAIN}>
                   Entidades Associadas
                 </Typography>
-                {/* TODO: Listar todas as Entidades menos a mae, pois ela já está lá e cima e nao pode associar a si mesmo. */}
                 <TableAssociateEntity
                   pageSize={5}
                   createGroups={associatefilhos}

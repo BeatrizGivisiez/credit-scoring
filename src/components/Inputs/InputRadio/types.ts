@@ -1,6 +1,7 @@
-interface RadioOption {
-  id: number | string; // Pode ser número ou string
-  label: string; // O texto que será exibido ao lado do radio
+export interface RadioOption {
+  id: number; // O id que foi reportado como ausente
+  label: string;
+  value: string;
 }
 
 export interface InputRadioProps {

@@ -9,6 +9,8 @@ import { homegre__box } from "./styles";
 import { HomeGREPageProps } from "./types";
 
 export const HomeGREPage = ({ isConsult, setIsConsult }: HomeGREPageProps) => {
+  const handleToggleConsult = () => setIsConsult(!isConsult);
+
   return (
     <>
       <Stack sx={homegre__box}>
@@ -18,7 +20,7 @@ export const HomeGREPage = ({ isConsult, setIsConsult }: HomeGREPageProps) => {
         <Button
           iconEnd={isConsult ? MagnifyingGlass : undefined}
           iconStart={!isConsult ? ArrowLeft : undefined}
-          onClick={() => setIsConsult(!isConsult)}
+          onClick={handleToggleConsult}
           label={isConsult ? "Consultar" : "Voltar"}
         />
       </Stack>

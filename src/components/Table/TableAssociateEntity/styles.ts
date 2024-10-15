@@ -1,6 +1,6 @@
 import { SxProps } from "@mui/material";
 
-export const gridcoldef: SxProps = {
+export const tableassociateentity__box: SxProps = {
   display: "flex",
   alignItems: "center",
   width: "100%",
@@ -12,5 +12,17 @@ export const gridcoldef: SxProps = {
   },
   "& .MuiDataGrid-row:focus-within": {
     outline: "none" // Remove o foco visual das linhas
+  }
+};
+
+export const tableassociateentity__datagrid: SxProps = {
+  "& .MuiDataGrid-root": {
+    fontSize: "14px" // Aplica o tamanho da fonte
+  },
+  "& .MuiDataGrid-columnHeaders": {
+    fontSize: "15px" // Aplica o tamanho da fonte aos cabeçalhos
+  },
+  "& .MuiDataGrid-cell": {
+    fontSize: "14px" // Aplica o tamanho da fonte às células
   }
 };

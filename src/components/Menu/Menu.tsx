@@ -54,7 +54,7 @@ export const Menu = () => {
           </MuiMenuItem>
           <Box sx={menu__logo}>
             {isCollapsed ? (
-              <Image src={IMAGE_LOGO_SMALL} alt="logo-small" width={100} height={40} />
+              <Image src={IMAGE_LOGO_SMALL} alt="logo-small" width={100} height={40} priority />
             ) : (
               <Image src={IMAGE_LOGO_BIG} alt="logo" width={100} height={40} />
             )}

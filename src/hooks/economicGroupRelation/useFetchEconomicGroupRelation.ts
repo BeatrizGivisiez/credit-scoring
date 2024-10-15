@@ -1,10 +1,10 @@
 "use client";
 import { useEffect, useState } from "react";
 
-import { EconomicGroupRelationDto } from "@/dto/economicGroupRelationDto";
+import { EconomicGroupRelationDTO } from "@/dto/EconomicGroupRelationDto";
 
 const useFetchEconomicGroupRelation = (page: number) => {
-  const [economicGroupRelation, setEconomicGroupRelation] = useState<EconomicGroupRelationDto[]>(
+  const [economicGroupRelation, setEconomicGroupRelation] = useState<EconomicGroupRelationDTO[]>(
     []
   );
   const [loading, setLoading] = useState<boolean>(true);

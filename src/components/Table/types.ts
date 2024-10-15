@@ -12,7 +12,8 @@ export interface TableListGroupProps {
   onViewGroup: (group: any) => void;
   onEditGroup: (group: any) => void;
   groups: Group[];
-  handleChangePagination: (e: any) => void;
+
+  handleChangePagination?: (e: any) => void;
   rowCount?: number;
   itemsPerPage?: number;
   setItemsPerPage?: (e: number) => void;

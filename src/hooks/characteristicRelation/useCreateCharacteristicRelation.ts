@@ -1,6 +1,7 @@
 "use client";
-import { CharacteristicRelationDTO } from "@/dto/CharacteristicRelationDto";
 import { useState } from "react";
+
+import { CharacteristicRelationDTO } from "@/dto/CharacteristicRelationDto";
 
 export const useCreateCharacteristicRelation = () => {
   const [loading, setLoading] = useState<boolean>(false);

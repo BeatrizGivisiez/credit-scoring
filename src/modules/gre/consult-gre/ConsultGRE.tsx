@@ -31,18 +31,12 @@ export const ConsultGREPage = ({
   setIsCreatingGroup,
   handleOpenModalView,
   handleOpenModalEdit,
-  modalOpenView,
-  modalOpenEdit,
   selectedGroup,
   handleCloseModal,
   breadcrumbsGREConsult,
   loading,
   error,
-  RELATION_ENTITY,
-  handleSetPage = () => {},
-  rowCount = undefined,
-  itemsPerPage,
-  setItemsPerPage
+  modalMode
 }: ConsultGREPageProps) => {
   return (
     <>
@@ -81,26 +75,22 @@ export const ConsultGREPage = ({
         {!loading && !error && (
           <TableListGroup
             groups={filteredGroups.map((item) => ({
-              id: item.id,
+              id: item.economicGroupId,
               groupName: item.name,
-              createdAt: formatDate(item.createdAt),
-              quantityRelation: item.quantityRelation || 0,
-              parentClient: item.parentDetails.nmReduzido,
-              nif: item.parentDetails.docId,
+              createdAt: item.createdAt || "falta vir BE",
+              quantityRelation: item.quantityRelation || "falta vir BE",
+              parentClient: item.entityMother || "falta vir BE",
+              nif: item.entityMother || "falta vir BE",
               deletedAt: item.deletedAt ? "Inativo" : "Ativo"
             }))}
             onViewGroup={handleOpenModalView}
             onEditGroup={handleOpenModalEdit}
-            handleChangePagination={handleSetPage}
-            rowCount={rowCount}
-            itemsPerPage={itemsPerPage}
-            setItemsPerPage={setItemsPerPage}
           />
         )}
 
-        {modalOpenView && selectedGroup && (
+        {modalMode === "view" && selectedGroup && (
           <ModalListGroupView
-            open={modalOpenView}
+            open={modalMode === "view"}
             handleClose={handleCloseModal}
             id={selectedGroup.id}
             groupName={selectedGroup.groupName}
@@ -109,13 +99,13 @@ export const ConsultGREPage = ({
             createdAt={selectedGroup.createdAt}
             deletedAt={selectedGroup.deletedAt}
             lastUpdate={selectedGroup.createdAt}
-            relations={RELATION_ENTITY}
+            relations={selectedGroup.groupName}
           />
         )}
 
-        {modalOpenEdit && selectedGroup && (
+        {modalMode === "edit" && selectedGroup && (
           <ModalListGroupEdit
-            open={modalOpenEdit}
+            open={modalMode === "edit"}
             handleClose={handleCloseModal}
             id={selectedGroup.id}
             groupName={selectedGroup.groupName}
@@ -126,7 +116,7 @@ export const ConsultGREPage = ({
             createdAt={selectedGroup.createdAt}
             deletedAt={selectedGroup.deletedAt}
             lastUpdate={selectedGroup.createdAt}
-            relations={RELATION_ENTITY}
+            relations={selectedGroup.groupName}
           />
         )}
       </Card>

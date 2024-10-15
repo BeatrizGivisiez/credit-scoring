@@ -1,24 +1,16 @@
-export interface EconomicGroupRelationDto {
-  "@context": string;
-  "@id": string;
-  "@type": string;
-  id: number;
-  parentEntity: string;
-  childEntity: string;
-  relationCharacteristic: string;
-  startDate: string;
-  createdAt: string;
-  updatedAt: string;
-  deletedAt: string;
-}
+import { CharacteristicRelationDTO } from "./CharacteristicRelationDto";
+import { EntityDTO } from "./EntityDto";
 
-export interface EconomicGroupCreateRelationDto {
-  childEntity: string;
-  parentEntity: string;
-  relationCharacteristic: string;
-  startDate: Date;
-}
-
-export interface EconomicGroupRelationResponse {
-  member: EconomicGroupRelationDto[];
+export interface EconomicGroupRelationDTO {
+  economicGroupRelationshipId: number;
+  economicGroupId: number;
+  parentId: number;
+  parent: EntityDTO;
+  childId: number;
+  child: EntityDTO;
+  economicGroupTypeId: number;
+  economicGroupType: CharacteristicRelationDTO;
+  created: string; // Pode ser Date se for necessário manipular como data
+  updated: string; // Pode ser Date se for necessário manipular como data
+  deleted: string; // Pode ser Date se for necessário manipular como data
 }
