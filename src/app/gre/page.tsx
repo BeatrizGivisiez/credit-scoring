@@ -1,5 +1,6 @@
 import dynamic from "next/dynamic";
 import { LayoutDefault } from "../templates/LayoutDefault";
+import { EconomicGroupProvider } from "../context/EconomicGroup";
 
 const EconomicGroupsPage = dynamic(
   () => import("@/modules/gre").then((mod) => mod.EconomicGroupsPage),
@@ -9,7 +10,9 @@ const EconomicGroupsPage = dynamic(
 export default async function EconomicGroups() {
   return (
     <LayoutDefault>
-      <EconomicGroupsPage />
+      <EconomicGroupProvider>
+        <EconomicGroupsPage />
+      </EconomicGroupProvider>
     </LayoutDefault>
   );
 }

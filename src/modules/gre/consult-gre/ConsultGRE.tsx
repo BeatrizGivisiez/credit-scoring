@@ -11,7 +11,6 @@ import {
   TableListGroup
 } from "@/components";
 import PALETTE from "@/styles/_palette";
-import { formatDate } from "@/utils/formatDate";
 import { Box, CircularProgress, Stack, Typography } from "@mui/material";
 import { ArrowLeft, Check, MagnifyingGlass, Plus } from "@phosphor-icons/react";
 
@@ -22,22 +21,30 @@ import {
   consultgre__table
 } from "./styles";
 import { ConsultGREPageProps } from "./types";
+import { useEconomicGroup } from "@/app/context/EconomicGroup";
+import { useEffect, useState } from "react";
 
 export const ConsultGREPage = ({
   isConsult,
   setIsConsult,
   handleSearch,
-  filteredGroups,
   setIsCreatingGroup,
   handleOpenModalView,
   handleOpenModalEdit,
   selectedGroup,
   handleCloseModal,
   breadcrumbsGREConsult,
-  loading,
-  error,
   modalMode
 }: ConsultGREPageProps) => {
+  const { economicGroup, loading, error } = useEconomicGroup(); // Acessando o contexto diretamente
+
+  const [filteredGroups, setFilteredGroups] = useState(economicGroup);
+
+  // Atualiza filteredGroups quando economicGroup mudar
+  useEffect(() => {
+    setFilteredGroups(economicGroup);
+  }, [economicGroup]);
+
   return (
     <>
       <Stack sx={consultgre__breadcrumbs}>
@@ -77,11 +84,11 @@ export const ConsultGREPage = ({
             groups={filteredGroups.map((item) => ({
               id: item.economicGroupId,
               groupName: item.name,
-              createdAt: item.createdAt || "falta vir BE",
-              quantityRelation: item.quantityRelation || "falta vir BE",
-              parentClient: item.entityMother || "falta vir BE",
-              nif: item.entityMother || "falta vir BE",
-              deletedAt: item.deletedAt ? "Inativo" : "Ativo"
+              createdAt: item.created || "falta vir BE",
+              quantityRelation: item.relationsCount || 0,
+              parentClient: item.entityMotherName || "falta vir BE",
+              nif: item.entityMotherNIF || "falta vir BE",
+              deletedAt: item.deleted ? "Inativo" : "Ativo"
             }))}
             onViewGroup={handleOpenModalView}
             onEditGroup={handleOpenModalEdit}

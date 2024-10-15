@@ -30,7 +30,7 @@ export const EntityProvider = ({ children }: { children: ReactNode }) => {
 };
 
 // Hook para acessar o contexto facilmente
-export const useEntity = () => {
+export const useCharacteristicRelation = () => {
   const context = useContext(CharacteristicRelationContext);
   if (!context) {
     throw new Error(

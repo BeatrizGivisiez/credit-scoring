@@ -1,18 +1,17 @@
 export interface Group {
   id: number;
-  groupName?: string;
-  createdAt?: string;
-  deletedAt?: string;
-  quantityRelation?: number;
-  parentClient?: string;
-  nif: string;
+  groupName: string;
+  createdAt: string;
+  quantityRelation: number; // Quantidade de relações
+  parentClient: string; // Nome da entidade mãe
+  nif: string; // NIF da entidade mãe
+  deletedAt: string; // Status do grupo (Inativo ou Ativo)
 }
 
 export interface TableListGroupProps {
   onViewGroup: (group: any) => void;
   onEditGroup: (group: any) => void;
   groups: Group[];
-
   handleChangePagination?: (e: any) => void;
   rowCount?: number;
   itemsPerPage?: number;

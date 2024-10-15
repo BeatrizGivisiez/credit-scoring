@@ -2,15 +2,15 @@
 
 import { useCallback, useEffect, useState } from "react";
 import { breadcrumbsGREConsult } from "@/constants/breadcrumbs";
-import { useFetchEconomicGroup } from "@/hooks";
 import { Box } from "@mui/material";
 import { ConsultGREPage } from "./consult-gre/ConsultGRE";
 import { CreateGREPage } from "./create-gre/CreateGRE";
 import { HomeGREPage } from "./home-gre/HomeGRE";
 import { economicgroup__box } from "./styles";
+import { useEconomicGroup } from "@/app/context/EconomicGroup";
 
 export const EconomicGroupsPage = () => {
-  const { economicGroup, loading, error } = useFetchEconomicGroup();
+  const { economicGroup, loading, error } = useEconomicGroup();
 
   const [currentMode, setCurrentMode] = useState<"home" | "consult" | "create">("home");
   const [filteredGroups, setFilteredGroups] = useState(economicGroup);
@@ -25,15 +25,19 @@ export const EconomicGroupsPage = () => {
 
   const handleSearch = useCallback(
     (query: string) => {
+      console.log("Pesquisa:", query); // Log para verificar o valor da pesquisa
+
       if (query.trim() === "") {
         setFilteredGroups(economicGroup);
+        console.log("Grupos filtrados (sem filtro):", economicGroup);
       } else {
         const lowercasedQuery = query.toLowerCase();
         const filtered = economicGroup.filter(
           // NOME DO GRUPO, NOME ENTIDADE MAE E FILHA, NIF MAE E FILHA
           (group: any) =>
             group.name.toLowerCase().includes(lowercasedQuery) ||
-            group.entityMother.toLowerCase().includes(lowercasedQuery)
+            group.entityMotherName.toLowerCase().includes(lowercasedQuery) ||
+            group.entityMotherNIF.toLowerCase().includes(lowercasedQuery)
         );
         setFilteredGroups(filtered);
       }
