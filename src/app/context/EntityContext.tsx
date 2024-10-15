@@ -3,7 +3,7 @@
 
 import { createContext, ReactNode, useContext } from "react";
 
-import { EntityDTO } from "@/dto/EntityDto";
+import { EntityDTO } from "@/app/dto/EntityDto";
 import { useFetchEntity } from "@/hooks";
 
 // Definir o formato do contexto

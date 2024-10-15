@@ -11,7 +11,7 @@ import {
   ModalCreateRelationGroup,
   TableAssociateEntity
 } from "@/components";
-import { EntityDTO } from "@/dto/EntityDto";
+import { EntityDTO } from "@/app/dto/EntityDto";
 import { useFetchCharacteristicRelation, useEntitySelect, useCreateEconomicGroup } from "@/hooks";
 import PALETTE from "@/styles/_palette";
 import {

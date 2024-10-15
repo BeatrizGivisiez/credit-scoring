@@ -1,4 +1,4 @@
-import { EconomicGroupDTO } from "@/dto/EconomicGroupDto";
+import { EconomicGroupDTO } from "@/app/dto/EconomicGroupDto";
 import { NextResponse } from "next/server";
 
 export async function POST(request: Request): Promise<NextResponse> {

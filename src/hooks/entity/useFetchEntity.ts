@@ -2,7 +2,7 @@
 "use client";
 import { useEffect, useState } from "react";
 
-import { EntityDTO } from "@/dto/EntityDto";
+import { EntityDTO } from "@/app/dto/EntityDto";
 
 export const useFetchEntity = () => {
   const [entity, setEntity] = useState<EntityDTO[]>([]);

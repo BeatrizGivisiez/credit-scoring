@@ -1,7 +1,7 @@
 "use client";
 import { useState } from "react";
 
-import { EconomicGroupRelationDTO } from "@/dto/EconomicGroupRelationDto";
+import { EconomicGroupRelationDTO } from "@/app/dto/EconomicGroupRelationDto";
 
 const useCreateEconomicGroupRelation = () => {
   const [loading, setLoading] = useState<boolean>(false);

@@ -3,7 +3,7 @@
 
 import { createContext, ReactNode, useContext } from "react";
 
-import { CharacteristicRelationDTO } from "@/dto/CharacteristicRelationDto";
+import { CharacteristicRelationDTO } from "@/app/dto/CharacteristicRelationDto";
 import { useFetchCharacteristicRelation } from "@/hooks";
 
 // Definir o formato do contexto

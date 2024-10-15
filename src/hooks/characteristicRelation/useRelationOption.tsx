@@ -1,5 +1,5 @@
 import { RadioOption } from "@/components/Inputs/InputRadio/types";
-import { CharacteristicRelationDTO } from "@/dto/CharacteristicRelationDto";
+import { CharacteristicRelationDTO } from "@/app/dto/CharacteristicRelationDto";
 import { useFetchCharacteristicRelation } from "@/hooks";
 
 export const useRelationOption = (): [RadioOption[], boolean, Array<CharacteristicRelationDTO>] => {

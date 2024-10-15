@@ -1,4 +1,4 @@
-import { EconomicGroupRelationDTO } from "@/dto/EconomicGroupRelationDto";
+import { EconomicGroupRelationDTO } from "@/app/dto/EconomicGroupRelationDto";
 import { NextResponse } from "next/server";
 
 export async function GET(): Promise<NextResponse> {

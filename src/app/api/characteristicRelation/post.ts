@@ -1,4 +1,4 @@
-import { CharacteristicRelationDTO } from "@/dto/CharacteristicRelationDto";
+import { CharacteristicRelationDTO } from "@/app/dto/CharacteristicRelationDto";
 import { NextResponse } from "next/server";
 
 export async function POST(request: Request): Promise<NextResponse> {

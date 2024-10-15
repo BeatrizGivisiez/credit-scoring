@@ -1,5 +1,5 @@
 //src/app/api/entity/route.ts
-import { EntityDTO } from "@/dto/EntityDto";
+import { EntityDTO } from "@/app/dto/EntityDto";
 import { NextResponse } from "next/server";
 
 export async function GET(): Promise<NextResponse> {

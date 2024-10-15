@@ -1,7 +1,7 @@
 "use client";
 import { useEffect, useState } from "react";
 
-import { EconomicGroupDTO } from "@/dto/EconomicGroupDto";
+import { EconomicGroupDTO } from "@/app/dto/EconomicGroupDto";
 
 export const useFetchEconomicGroup = () => {
   const [economicGroup, setEconomicGroup] = useState<EconomicGroupDTO[]>([]);

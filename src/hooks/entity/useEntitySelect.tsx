@@ -1,4 +1,4 @@
-import { EntityDTO } from "@/dto/EntityDto";
+import { EntityDTO } from "@/app/dto/EntityDto";
 import { useFetchEntity } from "@/hooks";
 
 export const useEntitySelect = (): [

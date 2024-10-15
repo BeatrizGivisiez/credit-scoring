@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 
-import { EconomicGroupRelationDTO } from "@/dto/EconomicGroupRelationDto";
+import { EconomicGroupRelationDTO } from "@/app/dto/EconomicGroupRelationDto";
 
 export async function POST(request: Request): Promise<NextResponse> {
   const body: EconomicGroupRelationDTO = await request.json();
