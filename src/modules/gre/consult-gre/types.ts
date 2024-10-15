@@ -9,4 +9,7 @@ export interface ConsultGREPageProps {
   handleCloseModal: () => void;
   breadcrumbsGREConsult: any[]; // Se você tiver um tipo específico para breadcrumbs, pode substituir 'any'
   modalMode: "view" | "edit" | null; // Definição de tipo para o modalMode
+  filteredGroups: any[];
+  loading: boolean;
+  error: any;
 }
