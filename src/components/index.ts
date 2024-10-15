@@ -36,7 +36,7 @@ export { ModalRelationAdd } from "./Modal/ModalRelationAdd";
 export { Stepper } from "./Stepper/Stepper";
 
 export { Tabs } from "./Tabs/Tabs";
-export { TableAssociatedEntitiesEG } from "./Table/TableAssociatedEntitiesEG";
+export { TableAssociateEntity } from "./Table/TableAssociateEntity/TableAssociateEntity";
 export { TableListGroup } from "./Table/TableListGroup";
 export { TableListRelation } from "./Table/TableListRelation";
 export { TableListUser } from "./Table/TableListUser";

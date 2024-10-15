@@ -1,10 +1,9 @@
 "use client";
+import { Tabs } from "@/components";
 import { Graph, UserGear } from "@phosphor-icons/react";
 
-import { ManagerUserPage } from "./manager-user/ManagerUser";
 import { ManagerGREPage } from "./manager-gre/ManagerGRE";
-
-import { Tabs } from "@/components";
+import { ManagerUserPage } from "./manager-user/ManagerUser";
 
 const tabs = [
   {

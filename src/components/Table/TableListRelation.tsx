@@ -66,7 +66,7 @@ export const TableListRelation = ({
           }}
         >
           <Typography variant="body2">
-            {params.row.status === "Inativo" && params.row.deletedAt ? params.row.deletedAt : "-"}
+            {params.row.deletedAt ? params.row.deletedAt : "-"}
           </Typography>
         </Box>
       )
@@ -88,10 +88,10 @@ export const TableListRelation = ({
           <Typography
             variant="body2"
             style={{
-              color: params.value === "Ativo" ? "green" : "red"
+              color: params.row.deletedAt ? "red" : "green"
             }}
           >
-            {params.value}
+            {params.row.deletedAt ? "Inativo" : "Ativo"}
           </Typography>
         </Box>
       ),

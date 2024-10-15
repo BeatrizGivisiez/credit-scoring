@@ -9,13 +9,12 @@ import {
   InputSelect,
   InputText,
   ModalCreateRelationGroup,
-  TableAssociatedEntitiesEG
+  TableAssociateEntity
 } from "@/components";
-import { EntitiesDto } from "@/dto/entitiesDto";
+import { EntityDTO } from "@/dto/EntityDto";
+import { useFetchCharacteristicRelation, useEntitySelect } from "@/hooks";
 import useCreateEconomicGroup from "@/hooks/useCreateEconomicGroup";
 import useCreateEconomicGroupRelation from "@/hooks/useCreateEconomicGroupRelation";
-import { useEntitiesOptions } from "@/hooks/useEntitiesOptions";
-import useFetchCharacteristicRelation from "@/hooks/useFetchCharacteristicRelation";
 import PALETTE from "@/styles/_palette";
 import {
   Box,
@@ -34,7 +33,7 @@ import { stepper__1step, stepper__active, stepper__box } from "./styles";
 const steps = ["Dados do Grupo", "Associar Entidade"];
 
 export const Stepper = () => {
-  const { characteristicRelation } = useFetchCharacteristicRelation(1);
+  const { characteristicRelation } = useFetchCharacteristicRelation();
   const { createEconomicGroup, loading: loadingCreateEconomicGroup } = useCreateEconomicGroup();
   const { createEconomicGroupRelation } = useCreateEconomicGroupRelation();
 
@@ -43,8 +42,8 @@ export const Stepper = () => {
   const [associatefilhos, setAssociatefilhos] = useState<Array<any>>([]);
   const [associatefilhosNames, setAssociatefilhosNames] = useState<Array<string>>([]);
   const [openModal, setOpenModal] = useState<boolean>(false);
-  const [selectedOption, setSelectedOption] = useState<string>(""); // Entidade-Mãe
-  const [selectedOption2, setSelectedOption2] = useState<string>(""); // Entidade-Mãe
+  // const [selectedOption, setSelectedOption] = useState<string>(""); // Entidade-Mãe
+  // const [selectedOption2, setSelectedOption2] = useState<string>(""); // Entidade-Mãe
   const [alertData, setAlertData] = useState<{
     message: string;
     type: SeverityType;
@@ -53,29 +52,32 @@ export const Stepper = () => {
     type: "info"
   });
 
-  const [entitiesOptions, loading, entities] = useEntitiesOptions();
+  const [entitySelect, loading, entities] = useEntitySelect();
 
   // Estado para o segundo InputSelect (Entidade)
-  const [selectedEntity, setSelectedEntity] = useState<string>("");
-  const [selectedEntityObj, setSelectedEntityObj] = useState<EntitiesDto>({} as EntitiesDto);
+  // const [selectedEntity, setSelectedEntity] = useState<string>("");
+  const [selectedEntityObj, setSelectedEntityObj] = useState<EntityDTO>({} as EntityDTO);
 
   const [parentGroup, setParentGroup] = useState<string>("");
   const [selectedEntityRelation, setSelectedEntityRelation] = useState<string>("");
 
   const listAvailableEntities = useMemo(() => {
-    return entitiesOptions.filter(
+    return entitySelect.filter(
       (e) => e.value != parentGroup && !associatefilhosNames.includes(e.value)
     );
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [parentGroup, associatefilhosNames]);
 
   const optionsModal = useMemo(() => {
-    return entitiesOptions.filter((e) => {
+    return entitySelect.filter((e) => {
       return e.value == parentGroup || associatefilhosNames.includes(e.value);
     });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [parentGroup, associatefilhosNames]);
 
   useEffect(() => {
-    const item = entities?.find((i) => i["@id"] == selectedEntityRelation) ?? ({} as EntitiesDto);
+    const item =
+      entities?.find((i) => i.documentNumber == selectedEntityRelation) ?? ({} as EntityDTO);
     setSelectedEntityObj(item);
   }, [entities, selectedEntityRelation]); //remover entities
 
@@ -87,7 +89,7 @@ export const Stepper = () => {
   };
 
   const handleDeleteChild = (childId: string) => {
-    setAssociatefilhos((prev) => prev.filter((i) => i.docId != childId));
+    setAssociatefilhos((prev) => prev.filter((i) => i.documentNumber != childId));
   };
 
   // Função para lidar com a mudança de Nome do Grupo
@@ -123,7 +125,7 @@ export const Stepper = () => {
               console.error("Erro: ID do grupo econômico não encontrado!");
               return;
             }
-            const childEntity = c.docId ? `/api/entities/${c.docId}` : null;
+            const childEntity = c.documentNumber ? `/api/entity/${c.documentNumber}` : null;
             const characteristicRelation = `/api/entity_relationship_types/${c.optionRelation}`;
             const startDate = new Date(response.createdAt);
 
@@ -185,7 +187,7 @@ export const Stepper = () => {
               <FormControl fullWidth sx={{ mt: 3 }}>
                 <InputSelect
                   loading={loading}
-                  options={entitiesOptions}
+                  options={entitySelect}
                   value={parentGroup}
                   onChange={(e) => setParentGroup(e)}
                   label="Indique a Entidade-Mãe do Grupo"
@@ -204,7 +206,7 @@ export const Stepper = () => {
                   disabled // Desabilitado para evitar alteração
                 />
                 <InputSelect
-                  options={entitiesOptions}
+                  options={entitySelect}
                   value={parentGroup} // O valor da Entidade-Mãe selecionada na etapa 1
                   onChange={(e: any) => setParentGroup(e)}
                   label="Entidade-Mãe"
@@ -229,7 +231,7 @@ export const Stepper = () => {
                   Entidades Associadas
                 </Typography>
                 {/* TODO: Listar todas as Entidades menos a mae, pois ela já está lá e cima e nao pode associar a si mesmo. */}
-                <TableAssociatedEntitiesEG
+                <TableAssociateEntity
                   pageSize={5}
                   createGroups={associatefilhos}
                   handleDeleteRow={handleDeleteChild}
@@ -253,10 +255,13 @@ export const Stepper = () => {
             <ModalCreateRelationGroup
               open={openModal}
               handleClose={() => setOpenModal(false)}
-              parentClient={selectedEntityObj.nmReduzido} // Passa os dados da entidade
-              nif={selectedEntityObj.docId}
+              parentClient={selectedEntityObj.name} // Passa os dados da entidade
+              nif={selectedEntityObj.documentNumber}
               optionsEntity={optionsModal}
-              optionRelation={characteristicRelation.map((i) => ({ id: i.id, label: i.label }))}
+              optionRelation={characteristicRelation.map((i) => ({
+                id: i.economicGroupTypeId,
+                label: i.name
+              }))}
               // characteristicRelation={0} // Passa a característica de relação
               handleSubmit={handleAddChild}
             />

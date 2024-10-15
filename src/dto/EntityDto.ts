@@ -1,4 +1,4 @@
-//src/dto/EntityDto.ts
+//src/dto/EntityDTO
 export interface EntityDTO {
   entityId: number;
   name: string;

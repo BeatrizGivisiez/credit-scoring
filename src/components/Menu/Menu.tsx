@@ -9,7 +9,7 @@ import { MenuItem } from "@/components";
 import { IMAGE_LOGO_BIG, IMAGE_LOGO_SMALL } from "@/constants/images";
 import PALETTE from "@/styles/_palette";
 import { Box, IconButton, Typography } from "@mui/material";
-import { ChartLine, Graph, List, UserGear } from "@phosphor-icons/react";
+import { Graph, List } from "@phosphor-icons/react";
 
 import { itemmenu, menu, menu__logo } from "./styles";
 
@@ -67,7 +67,7 @@ export const Menu = () => {
             setSelected={setSelected} // Passa a função setSelected corretamente
             onClick={() => handleNavigation("/gre")} // Navega
           />
-          <MenuItem
+          {/* <MenuItem
             title="Scoring"
             to="/utp"
             icon={<ChartLine size={28} color={PALETTE.PRIMARY_MAIN} />}
@@ -82,7 +82,7 @@ export const Menu = () => {
             selected={selected === "/backoffice"} // Verifica a rota atual é "/"
             setSelected={setSelected} // Passa a função setSelected corretamente
             onClick={() => handleNavigation("/backoffice")} // Navega
-          />
+          /> */}
         </MuiMenu>
       </Sidebar>
     </Box>

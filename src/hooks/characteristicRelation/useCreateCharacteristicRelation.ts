@@ -1,15 +1,15 @@
 "use client";
+import { CharacteristicRelationDTO } from "@/dto/CharacteristicRelationDto";
 import { useState } from "react";
-import { EconomicGroupCreateDto } from "@/dto/economicGroupDto";
 
-const useCreateCharacteristicRelation = () => {
+export const useCreateCharacteristicRelation = () => {
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
 
-  const createCharacteristicRelation = async (newRelation: EconomicGroupCreateDto) => {
+  const createCharacteristicRelation = async (newRelation: CharacteristicRelationDTO) => {
     setLoading(true);
     try {
-      const response = await fetch(`/api/economicGroup`, {
+      const response = await fetch(`/api/characteristicRelation`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -33,5 +33,3 @@ const useCreateCharacteristicRelation = () => {
 
   return { createCharacteristicRelation, loading, error };
 };
-
-export default useCreateCharacteristicRelation;

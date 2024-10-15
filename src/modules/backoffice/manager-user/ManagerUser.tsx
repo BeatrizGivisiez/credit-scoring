@@ -4,7 +4,7 @@ import { Box, Stack, Typography } from "@mui/material";
 import { Plus } from "@phosphor-icons/react";
 import { useState } from "react";
 
-import { backoffice__box, backoffice__manager } from "../styles";
+import { backoffice__box, backoffice__manager } from "./styles";
 
 import { TABLE_USERS } from "@/app/_mocks/tableusers"; // Mock inicial de usuários
 import { Breadcrumbs, Button, Card, TableListUser, ModalCreateUser } from "@/components";

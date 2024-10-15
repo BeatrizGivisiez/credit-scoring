@@ -11,17 +11,16 @@ import {
   TableListRelation
 } from "@/components";
 import { breadcrumbsBackofficeGRE } from "@/constants/breadcrumbs";
-import useFetchCharacteristicRelation from "@/hooks/useFetchCharacteristicRelation";
+import { useFetchCharacteristicRelation } from "@/hooks";
 import PALETTE from "@/styles/_palette";
-import { getTodayDate } from "@/utils/getTodayDate";
 import { Box, CircularProgress, Stack, Typography } from "@mui/material";
 import { Check, Plus } from "@phosphor-icons/react";
 
-import { backoffice__box, backoffice__manager } from "../styles";
+import { backoffice__box, backoffice__manager } from "./styles";
 
 export const ManagerGREPage = () => {
   const [modalOpen, setModalOpen] = useState(false);
-  const { characteristicRelation, loading, error } = useFetchCharacteristicRelation(1);
+  const { characteristicRelation, loading, error } = useFetchCharacteristicRelation();
 
   // Função para adicionar nova relação à lista
   const handleAddRelation = (newRelation: any) => {
@@ -76,11 +75,11 @@ export const ManagerGREPage = () => {
             <TableListRelation
               pageSize={10}
               relationList={characteristicRelation.map((item) => ({
-                id: item.id,
-                characteristicRelation: item.label,
+                id: item.economicGroupTypeId,
+                characteristicRelation: item.name,
                 status: "Ativo",
-                createdAt: getTodayDate(),
-                deletedAt: ""
+                createdAt: item.created,
+                deletedAt: item.deleted
               }))}
               onInactivate={handleInactivateRelation}
             />

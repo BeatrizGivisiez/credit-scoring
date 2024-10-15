@@ -1,5 +1,5 @@
 //src/app/api/entity/route.ts
-import { EntitiesDto } from "@/dto/entitiesDto";
+import { EntityDTO } from "@/dto/EntityDto";
 import { NextResponse } from "next/server";
 
 export async function GET(): Promise<NextResponse> {
@@ -25,8 +25,8 @@ export async function GET(): Promise<NextResponse> {
       throw new Error(`Error fetching data: ${response.statusText}`);
     }
 
-    const data: EntitiesDto[] = await response.json();
-    console.log("Dados recebidos EntitiesDto:", data); // Log para verificar a resposta
+    const data: EntityDTO[] = await response.json();
+    console.log("Dados recebidos EntityDto:", data); // Log para verificar a resposta
 
     return NextResponse.json(data); // Retorna os dados em formato JSON
   } catch (error: any) {

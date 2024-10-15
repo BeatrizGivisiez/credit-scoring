@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 
 import { EntityDTO } from "@/dto/EntityDto";
 
-const useFetchEntity = () => {
+export const useFetchEntity = () => {
   const [entity, setEntity] = useState<EntityDTO[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
@@ -23,7 +23,7 @@ const useFetchEntity = () => {
           throw new Error(`Error fetching data: ${response.statusText}`);
         }
 
-        const data: EntityDTO[] = await response.json(); // API retorna um array de EntityDTO
+        const data: EntityDTO[] = await response.json(); // API retorna um array
         setEntity(data); // Atualiza o estado com as entidades recebidas
         console.log("Dados recebidos setEntity:", data); // Log para verificar a resposta
       } catch (err: any) {
@@ -38,5 +38,3 @@ const useFetchEntity = () => {
 
   return { entity, loading, error };
 };
-
-export default useFetchEntity;

@@ -9,7 +9,7 @@ import { ModalListGroupProps } from "./types";
 import { radioOptions } from "@/app/_mocks/radiooptions";
 import { Button, ButtonIcon, Divider, InputRadio, InputSelect } from "@/components";
 import PALETTE from "@/styles/_palette";
-import { useEntitiesOptions } from "@/hooks/useEntitiesOptions";
+import { useEntitiesOptions } from "@/hooks/entity/useEntitySelect";
 
 export const ModalRelateEntityAdd = ({ open, handleClose }: ModalListGroupProps) => {
   // Agora o estado armazena um número (id) em vez de uma string

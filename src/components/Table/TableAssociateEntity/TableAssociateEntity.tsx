@@ -1,22 +1,23 @@
 "use client";
 
+import { useState } from "react";
+
+import { ButtonIcon, ModalCreateGroupEdit } from "@/components";
+import { useFetchCharacteristicRelation } from "@/hooks";
 import Box from "@mui/material/Box";
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
 import { Pencil, Trash } from "@phosphor-icons/react";
-import { useState } from "react";
 
 import { gridcoldef } from "./styles";
-import { TableAssociatedEntitiesEGProps } from "./types";
-import { ModalCreateGroupEdit } from "../Modal/ModalCreateGroupEdit";
+import { TableAssociateEntityProps } from "./types";
 
-import { radioOptions } from "@/app/_mocks/radiooptions";
-import { ButtonIcon } from "@/components";
-
-export const TableAssociatedEntitiesEG = ({
+export const TableAssociateEntity = ({
   createGroups,
   pageSize = 10,
-  handleDeleteRow = (i: string) => {}
-}: TableAssociatedEntitiesEGProps) => {
+  handleDeleteRow = () => {}
+}: TableAssociateEntityProps) => {
+  const { characteristicRelation } = useFetchCharacteristicRelation();
+
   const [createGroupEditOpen, setCreateGroupEditOpen] = useState<boolean>(false);
   const [createGroupEditData, setCreateGroupEditData] = useState<any>(null); // Aqui você vai armazenar os dados do grupo
 
@@ -33,8 +34,8 @@ export const TableAssociatedEntitiesEG = ({
 
   // Função para obter o label de característica de relação
   const getCharacteristicRelationLabel = (id: number) => {
-    const option = radioOptions.find((option) => option.id === id);
-    return option ? option.label : "Desconhecido"; // Retorna o label ou "Desconhecido" se não encontrar
+    const option = characteristicRelation.find((option) => option.economicGroupTypeId === id);
+    return option ? option.name : "Desconhecido"; // Retorna o label ou "Desconhecido" se não encontrar
   };
 
   const columns: GridColDef<(typeof createGroups)[number]>[] = [

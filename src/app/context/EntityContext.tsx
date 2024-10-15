@@ -1,9 +1,10 @@
 // app/context/EntityContext.tsx
-"use client"; // Isso permite que o componente seja renderizado no cliente
+"use client";
 
-import { createContext, useContext, ReactNode } from "react";
-import useFetchEntities from "@/hooks/entity/useFetchEntity"; // Importa o hook customizado
+import { createContext, ReactNode, useContext } from "react";
+
 import { EntityDTO } from "@/dto/EntityDto";
+import { useFetchEntity } from "@/hooks";
 
 // Definir o formato do contexto
 interface EntityContextType {
@@ -17,7 +18,7 @@ const EntityContext = createContext<EntityContextType | undefined>(undefined);
 
 // Criar o Provider
 export const EntityProvider = ({ children }: { children: ReactNode }) => {
-  const { entity, loading, error } = useFetchEntities(); // Usa o hook customizado para buscar as entidades
+  const { entity, loading, error } = useFetchEntity(); // Usa o hook customizado para buscar as entidades
 
   return (
     <EntityContext.Provider value={{ entity: entity, loading, error }}>
