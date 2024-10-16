@@ -10,6 +10,7 @@ import { InputDate } from "../Inputs/InputDate/InputDate";
 
 import { Button, ButtonIcon, Divider } from "@/components";
 import PALETTE from "@/styles/_palette";
+import { EconomicGroupId } from "@/app/dto/EconomicGroupIdDto";
 
 // Configura o Dayjs para usar a localidade pt-BR
 dayjs.locale("pt-br");
@@ -20,15 +21,15 @@ export const ModalRelateEntityEdit = ({
   parentClient,
   nif,
   selectedRelation
-}: ModalListGroupProps & { selectedRelation: RelationData | null }) => {
+}: ModalListGroupProps & { selectedRelation: EconomicGroupId | null }) => {
   const [value, setValue] = useState<Dayjs | null>(null); // Estado para controlar a data de término
 
   // Verifica se relations está definido e seleciona a primeira relação (ajuste conforme necessário)
 
   // Se a relação estiver inativa (tem deletedAt), preenche a data de término
   useEffect(() => {
-    if (selectedRelation?.deletedAt) {
-      setValue(dayjs(selectedRelation.deletedAt));
+    if (selectedRelation?.deleted) {
+      setValue(dayjs(selectedRelation.deleted));
     }
   }, [selectedRelation]);
 
@@ -62,7 +63,9 @@ export const ModalRelateEntityEdit = ({
             <Typography variant="body1" sx={{ fontWeight: "bold" }}>
               Relação:
             </Typography>
-            <Typography variant="body1">{selectedRelation?.relation || "N/A"}</Typography>
+            <Typography variant="body1">
+              {selectedRelation?.economicGroupType.name || "N/A"}
+            </Typography>
           </Box>
         </Box>
         <Box sx={{ display: "flex", justifyContent: "space-between", marginBottom: 2 }}>
@@ -77,7 +80,7 @@ export const ModalRelateEntityEdit = ({
               label="Data Fim:"
               value={value}
               onChange={(newValue) => setValue(newValue)}
-              disabled={!!selectedRelation?.deletedAt}
+              disabled={!!selectedRelation?.deleted}
             />
           </Box>
         </Box>

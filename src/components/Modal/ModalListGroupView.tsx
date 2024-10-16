@@ -2,6 +2,7 @@
 
 import {
   Box,
+  CircularProgress,
   Dialog,
   DialogTitle,
   Grid,
@@ -15,13 +16,14 @@ import {
   Typography
 } from "@mui/material";
 import { BezierCurve, X } from "@phosphor-icons/react";
-import { useCallback, useState } from "react";
+import { useCallback, useState, useEffect } from "react";
 
 import { ModalListGroupProps } from "./types";
 
 import { ButtonIcon, Divider } from "@/components";
 import PALETTE from "@/styles/_palette";
 import { IMAGE_DIAGRAMA } from "@/constants/images";
+import { useFetchEconomicGroupId } from "@/hooks";
 
 export const ModalListGroupView = ({
   open,
@@ -33,6 +35,8 @@ export const ModalListGroupView = ({
   lastUpdate,
   relations = []
 }: ModalListGroupProps) => {
+  const { economicGroupId, fetchEconomicGroupId, loading } = useFetchEconomicGroupId();
+
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(5);
 
@@ -43,9 +47,9 @@ export const ModalListGroupView = ({
   }, []);
 
   // Ordena as relações, colocando Ativos (sem deletedAt) primeiro
-  const sortedRelations = [...relations].sort((a, b) => {
-    if (a.deletedAt && !b.deletedAt) return 1; // "Inativo" vem depois
-    if (!a.deletedAt && b.deletedAt) return -1; // "Ativo" vem antes
+  const sortedRelations = [...economicGroupId].sort((a, b) => {
+    if (a.deleted && !b.deleted) return 1; // "Inativo" vem depois
+    if (!a.deleted && b.deleted) return -1; // "Ativo" vem antes
     return 0; // Mantém a ordem original se ambos forem Ativos ou Inativos
   });
 
@@ -57,6 +61,12 @@ export const ModalListGroupView = ({
       </Typography>
     </Grid>
   );
+
+  useEffect(() => {
+    if (id) {
+      fetchEconomicGroupId(id?.toString());
+    }
+  }, [id]);
 
   return (
     <Dialog onClose={handleClose} open={open} maxWidth="md" fullWidth>
@@ -120,37 +130,56 @@ export const ModalListGroupView = ({
               </TableRow>
             </TableHead>
             <TableBody>
-              {sortedRelations
-                .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                .map((relation, index) => (
-                  <TableRow key={index}>
-                    <TableCell>{relation.entityName}</TableCell>
-                    <TableCell>{relation.nif}</TableCell>
-                    <TableCell>{relation.relation}</TableCell>
-                    <TableCell>{relation.createdAt}</TableCell>
-                    <TableCell>{relation.deletedAt}</TableCell>
-                    <TableCell sx={{ padding: "0px", fontSize: "14px" }}>
-                      <Box
-                        sx={{
-                          display: "flex",
-                          alignItems: "center", // Centraliza verticalmente
-                          justifyContent: "flex-start", // Centraliza horizontalmente
-                          width: "100%",
-                          height: "100%" // Garante que o Box ocupe toda a célula
-                        }}
-                      >
-                        <Typography
-                          variant="body2"
-                          style={{
-                            color: relation.deletedAt ? "red" : "green" // Cor verde ou vermelha
+              {loading && (
+                <TableRow>
+                  <TableCell colSpan={6}>
+                    <Box
+                      sx={{
+                        display: "flex",
+                        justifyContent: "center",
+                        alignItems: "center",
+                        height: "100px",
+                        width: "100%"
+                      }}
+                    >
+                      <CircularProgress />
+                    </Box>
+                  </TableCell>
+                </TableRow>
+              )}
+
+              {!loading &&
+                sortedRelations
+                  .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                  .map((relation, index) => (
+                    <TableRow key={index}>
+                      <TableCell>{relation.child.name}</TableCell>
+                      <TableCell>{relation.child.documentNumber}</TableCell>
+                      <TableCell>{relation.economicGroupType.name}</TableCell>
+                      <TableCell>{relation.created}</TableCell>
+                      <TableCell>{relation.deleted}</TableCell>
+                      <TableCell sx={{ padding: "0px", fontSize: "14px" }}>
+                        <Box
+                          sx={{
+                            display: "flex",
+                            alignItems: "center", // Centraliza verticalmente
+                            justifyContent: "flex-start", // Centraliza horizontalmente
+                            width: "100%",
+                            height: "100%" // Garante que o Box ocupe toda a célula
                           }}
                         >
-                          {relation.deletedAt ? "Inativo" : "Ativo"}
-                        </Typography>
-                      </Box>
-                    </TableCell>
-                  </TableRow>
-                ))}
+                          <Typography
+                            variant="body2"
+                            style={{
+                              color: relation.deleted ? "red" : "green" // Cor verde ou vermelha
+                            }}
+                          >
+                            {relation.deleted ? "Inativo" : "Ativo"}
+                          </Typography>
+                        </Box>
+                      </TableCell>
+                    </TableRow>
+                  ))}
             </TableBody>
           </Table>
         </TableContainer>
@@ -159,7 +188,7 @@ export const ModalListGroupView = ({
         <TablePagination
           rowsPerPageOptions={[5, 10, 25]} // Opções de linhas por página
           component="div"
-          count={relations.length} // Quantidade total de relações
+          count={economicGroupId.length} // Quantidade total de relações
           rowsPerPage={rowsPerPage} // Linhas por página selecionadas
           page={page} // Página atual
           onPageChange={handleChangePage} // Função para mudar de página

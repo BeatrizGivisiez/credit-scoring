@@ -9,5 +9,5 @@ export interface EntityDTO {
   documentId: string;
   morada: string;
   localidade: string;
-  id: number;
+  id?: number;
 }

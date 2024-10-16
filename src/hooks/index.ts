@@ -5,6 +5,8 @@ export { useRelationOption } from "./characteristicRelation/useRelationOption";
 export { useCreateEconomicGroup } from "./economicGroup/useCreateEconomicGroup";
 export { useFetchEconomicGroup } from "./economicGroup/useFetchEconomicGroup";
 
+export { useFetchEconomicGroupId } from "./economicGroupId/useFetchEconomicGroupId";
+
 export { useCreateEconomicGroupRelation } from "./economicGroupRelation/useCreateEconomicGroupRelation";
 export { useFetchEconomicGroupRelation } from "./economicGroupRelation/useFetchEconomicGroupRelation";
 

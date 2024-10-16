@@ -3,6 +3,7 @@
 import {
   Alert,
   Box,
+  CircularProgress,
   Dialog,
   DialogTitle,
   FormControlLabel,
@@ -18,7 +19,7 @@ import {
   Typography
 } from "@mui/material";
 import { Check, Pencil, Plus, X } from "@phosphor-icons/react";
-import { useCallback, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 
 import { ModalRelateEntityAdd } from "./ModalRelateEntityAdd";
 import { ModalRelateEntityEdit } from "./ModalRelateEntityEdit";
@@ -26,18 +27,24 @@ import { ModalListGroupProps, RelationData } from "./types";
 
 import { Button, ButtonIcon, Divider } from "@/components";
 import PALETTE from "@/styles/_palette";
+import { useFetchEconomicGroupId } from "@/hooks";
+import { EconomicGroupId } from "@/app/dto/EconomicGroupIdDto";
 export const ModalListGroupEdit = ({
   open,
   handleClose,
   groupName,
   parentClient,
-  relations = []
+  relations = [],
+  id
 }: ModalListGroupProps) => {
+  const { economicGroupId, fetchEconomicGroupId, loading } = useFetchEconomicGroupId();
+
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(5);
+
   const [relateEntityAddOpen, setRelateEntityAddOpen] = useState(false);
   const [relateEntityEditOpen, setRelateEntityEditOpen] = useState(false);
-  const [selectedRelation, setSelectedRelation] = useState<RelationData | null>(null); // Armazena a relação selecionada
+  const [selectedRelation, setSelectedRelation] = useState<EconomicGroupId | null>(null); // Armazena a relação selecionada
   const [isGroupActive, setIsGroupActive] = useState(true);
   const [alertOpen, setAlertOpen] = useState(false);
   const [alertMessage, setAlertMessage] = useState("");
@@ -63,7 +70,7 @@ export const ModalListGroupEdit = ({
   };
 
   // Função para abrir o modal de edição com a relação selecionada
-  const handleOpenRelateEntityEditModal = (relation: RelationData) => {
+  const handleOpenRelateEntityEditModal = (relation: EconomicGroupId) => {
     setSelectedRelation(relation); // Armazena a relação selecionada
     setRelateEntityEditOpen(true);
   };
@@ -84,6 +91,12 @@ export const ModalListGroupEdit = ({
     setAlertSeverity(isActive ? "success" : "error");
     setAlertOpen(true); // Abre o alerta
   };
+
+  useEffect(() => {
+    if (id) {
+      fetchEconomicGroupId(id?.toString());
+    }
+  }, [id]);
 
   return (
     <Dialog onClose={handleClose} open={open} maxWidth="md" fullWidth>
@@ -159,28 +172,49 @@ export const ModalListGroupEdit = ({
                 </TableCell>
               </TableRow>
             </TableHead>
+
             <TableBody>
-              {relations
+              {loading && (
+                <TableRow>
+                  <TableCell colSpan={6}>
+                    <Box
+                      sx={{
+                        display: "flex",
+                        justifyContent: "center",
+                        alignItems: "center",
+                        height: "100px",
+                        width: "100%"
+                      }}
+                    >
+                      <CircularProgress />
+                    </Box>
+                  </TableCell>
+                </TableRow>
+              )}
+
+              {economicGroupId
                 .sort((a, b) => {
-                  if (!a.deletedAt) return -1; // Move `a` para cima
-                  if (!b.deletedAt) return 1; // Move `b` para cima
+                  if (!a.deleted) return -1; // Move `a` para cima
+                  if (!b.deleted) return 1; // Move `b` para cima
                   return 0;
                 })
                 .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                 .map((relation, index) => (
                   <TableRow key={index}>
                     <TableCell sx={{ padding: "0px", fontSize: "14px" }}>
-                      {relation.entityName}
-                    </TableCell>
-                    <TableCell sx={{ padding: "0px", fontSize: "14px" }}>{relation.nif}</TableCell>
-                    <TableCell sx={{ padding: "0px", fontSize: "14px" }}>
-                      {relation.relation}
+                      {relation.child.name}
                     </TableCell>
                     <TableCell sx={{ padding: "0px", fontSize: "14px" }}>
-                      {relation.createdAt}
+                      {relation.child.documentNumber}
                     </TableCell>
                     <TableCell sx={{ padding: "0px", fontSize: "14px" }}>
-                      {relation.deletedAt}
+                      {relation.economicGroupType.name}
+                    </TableCell>
+                    <TableCell sx={{ padding: "0px", fontSize: "14px" }}>
+                      {relation.created}
+                    </TableCell>
+                    <TableCell sx={{ padding: "0px", fontSize: "14px" }}>
+                      {relation.deleted}
                     </TableCell>
                     <TableCell sx={{ padding: "0px", fontSize: "14px" }}>
                       <Box
@@ -195,10 +229,10 @@ export const ModalListGroupEdit = ({
                         <Typography
                           variant="body2"
                           style={{
-                            color: relation.deletedAt ? "red" : "green"
+                            color: relation.deleted ? "red" : "green"
                           }}
                         >
-                          {relation.deletedAt ? "Inativo" : "Ativo"}
+                          {relation.deleted ? "Inativo" : "Ativo"}
                         </Typography>
                       </Box>
                     </TableCell>
@@ -229,7 +263,7 @@ export const ModalListGroupEdit = ({
         <TablePagination
           rowsPerPageOptions={[5, 10, 25]}
           component="div"
-          count={relations.length}
+          count={economicGroupId.length}
           rowsPerPage={rowsPerPage}
           page={page}
           onPageChange={handleChangePage}
@@ -242,8 +276,8 @@ export const ModalListGroupEdit = ({
         <ModalRelateEntityEdit
           open={relateEntityEditOpen}
           handleClose={handleCloseRelateEntityEditModal}
-          parentClient={selectedRelation.entityName}
-          nif={selectedRelation.nif}
+          parentClient={selectedRelation.child.name}
+          nif={selectedRelation.child.documentNumber}
           selectedRelation={selectedRelation}
         />
       )}
