@@ -3,6 +3,11 @@
 import { useEffect, useMemo, useState } from "react";
 
 import {
+  EconomicGroupRelationDTO,
+  EconomicGroupRelationEntityDTO
+} from "@/app/dto/EconomicGroupRelationDto";
+import { EntityDTO } from "@/app/dto/EntityDto";
+import {
   Alert,
   Button,
   Card,
@@ -11,12 +16,10 @@ import {
   ModalCreateRelationGroup,
   TableAssociateEntity
 } from "@/components";
-import { EntityDTO } from "@/app/dto/EntityDto";
 import {
-  useFetchCharacteristicRelation,
+  useCreateEconomicGroupRelation,
   useEntitySelect,
-  useCreateEconomicGroup,
-  useCreateEconomicGroupRelation
+  useFetchCharacteristicRelation
 } from "@/hooks";
 import PALETTE from "@/styles/_palette";
 import {
@@ -37,16 +40,18 @@ const steps = ["Dados do Grupo", "Associar Entidade"];
 
 export const Stepper = () => {
   const { characteristicRelation } = useFetchCharacteristicRelation();
-  const { createEconomicGroup, loading: loadingCreateEconomicGroup } = useCreateEconomicGroup();
-  const { createEconomicGroupRelation } = useCreateEconomicGroupRelation();
+  const { createEconomicGroupRelation, loading: loadingCreateEconomicGroupRelation } =
+    useCreateEconomicGroupRelation();
 
-  // Estado para o primeiro InputSelect (Entidade-Mãe)
   const [groupName, setGroupName] = useState<string>(""); // Nome do grupo
-  const [associatefilhos, setAssociatefilhos] = useState<Array<any>>([]);
+  const [associatefilhos, setAssociatefilhos] = useState<Array<any>>([]); // Lista de entidades associadas
   const [associatefilhosNames, setAssociatefilhosNames] = useState<Array<string>>([]);
   const [openModal, setOpenModal] = useState<boolean>(false);
-  // const [selectedOption, setSelectedOption] = useState<string>(""); // Entidade-Mãe
-  // const [selectedOption2, setSelectedOption2] = useState<string>(""); // Entidade-Mãe
+  const [entitySelect, loading, entities] = useEntitySelect();
+  const [selectedEntityObj, setSelectedEntityObj] = useState<EntityDTO>({} as EntityDTO);
+  const [parentGroup, setParentGroup] = useState<string>("");
+  const [selectedEntityRelation, setSelectedEntityRelation] = useState<string>("");
+
   const [alertData, setAlertData] = useState<{
     message: string;
     type: SeverityType;
@@ -54,15 +59,6 @@ export const Stepper = () => {
     message: "",
     type: "info"
   });
-
-  const [entitySelect, loading, entities] = useEntitySelect();
-
-  // Estado para o segundo InputSelect (Entidade)
-  // const [selectedEntity, setSelectedEntity] = useState<string>("");
-  const [selectedEntityObj, setSelectedEntityObj] = useState<EntityDTO>({} as EntityDTO);
-
-  const [parentGroup, setParentGroup] = useState<string>("");
-  const [selectedEntityRelation, setSelectedEntityRelation] = useState<string>("");
 
   const listAvailableEntities = useMemo(() => {
     return entitySelect.filter(
@@ -115,43 +111,39 @@ export const Stepper = () => {
       setActiveStep((prevActiveStep) => prevActiveStep + 1);
     } else {
       // Submete o passo 2
-      // createEconomicGroup({
-      //   name: groupName,
-      //   parent: parentGroup
-      // }).then((response) => {
-      //   console.log("Resposta da criação do grupo econômico:", response);
-      //   Promise.all(
-      //     associatefilhos.map((c) => {
-      //       const parentId = response.parent || response.id;
-      //       if (!parentId) {
-      //         console.error("Erro: ID do grupo econômico não encontrado!");
-      //         return;
-      //       }
-      //       const childEntity = c.documentNumber ? `/api/entity/${c.documentNumber}` : null;
-      //       const characteristicRelation = `/api/entity_relationship_types/${c.optionRelation}`;
-      //       const startDate = new Date(response.createdAt);
-      //       if (!childEntity) {
-      //         console.error("ID da entidade-filho não encontrado:", c);
-      //         return Promise.reject("ID da entidade-filho não encontrado");
-      //       }
-      //       return createEconomicGroupRelation({
-      //         parentEntity: parentId,
-      //         childEntity: childEntity,
-      //         relationCharacteristic: characteristicRelation,
-      //         startDate: startDate
-      //       });
-      //     })
-      //   )
-      //     .then(() => {
-      //       console.log("Associação de entidades-filho concluída com sucesso.");
-      //       setAlertData({ message: "Grupo criado com sucesso!", type: "success" });
-      //       setActiveStep((prevActiveStep) => prevActiveStep + 1);
-      //     })
-      //     .catch((e) => {
-      //       console.error("Erro ao associar entidades-filho:", e);
-      //       setAlertData({ message: "Erro ao associar entidades-filho!", type: "error" });
-      //     });
-      // });
+      // Valida se todas as entidades possuem `childId`
+      // const entitiesWithValidChildId = associatefilhos.filter(
+      //   (child) => child.documentNumber !== null
+      // );
+
+      // if (entitiesWithValidChildId.length !== associatefilhos.length) {
+      //   alert("Algumas entidades associadas estão sem ID de entidade filho. Verifique os dados.");
+      //   return;
+      // }
+      // Construa o DTO completo para o POST
+      const newGroupRelation: EconomicGroupRelationDTO = {
+        name: groupName,
+        entityMotherId: parseInt(parentGroup), // Assume que o parentGroup é o ID
+        entities: associatefilhos.map(
+          (child: any): EconomicGroupRelationEntityDTO => ({
+            parentId: parseInt(parentGroup),
+            childId: parseInt(child.documentNumber),
+            economicGroupTypeId: child.optionRelation
+          })
+        )
+      };
+
+      // Faça o POST de tudo em uma única requisição
+      createEconomicGroupRelation(newGroupRelation)
+        .then(() => {
+          console.log("Grupo e relações criados com sucesso.");
+          setAlertData({ message: "Grupo criado com sucesso!", type: "success" });
+          setActiveStep((prevActiveStep) => prevActiveStep + 1);
+        })
+        .catch((e) => {
+          console.error("Erro ao criar grupo e relações:", e);
+          setAlertData({ message: "Erro ao criar grupo e relações!", type: "error" });
+        });
     }
   };
 
@@ -248,7 +240,7 @@ export const Stepper = () => {
               iconEnd={activeStep === steps.length - 1 ? FloppyDiskBack : ArrowRight}
               label={activeStep === steps.length - 1 ? "Criar" : "Próximo"}
               onClick={handleNext}
-              disabled={loadingCreateEconomicGroup}
+              disabled={loadingCreateEconomicGroupRelation}
             />
           </Box>
           {selectedEntityRelation && openModal && (

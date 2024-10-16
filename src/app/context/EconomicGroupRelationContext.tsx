@@ -1,4 +1,3 @@
-// app/context/EconomicGroup.tsx
 "use client";
 
 import { createContext, ReactNode, useContext } from "react";

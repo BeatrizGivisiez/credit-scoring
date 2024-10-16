@@ -1,6 +1,6 @@
 export interface EconomicGroupDTO {
-  economicGroupId: number;
   name: string;
+  economicGroupId: number;
   entityMotherName: string;
   entityMotherNIF: string;
   relationsCount: number;
