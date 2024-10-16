@@ -1,15 +1,15 @@
 "use client";
 
+import { memo } from "react";
+
+import { ButtonIcon } from "@/components";
 import { Typography } from "@mui/material";
 import Box from "@mui/material/Box";
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
 import { Eye, Pencil } from "@phosphor-icons/react";
-import { memo } from "react";
 
 import { gridcoldef } from "./styles";
 import { TableListGroupProps } from "./types";
-
-import { ButtonIcon } from "@/components";
 
 export const TableListGroup = memo(({ groups, onViewGroup, onEditGroup }: TableListGroupProps) => {
   const columns: GridColDef<(typeof groups)[number]>[] = [

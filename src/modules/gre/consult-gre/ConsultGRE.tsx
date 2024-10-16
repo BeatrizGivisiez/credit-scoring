@@ -21,8 +21,6 @@ import {
   consultgre__table
 } from "./styles";
 import { ConsultGREPageProps } from "./types";
-import { useEconomicGroup } from "@/app/context/EconomicGroupContext";
-import { useEffect, useState } from "react";
 
 export const ConsultGREPage = ({
   isConsult,
@@ -34,17 +32,11 @@ export const ConsultGREPage = ({
   selectedGroup,
   handleCloseModal,
   breadcrumbsGREConsult,
-  modalMode
+  modalMode,
+  filteredGroups,
+  loading,
+  error
 }: ConsultGREPageProps) => {
-  const { economicGroup, loading, error } = useEconomicGroup(); // Acessando o contexto diretamente
-
-  const [filteredGroups, setFilteredGroups] = useState(economicGroup);
-
-  // Atualiza filteredGroups quando economicGroup mudar
-  useEffect(() => {
-    setFilteredGroups(economicGroup);
-  }, [economicGroup]);
-
   return (
     <>
       <Stack sx={consultgre__breadcrumbs}>

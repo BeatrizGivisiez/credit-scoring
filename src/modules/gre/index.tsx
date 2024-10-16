@@ -1,13 +1,15 @@
 "use client";
 
 import { useCallback, useEffect, useState } from "react";
+
+import { useEconomicGroup } from "@/app/context";
 import { breadcrumbsGREConsult } from "@/constants/breadcrumbs";
 import { Box } from "@mui/material";
+
 import { ConsultGREPage } from "./consult-gre/ConsultGRE";
 import { CreateGREPage } from "./create-gre/CreateGRE";
 import { HomeGREPage } from "./home-gre/HomeGRE";
 import { economicgroup__box } from "./styles";
-import { useEconomicGroup } from "@/app/context";
 
 export const EconomicGroupsPage = () => {
   const { economicGroup, loading, error } = useEconomicGroup();
