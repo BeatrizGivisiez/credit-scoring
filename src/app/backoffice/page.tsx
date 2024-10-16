@@ -10,7 +10,6 @@ const BackOfficePage = dynamic(
 );
 
 export default async function BackOffice() {
-  // Renderiza a página normalmente se o usuário estiver autenticado
   return (
     <LayoutDefault>
       <BackOfficePage />
