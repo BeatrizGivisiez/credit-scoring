@@ -81,10 +81,10 @@ export const ModalCreateGroupEdit = ({
           color="success"
           onClick={() =>
             handleSubmit({
-              "@Id": selectedEntity,
-              nmReduzido: parentClient,
-              characteristicRelation: selectedOption,
-              docId: nif
+              id: selectedEntity,
+              name: parentClient,
+              documentNumber: nif,
+              characteristicRelation: selectedOption
             })
           }
           iconEnd={FloppyDiskBack}

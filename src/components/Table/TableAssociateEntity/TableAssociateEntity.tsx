@@ -26,6 +26,7 @@ export const TableAssociateEntity = ({
 
   // Função para abrir o modal e passar os dados do grupo
   const handleOpenGroupEditModal = (group: any) => {
+    console.log("||-> Group:", group);
     setCreateGroupEditData(group); // Armazena os dados do grupo que está sendo editado
     setCreateGroupEditOpen(true); // Abre o modal
   };
@@ -96,10 +97,15 @@ export const TableAssociateEntity = ({
         <ModalCreateGroupEdit
           open={createGroupEditOpen}
           handleClose={handleCloseModal}
-          parentClient={createGroupEditData.parentClient} // Passa os dados do grupo
-          nif={createGroupEditData.nif}
+          parentClient={createGroupEditData.name} // Passa os dados do grupo
+          nif={createGroupEditData.documentNumber}
           characteristicRelation={createGroupEditData.characteristicRelation} // Passa a característica de relação
-          groupName={createGroupEditData.groupName} // Passa a entidade
+          groupName={createGroupEditData.name} // Passa a entidade
+          optionsEntity={[createGroupEditData]}
+          optionRelation={characteristicRelation.map((i) => ({
+            id: i.economicGroupTypeId,
+            label: i.name
+          }))}
         />
       )}
     </>

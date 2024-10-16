@@ -8,6 +8,7 @@ import { creategre__box, creategre__stack } from "./styles";
 import { Breadcrumbs, Button, Stepper } from "@/components";
 import { breadcrumbsGRECreate } from "@/constants/breadcrumbs";
 import { CharacteristicRelationProvider } from "@/app/context";
+import { StepperContextProvider } from "@/app/context";
 
 export const CreateGREPage = ({ setIsCreatingGroup }: any) => {
   return (
@@ -22,8 +23,11 @@ export const CreateGREPage = ({ setIsCreatingGroup }: any) => {
           label="Voltar"
         />
       </Stack>
+
       <CharacteristicRelationProvider>
-        <Stepper />
+        <StepperContextProvider>
+          <Stepper />
+        </StepperContextProvider>
       </CharacteristicRelationProvider>
     </Box>
   );

@@ -16,7 +16,6 @@ export const ModalCreateRelationGroup = ({
   nif,
   optionsEntity,
   optionRelation,
-  // characteristicRelation,
   handleSubmit = () => {}
 }: ModalCreateRelationGroupProps) => {
   // Agora o estado armazena um número (id) em vez de uma string

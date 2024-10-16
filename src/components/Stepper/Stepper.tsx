@@ -16,11 +16,7 @@ import {
   ModalCreateRelationGroup,
   TableAssociateEntity
 } from "@/components";
-import {
-  useCreateEconomicGroupRelation,
-  useEntitySelect,
-  useFetchCharacteristicRelation
-} from "@/hooks";
+import { useCreateEconomicGroupRelation, useEntitySelect } from "@/hooks";
 import PALETTE from "@/styles/_palette";
 import {
   Box,
@@ -35,18 +31,24 @@ import { ArrowLeft, ArrowRight, Check, FloppyDiskBack } from "@phosphor-icons/re
 
 import { SeverityType } from "../Alert/types";
 import { stepper__1step, stepper__active, stepper__box } from "./styles";
+import { useCharacteristicRelation, useStepperContext } from "@/app/context";
 
 const steps = ["Dados do Grupo", "Associar Entidade"];
 
 export const Stepper = () => {
-  const { characteristicRelation } = useFetchCharacteristicRelation();
+  const { characteristicRelation } = useCharacteristicRelation();
   const { createEconomicGroupRelation, loading: loadingCreateEconomicGroupRelation } =
     useCreateEconomicGroupRelation();
 
-  const [groupName, setGroupName] = useState<string>(""); // Nome do grupo
-  const [parentGroup, setParentGroup] = useState<number>(); // id da Mae do grupo
+  const {
+    groupName,
+    setGroupName,
+    parentGroup,
+    setParentGroup,
+    associatedEntities,
+    setAssociatedEntities
+  } = useStepperContext();
 
-  const [associatefilhos, setAssociatefilhos] = useState<Array<any>>([]); // Lista de entidades associadas
   const [associatefilhosNames, setAssociatefilhosNames] = useState<Array<string>>([]);
   const [openModal, setOpenModal] = useState<boolean>(false);
   const [entitySelect, loading, entities] = useEntitySelect();
@@ -88,14 +90,14 @@ export const Stepper = () => {
 
   const handleAddChild = (child: any) => {
     console.log("Adicionando entidade associada:", child, child.entityId, child.optionRelation);
-    setAssociatefilhos((prev) => [...prev, child]);
+    setAssociatedEntities((prev) => [...prev, child]);
     setAssociatefilhosNames((prev) => [...prev, child.id]);
     setOpenModal(false);
     setSelectedEntityRelation(undefined);
   };
 
   const handleDeleteChild = (childId: string) => {
-    setAssociatefilhos((prev) => prev.filter((i) => i.id != childId));
+    setAssociatedEntities((prev) => prev.filter((i) => i.id.toString() !== childId));
   };
 
   // Função para lidar com a mudança de Nome do Grupo
@@ -123,7 +125,7 @@ export const Stepper = () => {
       const newGroupRelation: EconomicGroupRelationDTO = {
         name: groupName,
         entityMotherId: parentGroup!, // ID da entidade mãe (obrigatório)
-        entities: associatefilhos.map(
+        entities: associatedEntities.map(
           (child: any): EconomicGroupRelationEntityDTO => ({
             parentId: parentGroup!, // Usando o ID da entidade mãe
             childId: child.entityId, // ID da entidade associada
@@ -224,7 +226,7 @@ export const Stepper = () => {
                 </Typography>
                 <TableAssociateEntity
                   pageSize={5}
-                  createGroups={associatefilhos}
+                  createGroups={associatedEntities}
                   handleDeleteRow={handleDeleteChild}
                 />
               </Card>
@@ -253,7 +255,6 @@ export const Stepper = () => {
                 id: i.economicGroupTypeId,
                 label: i.name
               }))}
-              // characteristicRelation={0} // Passa a característica de relação
               handleSubmit={handleAddChild}
             />
           )}
