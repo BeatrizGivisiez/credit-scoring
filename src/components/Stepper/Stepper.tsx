@@ -82,21 +82,20 @@ export const Stepper = () => {
 
   useEffect(() => {
     const item =
-      entities?.find((i) => Number(i.documentNumber) === selectedEntityRelation) ??
-      ({} as EntityDTO);
+      entities?.find((i) => Number(i.entityId) === selectedEntityRelation) ?? ({} as EntityDTO);
     setSelectedEntityObj(item);
   }, [entities, selectedEntityRelation]);
 
   const handleAddChild = (child: any) => {
     console.log("Adicionando entidade associada:", child, child.entityId, child.optionRelation);
     setAssociatefilhos((prev) => [...prev, child]);
-    setAssociatefilhosNames((prev) => [...prev, child["@Id"]]);
+    setAssociatefilhosNames((prev) => [...prev, child.id]);
     setOpenModal(false);
     setSelectedEntityRelation(undefined);
   };
 
   const handleDeleteChild = (childId: string) => {
-    setAssociatefilhos((prev) => prev.filter((i) => i.documentNumber != childId));
+    setAssociatefilhos((prev) => prev.filter((i) => i.id != childId));
   };
 
   // Função para lidar com a mudança de Nome do Grupo

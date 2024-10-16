@@ -81,10 +81,9 @@ export const ModalCreateRelationGroup = ({
           onClick={() =>
             handleSubmit({
               id: selectedEntity,
-              "@Id": selectedEntity,
-              nmReduzido: parentClient,
-              docId: nif,
-              optionRelation: selectedOption
+              name: parentClient,
+              documentNumber: nif,
+              characteristicRelation: selectedOption
             })
           }
           iconEnd={FloppyDiskBack}

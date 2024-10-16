@@ -4,7 +4,7 @@ export interface EconomicGroupRelationDTO {
   entities: EconomicGroupRelationEntityDTO[];
 }
 export interface EconomicGroupRelationEntityDTO {
-  parentId: number;
   childId: number;
+  parentId: number;
   economicGroupTypeId: number;
 }

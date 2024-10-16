@@ -42,8 +42,8 @@ export const TableAssociateEntity = ({
   };
 
   const columns: GridColDef<(typeof createGroups)[number]>[] = [
-    { field: "parentClient", headerName: "Nome Entidade", width: 620 },
-    { field: "nif", headerName: "NIF", width: 140 },
+    { field: "name", headerName: "Nome Entidade", width: 620 },
+    { field: "documentNumber", headerName: "NIF", width: 140 },
     {
       field: "characteristicRelation",
       headerName: "Característica Relação",
