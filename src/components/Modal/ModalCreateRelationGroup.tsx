@@ -80,7 +80,7 @@ export const ModalCreateRelationGroup = ({
           color="success"
           onClick={() =>
             handleSubmit({
-              id: nif,
+              id: childId,
               parentId: selectedEntity,
               name: parentClient,
               documentNumber: nif,

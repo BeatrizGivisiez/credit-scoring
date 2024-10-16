@@ -77,6 +77,8 @@ export const Stepper = () => {
   useEffect(() => {
     const item =
       entities?.find((i) => Number(i.entityId) === selectedEntityRelation) ?? ({} as EntityDTO);
+
+    console.log("Item", item);
     setSelectedEntityObj(item);
   }, [entities, selectedEntityRelation]);
 
@@ -114,15 +116,16 @@ export const Stepper = () => {
     } else if (activeStep === 0) {
       setActiveStep((prevActiveStep) => prevActiveStep + 1);
     } else {
+      console.log("associatedEntities", associatedEntities);
       // Construa o DTO completo para o POST
       const newGroupRelation: EconomicGroupRelationDTO = {
         name: groupName,
         entityMotherId: parentGroup!, // ID da entidade mãe (obrigatório)
         entities: associatedEntities.map(
           (child: any): EconomicGroupRelationEntityDTO => ({
-            parentId: parentGroup!, // Usando o ID da entidade mãe
-            childId: child.entityId, // ID da entidade associada
-            economicGroupTypeId: child.optionRelation // ID da relação econômica
+            parentId: child.parentId, // Usando o ID da entidade mãe
+            childId: child.id, // ID da entidade associada
+            economicGroupTypeId: child.characteristicRelation // ID da relação econômica
           })
         )
       };
@@ -243,7 +246,7 @@ export const Stepper = () => {
               handleClose={() => setOpenModal(false)}
               parentClient={selectedEntityObj.name} // Passa os dados da entidade
               nif={selectedEntityObj.documentNumber}
-              childId={selectedEntityObj.id}
+              childId={selectedEntityObj.entityId}
               optionsEntity={optionsModal}
               optionRelation={characteristicRelationActive.map((i) => ({
                 id: i.economicGroupTypeId,
