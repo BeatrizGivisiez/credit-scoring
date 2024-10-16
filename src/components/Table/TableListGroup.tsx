@@ -82,7 +82,6 @@ export const TableListGroup = memo(({ groups, onViewGroup, onEditGroup }: TableL
         rows={groups}
         rowCount={groups.length}
         columns={columns}
-        paginationMode="server" // Habilita paginação no lado do servidor
         pageSizeOptions={[10, 50, 100]}
         autoHeight
         initialState={{

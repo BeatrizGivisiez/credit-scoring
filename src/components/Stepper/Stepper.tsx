@@ -78,7 +78,6 @@ export const Stepper = () => {
     const item =
       entities?.find((i) => Number(i.entityId) === selectedEntityRelation) ?? ({} as EntityDTO);
 
-    console.log("Item", item);
     setSelectedEntityObj(item);
   }, [entities, selectedEntityRelation]);
 
@@ -247,7 +246,8 @@ export const Stepper = () => {
               parentClient={selectedEntityObj.name} // Passa os dados da entidade
               nif={selectedEntityObj.documentNumber}
               childId={selectedEntityObj.entityId}
-              optionsEntity={optionsModal}
+              optionsEntity={entitySelect}
+              // optionsEntity={optionsModal} //filtrado
               optionRelation={characteristicRelationActive.map((i) => ({
                 id: i.economicGroupTypeId,
                 label: i.name
