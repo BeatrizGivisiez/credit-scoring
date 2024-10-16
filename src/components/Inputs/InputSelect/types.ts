@@ -2,14 +2,14 @@ import { Theme } from "@emotion/react";
 import { SxProps } from "@mui/material";
 
 export type Option = {
-  value: string;
+  value: number;
   label: string;
 };
 
 export type InputSelectProps = {
   options: Option[];
-  value: string;
-  onChange: (value: string) => void;
+  value: number | undefined;
+  onChange: (value: number) => void;
   label: string;
   sx?: SxProps<Theme>;
   fullWidth?: boolean;

@@ -15,7 +15,7 @@ export const InputSelect = ({
   disabled,
   loading = false
 }: InputSelectProps) => {
-  // Encontrar a opção selecionada com base no valor (que será uma string)
+  // Encontrar a opção selecionada com base no valor (que será um número)
   const selectedOption = options.find((option) => option.value === value) || null;
 
   return (
@@ -23,8 +23,8 @@ export const InputSelect = ({
       <Autocomplete
         value={selectedOption}
         onChange={(event, newValue: Option | null) => {
-          // Se houver uma nova opção selecionada, envie o valor, senão, envie uma string vazia
-          onChange(newValue ? newValue.value : "");
+          // Se houver uma nova opção selecionada, envie o valor (número), senão, envie 0
+          onChange(newValue ? Number(newValue.value) : 0);
         }}
         options={options}
         getOptionLabel={(option: Option) => option.label} // Mostrar o label corretamente

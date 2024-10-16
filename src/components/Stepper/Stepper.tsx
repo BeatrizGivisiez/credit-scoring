@@ -44,13 +44,14 @@ export const Stepper = () => {
     useCreateEconomicGroupRelation();
 
   const [groupName, setGroupName] = useState<string>(""); // Nome do grupo
+  const [parentGroup, setParentGroup] = useState<number>(); // id da Mae do grupo
+
   const [associatefilhos, setAssociatefilhos] = useState<Array<any>>([]); // Lista de entidades associadas
   const [associatefilhosNames, setAssociatefilhosNames] = useState<Array<string>>([]);
   const [openModal, setOpenModal] = useState<boolean>(false);
   const [entitySelect, loading, entities] = useEntitySelect();
   const [selectedEntityObj, setSelectedEntityObj] = useState<EntityDTO>({} as EntityDTO);
-  const [parentGroup, setParentGroup] = useState<string>("");
-  const [selectedEntityRelation, setSelectedEntityRelation] = useState<string>("");
+  const [selectedEntityRelation, setSelectedEntityRelation] = useState<number | undefined>();
 
   const [alertData, setAlertData] = useState<{
     message: string;
@@ -62,29 +63,36 @@ export const Stepper = () => {
 
   const listAvailableEntities = useMemo(() => {
     return entitySelect.filter(
-      (e) => e.value != parentGroup && !associatefilhosNames.includes(e.value)
+      (e) =>
+        e.value.toString() !== parentGroup?.toString() &&
+        !associatefilhosNames.includes(e.value.toString())
     );
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [parentGroup, associatefilhosNames]);
 
   const optionsModal = useMemo(() => {
     return entitySelect.filter((e) => {
-      return e.value == parentGroup || associatefilhosNames.includes(e.value);
+      return (
+        e.value.toString() === parentGroup?.toString() ||
+        associatefilhosNames.includes(e.value.toString())
+      );
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [parentGroup, associatefilhosNames]);
 
   useEffect(() => {
     const item =
-      entities?.find((i) => i.documentNumber == selectedEntityRelation) ?? ({} as EntityDTO);
+      entities?.find((i) => Number(i.documentNumber) === selectedEntityRelation) ??
+      ({} as EntityDTO);
     setSelectedEntityObj(item);
-  }, [entities, selectedEntityRelation]); //remover entities
+  }, [entities, selectedEntityRelation]);
 
   const handleAddChild = (child: any) => {
+    console.log("Adicionando entidade associada:", child, child.entityId, child.optionRelation);
     setAssociatefilhos((prev) => [...prev, child]);
     setAssociatefilhosNames((prev) => [...prev, child["@Id"]]);
     setOpenModal(false);
-    setSelectedEntityRelation("");
+    setSelectedEntityRelation(undefined);
   };
 
   const handleDeleteChild = (childId: string) => {
@@ -95,7 +103,7 @@ export const Stepper = () => {
   const handleGroupNameChange = (event: React.ChangeEvent<HTMLInputElement>) =>
     setGroupName(event.target.value);
 
-  const handleChangeEntity = (newValue: string) => {
+  const handleChangeEntity = (newValue: number) => {
     setSelectedEntityRelation(newValue); // Armazena a opção da Entidade
     setOpenModal(true);
   };
@@ -105,30 +113,22 @@ export const Stepper = () => {
   const handleNext = () => {
     // Verifica se os campos obrigatórios estão preenchidos
     if (activeStep === 0 && (!groupName || !parentGroup)) {
+      console.log("Nome do Grupo:", groupName);
+      console.log("Entidade-Mãe (entityId):", selectedEntityObj.entityId);
       alert("Preencha todos os campos obrigatórios!");
       return;
     } else if (activeStep === 0) {
       setActiveStep((prevActiveStep) => prevActiveStep + 1);
     } else {
-      // Submete o passo 2
-      // Valida se todas as entidades possuem `childId`
-      // const entitiesWithValidChildId = associatefilhos.filter(
-      //   (child) => child.documentNumber !== null
-      // );
-
-      // if (entitiesWithValidChildId.length !== associatefilhos.length) {
-      //   alert("Algumas entidades associadas estão sem ID de entidade filho. Verifique os dados.");
-      //   return;
-      // }
       // Construa o DTO completo para o POST
       const newGroupRelation: EconomicGroupRelationDTO = {
         name: groupName,
-        entityMotherId: parseInt(parentGroup), // Assume que o parentGroup é o ID
+        entityMotherId: parentGroup!, // ID da entidade mãe (obrigatório)
         entities: associatefilhos.map(
           (child: any): EconomicGroupRelationEntityDTO => ({
-            parentId: parseInt(parentGroup),
-            childId: parseInt(child.documentNumber),
-            economicGroupTypeId: child.optionRelation
+            parentId: parentGroup!, // Usando o ID da entidade mãe
+            childId: child.entityId, // ID da entidade associada
+            economicGroupTypeId: child.optionRelation // ID da relação econômica
           })
         )
       };

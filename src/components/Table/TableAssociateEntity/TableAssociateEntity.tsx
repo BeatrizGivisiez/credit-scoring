@@ -74,7 +74,7 @@ export const TableAssociateEntity = ({
     <>
       <Box sx={{ height: "auto", width: "100%" }}>
         <DataGrid
-          getRowId={(i: any) => i.docId}
+          getRowId={(i: any) => i.id}
           rows={createGroups}
           columns={columns}
           initialState={{

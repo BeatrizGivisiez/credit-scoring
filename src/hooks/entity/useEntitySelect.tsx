@@ -4,7 +4,7 @@ import { useFetchEntity } from "@/hooks";
 export const useEntitySelect = (): [
   {
     label: string;
-    value: string;
+    value: number;
   }[],
   boolean,
   Array<EntityDTO>
@@ -13,8 +13,8 @@ export const useEntitySelect = (): [
 
   // Mapeia as entidades para um formato de opções
   const entitySelect = entity.map((entity: EntityDTO) => ({
-    label: `${entity.name} - ${entity.documentId}`,
-    value: entity.documentNumber // O value pode ser apenas docId, ou conforme sua necessidade
+    label: `${entity.name} - ${entity.documentNumber}`,
+    value: entity.entityId // O value é o id da mae
   }));
 
   return [entitySelect, loading, entity]; // Retorna as opções e o estado de carregamento
