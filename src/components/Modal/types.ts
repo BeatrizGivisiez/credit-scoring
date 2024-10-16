@@ -24,6 +24,7 @@ export interface ModalCreateRelationGroupProps {
   optionsEntity?: any;
   optionRelation?: any;
   handleSubmit?: (c: any) => void;
+  childId?: number;
   // characteristicRelation?: number;
 }
 export interface ModalListGroupProps {

@@ -16,6 +16,7 @@ export const ModalCreateRelationGroup = ({
   nif,
   optionsEntity,
   optionRelation,
+  childId = 0,
   handleSubmit = () => {}
 }: ModalCreateRelationGroupProps) => {
   // Agora o estado armazena um número (id) em vez de uma string
@@ -57,7 +58,7 @@ export const ModalCreateRelationGroup = ({
           options={optionsEntity}
           value={selectedEntity} // Estado para controlar a entidade selecionada
           onChange={handleChangeSelect}
-          label="Entidade relacionada"
+          label="Entidade-Mãe relacionada"
           sx={{ mt: 1, mb: 2 }}
         />
       </Box>
@@ -79,7 +80,8 @@ export const ModalCreateRelationGroup = ({
           color="success"
           onClick={() =>
             handleSubmit({
-              id: selectedEntity,
+              id: nif,
+              parentId: selectedEntity,
               name: parentClient,
               documentNumber: nif,
               characteristicRelation: selectedOption

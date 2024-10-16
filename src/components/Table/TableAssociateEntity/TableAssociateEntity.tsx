@@ -9,14 +9,15 @@ import { Pencil, Trash } from "@phosphor-icons/react";
 
 import { tableassociateentity__box, tableassociateentity__datagrid } from "./styles";
 import { TableAssociateEntityProps } from "./types";
-import { useCharacteristicRelation } from "@/app/context";
+import { useCharacteristicRelation, useStepperContext } from "@/app/context";
 
 export const TableAssociateEntity = ({
   createGroups,
   pageSize = 10,
   handleDeleteRow = () => {}
 }: TableAssociateEntityProps) => {
-  const { characteristicRelation } = useCharacteristicRelation();
+  const { characteristicRelationActive } = useCharacteristicRelation();
+  const { setAssociatedEntities } = useStepperContext();
 
   const [createGroupEditOpen, setCreateGroupEditOpen] = useState<boolean>(false);
   const [createGroupEditData, setCreateGroupEditData] = useState<any>(null); // Aqui você vai armazenar os dados do grupo
@@ -36,9 +37,15 @@ export const TableAssociateEntity = ({
     setCreateGroupEditOpen(false);
   };
 
+  const handleEditChild = (child: any) => {
+    setAssociatedEntities((prev: any) => [...prev.filter((i: any) => i.id != child.id), child]);
+    setCreateGroupEditOpen(false);
+    setCreateGroupEditData(undefined);
+  };
+
   // Função para obter o label de característica de relação
   const getCharacteristicRelationLabel = (id: number) => {
-    const option = characteristicRelation.find((option) => option.economicGroupTypeId === id);
+    const option = characteristicRelationActive.find((option) => option.economicGroupTypeId === id);
     return option ? option.name : "Desconhecido"; // Retorna "Desconhecido" se não encontrar
   };
 
@@ -100,12 +107,13 @@ export const TableAssociateEntity = ({
           parentClient={createGroupEditData.name} // Passa os dados do grupo
           nif={createGroupEditData.documentNumber}
           characteristicRelation={createGroupEditData.characteristicRelation} // Passa a característica de relação
-          groupName={createGroupEditData.name} // Passa a entidade
+          groupName={createGroupEditData.id} // Passa a entidade
           optionsEntity={[createGroupEditData]}
-          optionRelation={characteristicRelation.map((i) => ({
+          optionRelation={characteristicRelationActive.map((i) => ({
             id: i.economicGroupTypeId,
             label: i.name
           }))}
+          handleSubmit={handleEditChild}
         />
       )}
     </>

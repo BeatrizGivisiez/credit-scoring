@@ -2,11 +2,12 @@
 
 import { Box, Dialog, DialogContent, DialogTitle, FormControl, Typography } from "@mui/material";
 import { FloppyDiskBack, X } from "@phosphor-icons/react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 import { ModalListGroupProps } from "./types";
 
 import { Button, ButtonIcon, InputRadio, InputSelect } from "@/components";
+import { useStepperContext } from "@/app/context";
 import PALETTE from "@/styles/_palette";
 
 export const ModalCreateGroupEdit = ({
@@ -16,10 +17,11 @@ export const ModalCreateGroupEdit = ({
   characteristicRelation,
   groupName = "",
   nif,
-  optionsEntity,
   optionRelation,
   handleSubmit = () => {}
 }: ModalListGroupProps) => {
+  const { optionsModal } = useStepperContext();
+
   // Agora o estado armazena um número (id) em vez de uma string
   const [selectedOption, setSelectedOption] = useState<number>(characteristicRelation || 0); // Iniciando com nenhuma
   const [selectedEntity, setSelectedEntity] = useState<any>(groupName);
@@ -33,6 +35,10 @@ export const ModalCreateGroupEdit = ({
   const handleChangeSelect = (newValue: number) => {
     setSelectedEntity(newValue); // Atualiza a entidade selecionada
   };
+
+  useEffect(() => {
+    setSelectedEntity(groupName);
+  }, [groupName]);
 
   return (
     <Dialog onClose={handleClose} open={open} maxWidth="md" fullWidth>
@@ -56,10 +62,10 @@ export const ModalCreateGroupEdit = ({
         </Typography>
         <InputSelect
           fullWidth
-          options={optionsEntity}
+          options={optionsModal}
           value={selectedEntity} // Estado para controlar a entidade selecionada
           onChange={handleChangeSelect}
-          label="Entidade relacionada"
+          label="Entidade-Mãe relacionada"
           sx={{ mt: 1, mb: 2 }}
         />
       </Box>

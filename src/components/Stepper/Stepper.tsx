@@ -36,7 +36,7 @@ import { useCharacteristicRelation, useStepperContext } from "@/app/context";
 const steps = ["Dados do Grupo", "Associar Entidade"];
 
 export const Stepper = () => {
-  const { characteristicRelation } = useCharacteristicRelation();
+  const { characteristicRelationActive } = useCharacteristicRelation();
   const { createEconomicGroupRelation, loading: loadingCreateEconomicGroupRelation } =
     useCreateEconomicGroupRelation();
 
@@ -46,10 +46,12 @@ export const Stepper = () => {
     parentGroup,
     setParentGroup,
     associatedEntities,
-    setAssociatedEntities
+    setAssociatedEntities,
+    associateEntitiesIds,
+    setAssociateEntitiesIds,
+    optionsModal
   } = useStepperContext();
 
-  const [associatefilhosNames, setAssociatefilhosNames] = useState<Array<string>>([]);
   const [openModal, setOpenModal] = useState<boolean>(false);
   const [entitySelect, loading, entities] = useEntitySelect();
   const [selectedEntityObj, setSelectedEntityObj] = useState<EntityDTO>({} as EntityDTO);
@@ -67,20 +69,10 @@ export const Stepper = () => {
     return entitySelect.filter(
       (e) =>
         e.value.toString() !== parentGroup?.toString() &&
-        !associatefilhosNames.includes(e.value.toString())
+        !associateEntitiesIds.includes(e.value.toString())
     );
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [parentGroup, associatefilhosNames]);
-
-  const optionsModal = useMemo(() => {
-    return entitySelect.filter((e) => {
-      return (
-        e.value.toString() === parentGroup?.toString() ||
-        associatefilhosNames.includes(e.value.toString())
-      );
-    });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [parentGroup, associatefilhosNames]);
+  }, [parentGroup, associateEntitiesIds]);
 
   useEffect(() => {
     const item =
@@ -89,9 +81,10 @@ export const Stepper = () => {
   }, [entities, selectedEntityRelation]);
 
   const handleAddChild = (child: any) => {
-    console.log("Adicionando entidade associada:", child, child.entityId, child.optionRelation);
-    setAssociatedEntities((prev) => [...prev, child]);
-    setAssociatefilhosNames((prev) => [...prev, child.id]);
+    const newArray = [...associatedEntities];
+    newArray.push(child);
+    setAssociatedEntities(newArray);
+    setAssociateEntitiesIds((prev) => [...prev, child.id.toString()]);
     setOpenModal(false);
     setSelectedEntityRelation(undefined);
   };
@@ -250,8 +243,9 @@ export const Stepper = () => {
               handleClose={() => setOpenModal(false)}
               parentClient={selectedEntityObj.name} // Passa os dados da entidade
               nif={selectedEntityObj.documentNumber}
+              childId={selectedEntityObj.id}
               optionsEntity={optionsModal}
-              optionRelation={characteristicRelation.map((i) => ({
+              optionRelation={characteristicRelationActive.map((i) => ({
                 id: i.economicGroupTypeId,
                 label: i.name
               }))}

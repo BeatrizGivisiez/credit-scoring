@@ -1,14 +1,13 @@
-// app/context/EntityContext.tsx
 "use client";
 
-import { createContext, ReactNode, useContext } from "react";
+import { createContext, ReactNode, useContext, useMemo } from "react";
 
 import { CharacteristicRelationDTO } from "@/app/dto/CharacteristicRelationDto";
 import { useFetchCharacteristicRelation } from "@/hooks";
 
-// Definir o formato do contexto
 interface CharacteristicRelationContextType {
   characteristicRelation: CharacteristicRelationDTO[];
+  characteristicRelationActive: CharacteristicRelationDTO[];
   loading: boolean;
   error: string | null;
 }
@@ -22,8 +21,15 @@ const CharacteristicRelationContext = createContext<CharacteristicRelationContex
 export const CharacteristicRelationProvider = ({ children }: { children: ReactNode }) => {
   const { characteristicRelation, loading, error } = useFetchCharacteristicRelation(); // Usa o hook customizado para buscar as entidades
 
+  const characteristicRelationActive = useMemo(
+    () => characteristicRelation.filter((i) => i.status === true),
+    [characteristicRelation]
+  );
+
   return (
-    <CharacteristicRelationContext.Provider value={{ characteristicRelation, loading, error }}>
+    <CharacteristicRelationContext.Provider
+      value={{ characteristicRelation, characteristicRelationActive, loading, error }}
+    >
       {children}
     </CharacteristicRelationContext.Provider>
   );
@@ -32,6 +38,7 @@ export const CharacteristicRelationProvider = ({ children }: { children: ReactNo
 // Hook para acessar o contexto facilmente
 export const useCharacteristicRelation = () => {
   const context = useContext(CharacteristicRelationContext);
+
   if (!context) {
     throw new Error(
       "useCharacteristicRelation deve ser usado dentro de CharacteristicRelationProvider"
