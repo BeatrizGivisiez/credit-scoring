@@ -79,7 +79,7 @@ export const ManagerGREPage = () => {
                 characteristicRelation: item.name,
                 status: "Ativo",
                 createdAt: item.created,
-                deletedAt: item.deleted
+                deletedAt: item.deleted || undefined
               }))}
               onInactivate={handleInactivateRelation}
             />

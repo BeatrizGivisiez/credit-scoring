@@ -9,7 +9,7 @@ import { MenuItem } from "@/components";
 import { IMAGE_LOGO_BIG, IMAGE_LOGO_SMALL } from "@/constants/images";
 import PALETTE from "@/styles/_palette";
 import { Box, IconButton, Typography } from "@mui/material";
-import { Graph, List } from "@phosphor-icons/react";
+import { Graph, List, UserGear } from "@phosphor-icons/react";
 
 import { itemmenu, menu, menu__logo } from "./styles";
 
@@ -74,7 +74,7 @@ export const Menu = () => {
             selected={selected === "/utp"} // Verifica a rota atual é "/"
             setSelected={setSelected} // Passa a função setSelected corretamente
             onClick={() => handleNavigation("/utp")} // Navega
-          />
+          />*/}
           <MenuItem
             title="BackOffice"
             to="/backoffice"
@@ -82,7 +82,7 @@ export const Menu = () => {
             selected={selected === "/backoffice"} // Verifica a rota atual é "/"
             setSelected={setSelected} // Passa a função setSelected corretamente
             onClick={() => handleNavigation("/backoffice")} // Navega
-          /> */}
+          />
         </MuiMenu>
       </Sidebar>
     </Box>
