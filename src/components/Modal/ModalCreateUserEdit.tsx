@@ -41,7 +41,7 @@ export const ModalCreateUserEdit = ({
   useEffect(() => {
     // Mapear o nome do perfil para o valor correto
     const perfilValue = optionperfil.find((opt) => opt.label === perfil)?.value || "";
-    setSelectedPerfil(perfilValue); // Agora, selectedPerfil terá o valor '1', '2' ou '3'
+    setSelectedPerfil(perfilValue.toString()); // Agora, selectedPerfil terá o valor '1', '2' ou '3'
 
     // Definir a senha
     if (password !== undefined) {
@@ -145,7 +145,7 @@ export const ModalCreateUserEdit = ({
           fullWidth
           options={optionperfil}
           value={selectedPerfil}
-          onChange={handleChangeSelect}
+          onChange={(value) => handleChangeSelect(value.toString())}
           label="Alterar Perfil?"
         />
         <InputText

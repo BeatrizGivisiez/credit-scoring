@@ -61,7 +61,7 @@ export const ModalRelateEntityAdd = ({
               loading={loadingEntity}
               options={entitySelect}
               value={selectedEntity}
-              onChange={handleChangeSelect}
+              onChange={(value) => handleChangeSelect(value.toString())}
               label="Indique a Entidade que pretende adicionar"
             />
           </FormControl>

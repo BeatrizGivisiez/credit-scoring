@@ -22,7 +22,7 @@ export const ModalCreateGroupEdit = ({
 }: ModalListGroupProps) => {
   // Agora o estado armazena um número (id) em vez de uma string
   const [selectedOption, setSelectedOption] = useState<number>(characteristicRelation || 0); // Iniciando com nenhuma
-  const [selectedEntity, setSelectedEntity] = useState<string>(groupName || "");
+  const [selectedEntity, setSelectedEntity] = useState<any>(groupName);
 
   // Função para lidar com a seleção de relação (valor numérico)
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -30,11 +30,9 @@ export const ModalCreateGroupEdit = ({
   };
 
   // Função para lidar com a seleção da entidade
-  const handleChangeSelect = (newValue: string) => {
+  const handleChangeSelect = (newValue: number) => {
     setSelectedEntity(newValue); // Atualiza a entidade selecionada
   };
-
-  // TODO: Add validation before submit data
 
   return (
     <Dialog onClose={handleClose} open={open} maxWidth="md" fullWidth>

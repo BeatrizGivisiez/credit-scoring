@@ -5,6 +5,6 @@ export const OPTION_TYPES = [
 ];
 
 export const optionperfil = OPTION_TYPES.map((item) => ({
-  value: `${item.value}`,
-  label: item.label
+  label: item.label,
+  value: item.value
 }));

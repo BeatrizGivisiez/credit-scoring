@@ -95,7 +95,7 @@ export const ModalCreateUser = ({
         <InputSelect
           options={optionperfil}
           value={selectedPerfil}
-          onChange={handleChangeSelect}
+          onChange={(value) => handleChangeSelect(value.toString())}
           label="Selecione o nível do Perfil"
         />
       </Box>

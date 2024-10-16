@@ -60,7 +60,7 @@ export interface ModalListUserProps {
   userName?: string;
   email?: string;
   password?: string;
-  perfil?: string;
+  perfil?: any;
 }
 
 export interface ModalCreateUserProps {
