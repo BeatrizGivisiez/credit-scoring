@@ -7,7 +7,7 @@ import { ConsultGREPage } from "./consult-gre/ConsultGRE";
 import { CreateGREPage } from "./create-gre/CreateGRE";
 import { HomeGREPage } from "./home-gre/HomeGRE";
 import { economicgroup__box } from "./styles";
-import { useEconomicGroup } from "@/app/context/EconomicGroup";
+import { useEconomicGroup } from "@/app/context";
 
 export const EconomicGroupsPage = () => {
   const { economicGroup, loading, error } = useEconomicGroup();

@@ -21,7 +21,7 @@ import {
   consultgre__table
 } from "./styles";
 import { ConsultGREPageProps } from "./types";
-import { useEconomicGroup } from "@/app/context/EconomicGroup";
+import { useEconomicGroup } from "@/app/context/EconomicGroupContext";
 import { useEffect, useState } from "react";
 
 export const ConsultGREPage = ({
@@ -84,10 +84,10 @@ export const ConsultGREPage = ({
             groups={filteredGroups.map((item) => ({
               id: item.economicGroupId,
               groupName: item.name,
-              createdAt: item.created || "falta vir BE",
-              quantityRelation: item.relationsCount || 0,
-              parentClient: item.entityMotherName || "falta vir BE",
-              nif: item.entityMotherNIF || "falta vir BE",
+              createdAt: item.created,
+              quantityRelation: item.relationsCount,
+              parentClient: item.entityMotherName,
+              nif: item.entityMotherNIF,
               deletedAt: item.deleted ? "Inativo" : "Ativo"
             }))}
             onViewGroup={handleOpenModalView}

@@ -1,6 +1,6 @@
 import dynamic from "next/dynamic";
 import { LayoutDefault } from "../templates/LayoutDefault";
-import { EconomicGroupProvider } from "../context/EconomicGroup";
+import { EconomicGroupProvider } from "../context/EconomicGroupContext";
 
 const EconomicGroupsPage = dynamic(
   () => import("@/modules/gre").then((mod) => mod.EconomicGroupsPage),

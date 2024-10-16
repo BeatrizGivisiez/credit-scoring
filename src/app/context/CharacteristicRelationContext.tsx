@@ -19,7 +19,7 @@ const CharacteristicRelationContext = createContext<CharacteristicRelationContex
 );
 
 // Criar o Provider
-export const EntityProvider = ({ children }: { children: ReactNode }) => {
+export const CharacteristicRelationProvider = ({ children }: { children: ReactNode }) => {
   const { characteristicRelation, loading, error } = useFetchCharacteristicRelation(); // Usa o hook customizado para buscar as entidades
 
   return (

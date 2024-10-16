@@ -3,23 +3,26 @@
 import { useState } from "react";
 
 import { ButtonIcon, ModalCreateGroupEdit } from "@/components";
-import { useFetchCharacteristicRelation } from "@/hooks";
 import Box from "@mui/material/Box";
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
 import { Pencil, Trash } from "@phosphor-icons/react";
 
 import { tableassociateentity__box, tableassociateentity__datagrid } from "./styles";
 import { TableAssociateEntityProps } from "./types";
+import { useCharacteristicRelation } from "@/app/context";
 
 export const TableAssociateEntity = ({
   createGroups,
   pageSize = 10,
   handleDeleteRow = () => {}
 }: TableAssociateEntityProps) => {
-  const { characteristicRelation } = useFetchCharacteristicRelation();
+  const { characteristicRelation } = useCharacteristicRelation();
 
   const [createGroupEditOpen, setCreateGroupEditOpen] = useState<boolean>(false);
   const [createGroupEditData, setCreateGroupEditData] = useState<any>(null); // Aqui você vai armazenar os dados do grupo
+
+  // Verifique se os dados estão corretos
+  console.log("Dados da tabela (createGroups):", createGroups);
 
   // Função para abrir o modal e passar os dados do grupo
   const handleOpenGroupEditModal = (group: any) => {
@@ -39,10 +42,10 @@ export const TableAssociateEntity = ({
   };
 
   const columns: GridColDef<(typeof createGroups)[number]>[] = [
-    { field: "nmReduzido", headerName: "Nome Entidade", width: 620 },
-    { field: "docId", headerName: "NIF", width: 140 },
+    { field: "parentClient", headerName: "Nome Entidade", width: 620 },
+    { field: "nif", headerName: "NIF", width: 140 },
     {
-      field: "optionRelation",
+      field: "characteristicRelation",
       headerName: "Característica Relação",
       width: 400,
       valueGetter: (params) => getCharacteristicRelationLabel(params)
