@@ -19,8 +19,7 @@ export const ModalCreateRelationGroup = ({
   childId = 0,
   handleSubmit = () => {}
 }: ModalCreateRelationGroupProps) => {
-  // Agora o estado armazena um número (id) em vez de uma string
-  const [selectedOption, setSelectedOption] = useState<number>(optionRelation || 0); // Iniciando com nenhuma
+  const [selectedOption, setSelectedOption] = useState<number>(0);
   const [selectedEntity, setSelectedEntity] = useState<number>();
 
   // Função para lidar com a seleção de relação (valor numérico)
@@ -32,6 +31,9 @@ export const ModalCreateRelationGroup = ({
   const handleChangeSelect = (newValue: number) => {
     setSelectedEntity(newValue); // Atualiza a entidade selecionada
   };
+
+  // Verifica se ambos os campos foram preenchidos (entidade e relação)
+  const isSubmitDisabled = !selectedEntity || selectedOption === 0;
 
   return (
     <Dialog onClose={handleClose} open={open} maxWidth="md" fullWidth>
@@ -88,6 +90,7 @@ export const ModalCreateRelationGroup = ({
             })
           }
           iconEnd={FloppyDiskBack}
+          disabled={isSubmitDisabled}
         />
       </Box>
     </Dialog>
