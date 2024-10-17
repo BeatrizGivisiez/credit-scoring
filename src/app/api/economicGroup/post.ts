@@ -21,15 +21,21 @@ export async function POST(request: Request): Promise<NextResponse> {
     const response = await fetch(url, {
       method: "POST",
       headers: headers,
-      body: JSON.stringify(body) // Converte o corpo em JSON
+      body: JSON.stringify(body) // Converte o corpo em JSON corretamente
     });
 
-    if (!response.ok) {
+    // Verificar se a resposta tem conteúdo antes de tentar parsear para JSON
+    const contentType = response.headers.get("content-type");
+    if (contentType && contentType.includes("application/json")) {
+      const data = await response.json(); // Processa o JSON normalmente
+      return NextResponse.json(data);
+    } else if (response.ok) {
+      // Se a resposta for 2xx, mas não tiver JSON, retorna sucesso com uma mensagem genérica
+      return NextResponse.json({ message: "Sucesso, mas sem conteúdo na resposta" });
+    } else {
+      // Lança erro para respostas com status não OK
       throw new Error(`Error: ${response.status} - ${response.statusText}`);
     }
-
-    const data = await response.json();
-    return NextResponse.json(data); // Retorna os dados recebidos da API
   } catch (error: any) {
     console.error("Erro ao enviar dados:", error);
     return NextResponse.json({ error: error.message }, { status: 500 });
