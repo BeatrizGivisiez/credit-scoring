@@ -16,7 +16,7 @@ import {
   ModalCreateRelationGroup,
   TableAssociateEntity
 } from "@/components";
-import { useCreateEconomicGroupRelation, useEntitySelect } from "@/hooks";
+import { useCreateEconomicGroup, useEntitySelect } from "@/hooks";
 import PALETTE from "@/styles/_palette";
 import {
   Box,
@@ -37,8 +37,10 @@ const steps = ["Dados do Grupo", "Associar Entidade"];
 
 export const Stepper = () => {
   const { characteristicRelationActive } = useCharacteristicRelation();
-  const { createEconomicGroupRelation, loading: loadingCreateEconomicGroupRelation } =
-    useCreateEconomicGroupRelation();
+  // const { createEconomicGroupRelation, loading: loadingCreateEconomicGroupRelation } =
+  //   useCreateEconomicGroupRelation();
+
+  const { createEconomicGroup, loading: loadingCreateEconomicGroup } = useCreateEconomicGroup();
 
   const {
     groupName,
@@ -48,8 +50,8 @@ export const Stepper = () => {
     associatedEntities,
     setAssociatedEntities,
     associateEntitiesIds,
-    setAssociateEntitiesIds,
-    optionsModal
+    setAssociateEntitiesIds
+    // optionsModal
   } = useStepperContext();
 
   const [openModal, setOpenModal] = useState<boolean>(false);
@@ -130,7 +132,7 @@ export const Stepper = () => {
       };
 
       // Faça o POST de tudo em uma única requisição
-      createEconomicGroupRelation(newGroupRelation)
+      createEconomicGroup(newGroupRelation)
         .then(() => {
           console.log("Grupo e relações criados com sucesso.");
           setAlertData({ message: "Grupo criado com sucesso!", type: "success" });
@@ -236,7 +238,7 @@ export const Stepper = () => {
               iconEnd={activeStep === steps.length - 1 ? FloppyDiskBack : ArrowRight}
               label={activeStep === steps.length - 1 ? "Criar" : "Próximo"}
               onClick={handleNext}
-              disabled={loadingCreateEconomicGroupRelation}
+              disabled={loadingCreateEconomicGroup}
             />
           </Box>
           {selectedEntityRelation && openModal && (
