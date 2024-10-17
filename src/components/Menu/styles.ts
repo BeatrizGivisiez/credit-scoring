@@ -27,7 +27,7 @@ export const itemmenu = {
     backgroundColor: "transparent", // desativa o fundo no hover
     color: "inherit" // mantém a cor sem alteração
   },
-  "&.Mui-selected": {
+  "&.MuiSelected": {
     backgroundColor: "transparent",
     color: PALETTE.PRIMARY_MAIN
   },
