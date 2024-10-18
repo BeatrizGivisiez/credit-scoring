@@ -6,6 +6,7 @@ export interface Group {
   parentClient: string; // Nome da entidade mãe
   nif: string; // NIF da entidade mãe
   deletedAt: string; // Status do grupo (Inativo ou Ativo)
+  status: boolean;
 }
 
 export interface TableListGroupProps {

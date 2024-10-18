@@ -37,6 +37,8 @@ export const ConsultGREPage = ({
   loading,
   error
 }: ConsultGREPageProps) => {
+  console.log("|| =>", filteredGroups);
+
   return (
     <>
       <Stack sx={consultgre__breadcrumbs}>
@@ -80,7 +82,8 @@ export const ConsultGREPage = ({
               quantityRelation: item.relationsCount,
               parentClient: item.entityMotherName,
               nif: item.entityMotherNIF,
-              deletedAt: item.deleted ? "Inativo" : "Ativo"
+              deletedAt: item.deleted ? "Inativo" : "Ativo",
+              status: item.status
             }))}
             onViewGroup={handleOpenModalView}
             onEditGroup={handleOpenModalEdit}

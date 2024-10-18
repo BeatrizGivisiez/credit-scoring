@@ -28,7 +28,7 @@ export const TableListGroup = memo(({ groups, onViewGroup, onEditGroup }: TableL
       width: 120
     },
     {
-      field: "deletedAt",
+      field: "status",
       headerName: "Status",
       width: 100,
       renderCell: (params) => (
@@ -51,7 +51,6 @@ export const TableListGroup = memo(({ groups, onViewGroup, onEditGroup }: TableL
           </Typography>
         </Box>
       )
-      // sortComparator: (v1, v2) => (v1 && !v2 ? -1 : v2 && !v1 ? 1 : 0)
     },
     {
       field: "actions",
@@ -91,7 +90,7 @@ export const TableListGroup = memo(({ groups, onViewGroup, onEditGroup }: TableL
             }
           },
           sorting: {
-            sortModel: [{ field: "deletedAt", sort: "asc" }] // Ordenação inicial pela coluna Status
+            sortModel: [{ field: "status", sort: "desc" }]
           }
         }}
         disableRowSelectionOnClick

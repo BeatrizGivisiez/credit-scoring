@@ -23,7 +23,7 @@ import { useCallback, useEffect, useState } from "react";
 
 import { ModalRelateEntityAdd } from "./ModalRelateEntityAdd";
 import { ModalRelateEntityEdit } from "./ModalRelateEntityEdit";
-import { ModalListGroupProps, RelationData } from "./types";
+import { ModalListGroupProps } from "./types";
 
 import { Button, ButtonIcon, Divider } from "@/components";
 import PALETTE from "@/styles/_palette";
@@ -150,29 +150,15 @@ export const ModalListGroupEdit = ({
           <Table>
             <TableHead>
               <TableRow>
-                <TableCell sx={{ padding: "10px 0px", fontSize: "16px" }}>Nome</TableCell>
-                <TableCell sx={{ padding: "10px 0px", fontSize: "16px" }}>NIF</TableCell>
-                <TableCell sx={{ padding: "10px 0px", fontSize: "16px" }}>
-                  Característica Relação
-                </TableCell>
-                <TableCell sx={{ padding: "10px 0px", fontSize: "16px" }}>Data Inicial</TableCell>
-                <TableCell sx={{ padding: "10px 0px", fontSize: "16px" }}>Data Fim</TableCell>
-                <TableCell sx={{ padding: "10px 0px", fontSize: "16px" }}>Status</TableCell>
-                <TableCell
-                  sx={{
-                    padding: "10px 0px",
-                    fontSize: "16px",
-                    width: "100%",
-                    display: "flex",
-                    alignContent: "center",
-                    justifyContent: "center"
-                  }}
-                >
-                  Ações
-                </TableCell>
+                <TableCell>Nome</TableCell>
+                <TableCell>NIF</TableCell>
+                <TableCell>Característica Relação</TableCell>
+                <TableCell>Data Inicial</TableCell>
+                <TableCell>Data Fim</TableCell>
+                <TableCell>Status</TableCell>
+                <TableCell>Ações</TableCell>
               </TableRow>
             </TableHead>
-
             <TableBody>
               {loading && (
                 <TableRow>
@@ -201,22 +187,12 @@ export const ModalListGroupEdit = ({
                 .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                 .map((relation, index) => (
                   <TableRow key={index}>
-                    <TableCell sx={{ padding: "0px", fontSize: "14px" }}>
-                      {relation.child.name}
-                    </TableCell>
-                    <TableCell sx={{ padding: "0px", fontSize: "14px" }}>
-                      {relation.child.documentNumber}
-                    </TableCell>
-                    <TableCell sx={{ padding: "0px", fontSize: "14px" }}>
-                      {relation.economicGroupType.name}
-                    </TableCell>
-                    <TableCell sx={{ padding: "0px", fontSize: "14px" }}>
-                      {relation.created}
-                    </TableCell>
-                    <TableCell sx={{ padding: "0px", fontSize: "14px" }}>
-                      {relation.deleted}
-                    </TableCell>
-                    <TableCell sx={{ padding: "0px", fontSize: "14px" }}>
+                    <TableCell>{relation.child.name}</TableCell>
+                    <TableCell>{relation.child.documentNumber}</TableCell>
+                    <TableCell>{relation.economicGroupType.name}</TableCell>
+                    <TableCell>{relation.created}</TableCell>
+                    <TableCell>{relation.deleted}</TableCell>
+                    <TableCell>
                       <Box
                         sx={{
                           display: "flex",
@@ -236,23 +212,13 @@ export const ModalListGroupEdit = ({
                         </Typography>
                       </Box>
                     </TableCell>
-                    <TableCell
-                      sx={{
-                        padding: "2px",
-                        width: "100%",
-                        display: "flex",
-                        alignContent: "center",
-                        justifyContent: "center"
-                      }}
-                    >
-                      <Box display="flex">
-                        <ButtonIcon
-                          placement="top-start"
-                          title="Editar"
-                          icon={Pencil}
-                          onClick={() => handleOpenRelateEntityEditModal(relation)}
-                        />
-                      </Box>
+                    <TableCell sx={{ padding: 0 }}>
+                      <ButtonIcon
+                        placement="top-start"
+                        title="Editar"
+                        icon={Pencil}
+                        onClick={() => handleOpenRelateEntityEditModal(relation)}
+                      />
                     </TableCell>
                   </TableRow>
                 ))}

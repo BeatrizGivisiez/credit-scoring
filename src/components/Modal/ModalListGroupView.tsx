@@ -166,14 +166,14 @@ export const ModalListGroupView = ({
                       <TableCell>{relation.economicGroupType.name}</TableCell>
                       <TableCell>{relation.created}</TableCell>
                       <TableCell>{relation.deleted}</TableCell>
-                      <TableCell sx={{ padding: "0px", fontSize: "14px" }}>
+                      <TableCell>
                         <Box
                           sx={{
                             display: "flex",
-                            alignItems: "center", // Centraliza verticalmente
-                            justifyContent: "flex-start", // Centraliza horizontalmente
+                            alignItems: "center",
+                            justifyContent: "flex-start",
                             width: "100%",
-                            height: "100%" // Garante que o Box ocupe toda a célula
+                            height: "100%"
                           }}
                         >
                           <Typography
@@ -192,15 +192,14 @@ export const ModalListGroupView = ({
           </Table>
         </TableContainer>
 
-        {/* Paginação da Tabela */}
         <TablePagination
-          rowsPerPageOptions={[5, 10, 25]} // Opções de linhas por página
+          rowsPerPageOptions={[5, 10, 25]}
           component="div"
-          count={economicGroupId.length} // Quantidade total de relações
-          rowsPerPage={rowsPerPage} // Linhas por página selecionadas
-          page={page} // Página atual
-          onPageChange={handleChangePage} // Função para mudar de página
-          onRowsPerPageChange={handleChangeRowsPerPage} // Função para mudar número de linhas por página
+          count={economicGroupId.length}
+          rowsPerPage={rowsPerPage}
+          page={page}
+          onPageChange={handleChangePage}
+          onRowsPerPageChange={handleChangeRowsPerPage}
         />
       </Box>
     </Dialog>
