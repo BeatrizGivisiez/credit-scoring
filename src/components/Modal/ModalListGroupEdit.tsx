@@ -29,6 +29,7 @@ import { Button, ButtonIcon, Divider } from "@/components";
 import PALETTE from "@/styles/_palette";
 import { useFetchEconomicGroupId } from "@/hooks";
 import { EconomicGroupId } from "@/app/dto/EconomicGroupIdDto";
+
 export const ModalListGroupEdit = ({
   open,
   handleClose,
@@ -44,8 +45,8 @@ export const ModalListGroupEdit = ({
 
   const [relateEntityAddOpen, setRelateEntityAddOpen] = useState(false);
   const [relateEntityEditOpen, setRelateEntityEditOpen] = useState(false);
-  const [selectedRelation, setSelectedRelation] = useState<EconomicGroupId | null>(null); // Armazena a relação selecionada
-  const [isGroupActive, setIsGroupActive] = useState(true);
+  const [selectedRelation, setSelectedRelation] = useState<EconomicGroupId | null>(null);
+  const [isGroupActive, setIsGroupActive] = useState(true); // Estado inicial, atualizado via backend
   const [alertOpen, setAlertOpen] = useState(false);
   const [alertMessage, setAlertMessage] = useState("");
   const [alertSeverity, setAlertSeverity] = useState<"success" | "error">("success");
@@ -71,7 +72,7 @@ export const ModalListGroupEdit = ({
 
   // Função para abrir o modal de edição com a relação selecionada
   const handleOpenRelateEntityEditModal = (relation: EconomicGroupId) => {
-    setSelectedRelation(relation); // Armazena a relação selecionada
+    setSelectedRelation(relation);
     setRelateEntityEditOpen(true);
   };
 
@@ -92,12 +93,20 @@ export const ModalListGroupEdit = ({
     setAlertOpen(true); // Abre o alerta
   };
 
+  // Atualiza o estado do grupo com base nos dados do backend
   useEffect(() => {
     if (id) {
       fetchEconomicGroupId(id?.toString());
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [id]);
+  }, [id, fetchEconomicGroupId]);
+
+  // Sincroniza o estado isGroupActive com o valor do backend
+  useEffect(() => {
+    if (economicGroupId.length > 0) {
+      const groupStatus = !economicGroupId[0].deleted; // Aqui estou assumindo que o status do grupo é "deleted"
+      setIsGroupActive(groupStatus); // Atualiza o Switch com o status vindo do backend
+    }
+  }, [economicGroupId]);
 
   return (
     <Dialog onClose={handleClose} open={open} maxWidth="md" fullWidth>
@@ -181,8 +190,8 @@ export const ModalListGroupEdit = ({
 
               {economicGroupId
                 .sort((a, b) => {
-                  if (!a.deleted) return -1; // Move `a` para cima
-                  if (!b.deleted) return 1; // Move `b` para cima
+                  if (!a.deleted) return -1;
+                  if (!b.deleted) return 1;
                   return 0;
                 })
                 .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
