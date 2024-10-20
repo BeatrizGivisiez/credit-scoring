@@ -96,6 +96,7 @@ export const ModalListGroupEdit = ({
     if (id) {
       fetchEconomicGroupId(id?.toString());
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [id]);
 
   return (
@@ -213,12 +214,14 @@ export const ModalListGroupEdit = ({
                       </Box>
                     </TableCell>
                     <TableCell sx={{ padding: 0 }}>
-                      <ButtonIcon
-                        placement="top-start"
-                        title="Editar"
-                        icon={Pencil}
-                        onClick={() => handleOpenRelateEntityEditModal(relation)}
-                      />
+                      {!relation.deleted && ( // Se o status for "Ativo", exibe o ícone de edição
+                        <ButtonIcon
+                          placement="top-start"
+                          title="Editar"
+                          icon={Pencil}
+                          onClick={() => handleOpenRelateEntityEditModal(relation)}
+                        />
+                      )}
                     </TableCell>
                   </TableRow>
                 ))}
