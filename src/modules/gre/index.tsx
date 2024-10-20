@@ -14,7 +14,8 @@ import { economicgroup__box } from "./styles";
 export const EconomicGroupsPage = () => {
   const { economicGroup, loading, error } = useEconomicGroup();
 
-  const [currentMode, setCurrentMode] = useState<"home" | "consult" | "create">("home");
+  const [isConsult, setIsConsult] = useState(true);
+  const [isCreatingGroup, setIsCreatingGroup] = useState(false);
   const [filteredGroups, setFilteredGroups] = useState(economicGroup);
   const [selectedGroup, setSelectedGroup] = useState<any | null>(null);
   const [modalMode, setModalMode] = useState<"view" | "edit" | null>(null);
@@ -37,7 +38,6 @@ export const EconomicGroupsPage = () => {
       } else {
         const lowercasedQuery = query.toLowerCase();
         const filtered = economicGroup.filter(
-          // NOME DO GRUPO, NOME ENTIDADE MAE , NIF
           (group: any) =>
             group.name.toLowerCase().includes(lowercasedQuery) ||
             group.entityMotherName.toLowerCase().includes(lowercasedQuery) ||
@@ -61,29 +61,34 @@ export const EconomicGroupsPage = () => {
 
   return (
     <Box sx={economicgroup__box}>
-      {currentMode === "create" ? (
+      {isCreatingGroup ? (
         <CreateGREPage
-          setIsCreatingGroup={() => setCurrentMode("home")}
-          setIsConsult={() => setCurrentMode("consult")}
-        />
-      ) : currentMode === "consult" ? (
-        <ConsultGREPage
-          isConsult={currentMode === "consult"}
-          setIsConsult={() => setCurrentMode("consult")}
-          handleSearch={handleSearch}
-          filteredGroups={filteredGroups}
-          setIsCreatingGroup={() => setCurrentMode("create")}
-          handleOpenModalView={(group) => handleOpenModal(group, "view")}
-          handleOpenModalEdit={(group) => handleOpenModal(group, "edit")}
-          modalMode={modalMode}
-          selectedGroup={selectedGroup}
-          handleCloseModal={handleCloseModal}
-          breadcrumbsGREConsult={breadcrumbsGREConsult}
-          loading={loading}
-          error={error}
+          setIsCreatingGroup={setIsCreatingGroup}
+          setIsConsult={setIsConsult}
+          isConsult={isConsult}
         />
       ) : (
-        <HomeGREPage isConsult={true} setIsConsult={() => setCurrentMode("consult")} />
+        <>
+          {isConsult ? (
+            <HomeGREPage isConsult={isConsult} setIsConsult={setIsConsult} />
+          ) : (
+            <ConsultGREPage
+              isConsult={isConsult}
+              setIsConsult={setIsConsult}
+              handleSearch={handleSearch}
+              filteredGroups={filteredGroups}
+              setIsCreatingGroup={setIsCreatingGroup}
+              handleOpenModalView={(group) => handleOpenModal(group, "view")}
+              handleOpenModalEdit={(group) => handleOpenModal(group, "edit")}
+              modalMode={modalMode}
+              selectedGroup={selectedGroup}
+              handleCloseModal={handleCloseModal}
+              breadcrumbsGREConsult={breadcrumbsGREConsult}
+              loading={loading}
+              error={error}
+            />
+          )}
+        </>
       )}
     </Box>
   );

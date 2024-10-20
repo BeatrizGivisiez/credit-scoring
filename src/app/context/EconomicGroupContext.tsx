@@ -1,7 +1,5 @@
 "use client";
-
 import { createContext, ReactNode, useContext } from "react";
-
 import { EconomicGroupDTO } from "@/app/dto/EconomicGroupDto";
 import { useFetchEconomicGroup } from "@/hooks";
 
@@ -10,6 +8,7 @@ interface EconomicGroupContextType {
   economicGroup: EconomicGroupDTO[];
   loading: boolean;
   error: string | null;
+  fetchEconomicGroup: () => void; // Nova função para buscar os dados
 }
 
 // Criar o contexto com valor padrão
@@ -17,10 +16,17 @@ const EconomicGroupContext = createContext<EconomicGroupContextType | undefined>
 
 // Criar o Provider
 export const EconomicGroupProvider = ({ children }: { children: ReactNode }) => {
-  const { economicGroup, loading, error } = useFetchEconomicGroup(); // Usa o hook customizado para buscar as entidades
+  const { economicGroup, loading, error, fetchEconomicGroup } = useFetchEconomicGroup(); // Usa o hook customizado para buscar as entidades
 
   return (
-    <EconomicGroupContext.Provider value={{ economicGroup: economicGroup, loading, error }}>
+    <EconomicGroupContext.Provider
+      value={{
+        economicGroup: economicGroup,
+        loading,
+        error,
+        fetchEconomicGroup: fetchEconomicGroup
+      }}
+    >
       {children}
     </EconomicGroupContext.Provider>
   );
