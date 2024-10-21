@@ -1,5 +1,12 @@
 "use client";
 
+import { useCallback, useEffect, useState } from "react";
+
+import { EconomicGroupId } from "@/app/dto/EconomicGroupIdDto";
+import { Button, ButtonIcon, Divider } from "@/components";
+import { useDisableEconomicGroup, useFetchEconomicGroupId } from "@/hooks";
+import PALETTE from "@/styles/_palette";
+import { getTodayDate } from "@/utils/getTodayDate";
 import {
   Alert,
   Box,
@@ -19,16 +26,10 @@ import {
   Typography
 } from "@mui/material";
 import { Check, Pencil, Plus, X } from "@phosphor-icons/react";
-import { useCallback, useEffect, useState } from "react";
 
 import { ModalRelateEntityAdd } from "./ModalRelateEntityAdd";
 import { ModalRelateEntityEdit } from "./ModalRelateEntityEdit";
 import { ModalListGroupProps } from "./types";
-
-import { Button, ButtonIcon, Divider } from "@/components";
-import PALETTE from "@/styles/_palette";
-import { useFetchEconomicGroupId } from "@/hooks";
-import { EconomicGroupId } from "@/app/dto/EconomicGroupIdDto";
 
 export const ModalListGroupEdit = ({
   open,
@@ -39,17 +40,21 @@ export const ModalListGroupEdit = ({
   id
 }: ModalListGroupProps) => {
   const { economicGroupId, fetchEconomicGroupId, loading } = useFetchEconomicGroupId();
+  const { disableGroup, loading: disableLoading } = useDisableEconomicGroup();
 
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(5);
-
   const [relateEntityAddOpen, setRelateEntityAddOpen] = useState(false);
   const [relateEntityEditOpen, setRelateEntityEditOpen] = useState(false);
   const [selectedRelation, setSelectedRelation] = useState<EconomicGroupId | null>(null);
   const [isGroupActive, setIsGroupActive] = useState(true); // Estado inicial, atualizado via backend
+  const [localChange, setLocalChange] = useState(false); // Controla se a mudança foi local
   const [alertOpen, setAlertOpen] = useState(false);
   const [alertMessage, setAlertMessage] = useState("");
   const [alertSeverity, setAlertSeverity] = useState<"success" | "error">("success");
+
+  // Estado de loading para aguardar o POST ser refletido
+  const [switchLoading, setSwitchLoading] = useState(false);
 
   // Função para mudar a página da tabela
   const handleChangePage = useCallback((event: unknown, newPage: number) => {
@@ -66,6 +71,7 @@ export const ModalListGroupEdit = ({
   const handleOpenRelateEntityAddModal = () => {
     setRelateEntityAddOpen(true);
   };
+
   const handleCloseRelateEntityAddModal = () => {
     setRelateEntityAddOpen(false);
   };
@@ -82,31 +88,50 @@ export const ModalListGroupEdit = ({
     setSelectedRelation(null); // Limpa a relação selecionada
   };
 
-  // Função para alterar o estado do grupo e exibir a mensagem de alerta
-  const handleSwitchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  // Função para alterar o estado do grupo, atualizar o backend e exibir alerta
+  const handleSwitchChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
     const isActive = event.target.checked;
-    setIsGroupActive(isActive);
-    setAlertMessage(
-      isActive ? "O grupo foi ativado com sucesso." : "O grupo foi desativado com sucesso."
-    );
-    setAlertSeverity(isActive ? "success" : "error");
-    setAlertOpen(true); // Abre o alerta
+    setIsGroupActive(isActive); // Atualiza visualmente no estado local
+    setLocalChange(true); // Marca que a mudança foi local para evitar que o backend sobreponha imediatamente
+    setSwitchLoading(true); // Inicia o estado de loading do switch
+
+    const date = getTodayDate(); // Usa a função getTodayDate() para obter a data atual no formato YYYY-MM-DD
+
+    if (id) {
+      await disableGroup(id.toString(), date); // Chama o hook para desativar/ativar o grupo com a data
+      setAlertMessage(
+        isActive ? "O grupo foi ativado com sucesso." : "O grupo foi desativado com sucesso."
+      );
+      setAlertSeverity(isActive ? "success" : "error");
+      setAlertOpen(true); // Abre o alerta
+      setSwitchLoading(false); // Finaliza o estado de loading do switch
+    }
   };
 
-  // Atualiza o estado do grupo com base nos dados do backend
+  // Atualiza o estado do grupo com base nos dados do backend, mas respeita mudanças locais
   useEffect(() => {
     if (id) {
-      fetchEconomicGroupId(id?.toString());
+      fetchEconomicGroupId(id.toString());
     }
-  }, [id, fetchEconomicGroupId]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [id]);
 
   // Sincroniza o estado isGroupActive com o valor do backend
   useEffect(() => {
-    if (economicGroupId.length > 0) {
-      const groupStatus = !economicGroupId[0].deleted; // Aqui estou assumindo que o status do grupo é "deleted"
-      setIsGroupActive(groupStatus); // Atualiza o Switch com o status vindo do backend
+    if (economicGroupId.length > 0 && !localChange) {
+      // Se não houve mudança local, atualiza o estado com base no backend
+      const groupStatus = !economicGroupId[0].deleted;
+      setIsGroupActive(groupStatus);
     }
-  }, [economicGroupId]);
+  }, [economicGroupId, localChange]);
+
+  // Após a sincronização inicial, permite mudanças locais
+  useEffect(() => {
+    if (localChange) {
+      setLocalChange(false); // Reseta o controle após a primeira sincronização
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isGroupActive]);
 
   return (
     <Dialog onClose={handleClose} open={open} maxWidth="md" fullWidth>
@@ -149,8 +174,15 @@ export const ModalListGroupEdit = ({
             <FormGroup>
               <FormControlLabel
                 label={isGroupActive ? "Grupo Ativo" : "Grupo Inativo"}
-                control={<Switch checked={isGroupActive} onChange={handleSwitchChange} />}
+                control={
+                  <Switch
+                    checked={isGroupActive}
+                    onChange={handleSwitchChange}
+                    disabled={disableLoading || switchLoading} // Desabilita o switch enquanto está carregando
+                  />
+                }
               />
+              {switchLoading && <CircularProgress size={24} />} {/* Indicador de loading */}
             </FormGroup>
             <Button iconEnd={Plus} label="Adicionar" onClick={handleOpenRelateEntityAddModal} />
           </Box>
@@ -189,13 +221,13 @@ export const ModalListGroupEdit = ({
               )}
 
               {economicGroupId
-                .sort((a, b) => {
+                .sort((a: any, b: any) => {
                   if (!a.deleted) return -1;
                   if (!b.deleted) return 1;
                   return 0;
                 })
                 .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                .map((relation, index) => (
+                .map((relation: any, index: any) => (
                   <TableRow key={index}>
                     <TableCell>{relation.child.name}</TableCell>
                     <TableCell>{relation.child.documentNumber}</TableCell>
@@ -223,7 +255,7 @@ export const ModalListGroupEdit = ({
                       </Box>
                     </TableCell>
                     <TableCell sx={{ padding: 0 }}>
-                      {!relation.deleted && ( // Se o status for "Ativo", exibe o ícone de edição
+                      {!relation.deleted && (
                         <ButtonIcon
                           placement="top-start"
                           title="Editar"
@@ -249,7 +281,7 @@ export const ModalListGroupEdit = ({
         />
       </Box>
 
-      {/* Modal de Editar Endidade */}
+      {/* Modal de Editar Entidade */}
       {relateEntityEditOpen && selectedRelation && (
         <ModalRelateEntityEdit
           open={relateEntityEditOpen}
@@ -260,7 +292,7 @@ export const ModalListGroupEdit = ({
         />
       )}
 
-      {/* Modal de Adicionar Endidade */}
+      {/* Modal de Adicionar Entidade */}
       {relateEntityAddOpen && (
         <ModalRelateEntityAdd
           open={relateEntityAddOpen}

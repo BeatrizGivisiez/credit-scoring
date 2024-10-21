@@ -14,3 +14,5 @@ export { useFetchEntity } from "./entity/useFetchEntity";
 export { useEntitySelect } from "./entity/useEntitySelect";
 
 export { useFetchTreeChartsId } from "./treeCharts/useFetchTreeChartsId";
+
+export { useDisableEconomicGroup } from "./economicGroupDisabled/useDisableEconomicGroup";

@@ -2,6 +2,7 @@
 
 import { useEffect, useMemo, useState } from "react";
 
+import { useCharacteristicRelation, useStepperContext } from "@/app/context";
 import {
   EconomicGroupRelationDTO,
   EconomicGroupRelationEntityDTO
@@ -31,14 +32,11 @@ import { ArrowLeft, ArrowRight, Check, FloppyDiskBack } from "@phosphor-icons/re
 
 import { SeverityType } from "../Alert/types";
 import { stepper__1step, stepper__active, stepper__box } from "./styles";
-import { useCharacteristicRelation, useStepperContext } from "@/app/context";
 
 const steps = ["Dados do Grupo", "Associar Entidade"];
 
 export const Stepper = () => {
   const { characteristicRelationActive } = useCharacteristicRelation();
-  // const { createEconomicGroupRelation, loading: loadingCreateEconomicGroupRelation } =
-  //   useCreateEconomicGroupRelation();
 
   const { createEconomicGroup, loading: loadingCreateEconomicGroup } = useCreateEconomicGroup();
 
@@ -50,8 +48,8 @@ export const Stepper = () => {
     associatedEntities,
     setAssociatedEntities,
     associateEntitiesIds,
-    setAssociateEntitiesIds
-    // optionsModal
+    setAssociateEntitiesIds,
+    optionsModal
   } = useStepperContext();
 
   const [openModal, setOpenModal] = useState<boolean>(false);
@@ -69,7 +67,7 @@ export const Stepper = () => {
 
   const listAvailableEntities = useMemo(() => {
     return entitySelect.filter(
-      (e) =>
+      (e: any) =>
         e.value.toString() !== parentGroup?.toString() &&
         !associateEntitiesIds.includes(e.value.toString())
     );
@@ -78,7 +76,8 @@ export const Stepper = () => {
 
   useEffect(() => {
     const item =
-      entities?.find((i) => Number(i.entityId) === selectedEntityRelation) ?? ({} as EntityDTO);
+      entities?.find((i: any) => Number(i.entityId) === selectedEntityRelation) ??
+      ({} as EntityDTO);
 
     setSelectedEntityObj(item);
   }, [entities, selectedEntityRelation]);
@@ -138,7 +137,7 @@ export const Stepper = () => {
           setAlertData({ message: "Grupo criado com sucesso!", type: "success" });
           setActiveStep((prevActiveStep) => prevActiveStep + 1);
         })
-        .catch((e) => {
+        .catch((e: any) => {
           console.error("Erro ao criar grupo e relações:", e);
           setAlertData({ message: "Erro ao criar grupo e relações!", type: "error" });
         });
@@ -248,8 +247,8 @@ export const Stepper = () => {
               parentClient={selectedEntityObj.name} // Passa os dados da entidade
               nif={selectedEntityObj.documentNumber}
               childId={selectedEntityObj.entityId}
-              optionsEntity={entitySelect}
-              // optionsEntity={optionsModal} //filtrado
+              // optionsEntity={entitySelect}
+              optionsEntity={optionsModal} //filtrado
               optionRelation={characteristicRelationActive.map((i) => ({
                 id: i.economicGroupTypeId,
                 label: i.name

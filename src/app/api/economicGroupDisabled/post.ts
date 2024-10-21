@@ -1,6 +1,5 @@
-import { NextResponse } from "next/server";
-
 import { EconomicGroupDisabledDTO } from "@/app/dto/EconomicGroupDisabled";
+import { NextResponse } from "next/server";
 
 export async function POST(request: Request): Promise<NextResponse> {
   const { searchParams } = new URL(request.url);
@@ -23,8 +22,7 @@ export async function POST(request: Request): Promise<NextResponse> {
     return NextResponse.json({ error: "API_URL não está definida" }, { status: 500 });
   }
 
-  // Construir a URL final para a rota correta
-  const url: string = `${apiUrl}EconomicGroup/DisableGroup/${id}/${date}`;
+  const url: string = `${apiUrl}/EconomicGroup/DisableGroup?id=${id}&date=${date}`;
   const headers: HeadersInit = {
     accept: "application/ld+json",
     "Content-Type": "application/ld+json"
