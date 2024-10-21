@@ -90,11 +90,21 @@ export const ModalListGroupEdit = ({
     const date = getTodayDate(); // Usa a função getTodayDate() para obter a data atual no formato YYYY-MM-DD
 
     if (id) {
-      await disableGroup(id.toString(), date); // Chama o hook para desativar o grupo com a data
-      setAlertMessage("O grupo foi desativado com sucesso.");
-      setAlertSeverity("error");
-      setAlertOpen(true); // Abre o alerta
-      setIconLoading(false); // Finaliza o estado de loading
+      try {
+        await disableGroup(id.toString(), date); // Chama o hook para desativar o grupo com a data
+
+        // Atualiza manualmente o estado local para refletir que o grupo foi desativado
+        setIsGroupActive(false); // Marca o grupo como inativo
+
+        // Exibe a mensagem de sucesso
+        setAlertMessage("O grupo foi desativado com sucesso.");
+        setAlertSeverity("error");
+        setAlertOpen(true); // Abre o alerta
+      } catch (error) {
+        // Caso haja um erro, lidar com ele aqui (opcional)
+      } finally {
+        setIconLoading(false); // Finaliza o estado de loading
+      }
     }
   };
 
