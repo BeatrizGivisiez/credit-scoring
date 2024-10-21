@@ -118,7 +118,7 @@ export const ConsultGREPage = ({
             deletedAt={selectedGroup.deletedAt}
             lastUpdate={selectedGroup.createdAt}
             relations={selectedGroup.groupName}
-            fetchEconomicGroup={fetchEconomicGroup} // Passando a função como prop para o modal
+            fetchEconomicGroup={fetchEconomicGroup}
           />
         )}
       </Card>

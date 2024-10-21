@@ -64,12 +64,14 @@ export const TableListGroup = memo(({ groups, onViewGroup, onEditGroup }: TableL
             icon={Eye}
             onClick={() => onViewGroup(params.row)}
           />
-          <ButtonIcon
-            placement="top-end"
-            title="Editar"
-            icon={Pencil}
-            onClick={() => onEditGroup(params.row)}
-          />
+          {params.row.status && ( // Só exibe o botão de edição se o status for "Ativo"
+            <ButtonIcon
+              placement="top-end"
+              title="Editar"
+              icon={Pencil}
+              onClick={() => onEditGroup(params.row)}
+            />
+          )}
         </Box>
       )
     }
