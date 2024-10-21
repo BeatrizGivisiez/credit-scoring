@@ -12,7 +12,7 @@ import { HomeGREPage } from "./home-gre/HomeGRE";
 import { economicgroup__box } from "./styles";
 
 export const EconomicGroupsPage = () => {
-  const { economicGroup, loading, error } = useEconomicGroup();
+  const { economicGroup, loading, error, fetchEconomicGroup } = useEconomicGroup();
 
   const [isConsult, setIsConsult] = useState(true);
   const [isCreatingGroup, setIsCreatingGroup] = useState(false);
@@ -86,6 +86,7 @@ export const EconomicGroupsPage = () => {
               breadcrumbsGREConsult={breadcrumbsGREConsult}
               loading={loading}
               error={error}
+              fetchEconomicGroup={fetchEconomicGroup}
             />
           )}
         </>

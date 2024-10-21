@@ -12,4 +12,5 @@ export interface ConsultGREPageProps {
   filteredGroups: any[];
   loading: boolean;
   error: any;
+  fetchEconomicGroup: () => void;
 }

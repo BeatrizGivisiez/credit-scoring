@@ -13,6 +13,7 @@ import {
 import PALETTE from "@/styles/_palette";
 import { Box, CircularProgress, Stack, Typography } from "@mui/material";
 import { ArrowLeft, Check, MagnifyingGlass, Plus } from "@phosphor-icons/react";
+import { useEffect } from "react";
 
 import {
   consultgre__breadcrumbs,
@@ -35,9 +36,18 @@ export const ConsultGREPage = ({
   modalMode,
   filteredGroups,
   loading,
-  error
+  error,
+  fetchEconomicGroup // Recebendo fetchEconomicGroup para ser utilizado
 }: ConsultGREPageProps) => {
   console.log("|| =>", filteredGroups);
+
+  // Efeito que detecta quando o modal é fechado e dispara a atualização da tabela
+  useEffect(() => {
+    if (modalMode === null) {
+      // Modal foi fechado
+      fetchEconomicGroup(); // Recarregar a lista de grupos ao fechar o modal
+    }
+  }, [modalMode, fetchEconomicGroup]);
 
   return (
     <>
@@ -119,6 +129,7 @@ export const ConsultGREPage = ({
             deletedAt={selectedGroup.deletedAt}
             lastUpdate={selectedGroup.createdAt}
             relations={selectedGroup.groupName}
+            fetchEconomicGroup={fetchEconomicGroup} // Passando a função como prop para o modal
           />
         )}
       </Card>

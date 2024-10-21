@@ -13,9 +13,6 @@ import {
   CircularProgress,
   Dialog,
   DialogTitle,
-  FormControlLabel,
-  FormGroup,
-  Switch,
   TablePagination,
   Typography
 } from "@mui/material";
@@ -25,7 +22,6 @@ import { ModalRelateEntityAdd } from "./ModalRelateEntityAdd";
 import { ModalRelateEntityEdit } from "./ModalRelateEntityEdit";
 import { ModalListGroupProps } from "./types";
 import { TableEconomicGroupModal } from "../Table/TableEconomicGroupModal/TableEconomicGroupModal";
-import { table__status } from "../Table/TableEconomicGroupModal/styles";
 
 export const ModalListGroupEdit = ({
   open,
@@ -33,7 +29,8 @@ export const ModalListGroupEdit = ({
   groupName,
   parentClient,
   relations = [],
-  id
+  id,
+  fetchEconomicGroup // Recebendo a função como prop para atualizar a lista
 }: ModalListGroupProps) => {
   const { economicGroupId, fetchEconomicGroupId, loading } = useFetchEconomicGroupId();
   const { disableGroup, loading: disableLoading } = useDisableEconomicGroup();
@@ -100,6 +97,11 @@ export const ModalListGroupEdit = ({
         setAlertMessage("O grupo foi desativado com sucesso.");
         setAlertSeverity("error");
         setAlertOpen(true); // Abre o alerta
+
+        // Verifica se a função fetchEconomicGroup foi passada como prop antes de invocá-la
+        if (fetchEconomicGroup) {
+          fetchEconomicGroup(); // Atualiza a lista de grupos
+        }
       } catch (error) {
         // Caso haja um erro, lidar com ele aqui (opcional)
       } finally {
@@ -113,7 +115,6 @@ export const ModalListGroupEdit = ({
     if (id) {
       fetchEconomicGroupId(id.toString());
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [id]);
 
   // Sincroniza o estado isGroupActive com o valor do backend
@@ -130,7 +131,6 @@ export const ModalListGroupEdit = ({
     if (localChange) {
       setLocalChange(false); // Reseta o controle após a primeira sincronização
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isGroupActive]);
 
   return (
