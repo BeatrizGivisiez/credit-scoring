@@ -37,18 +37,8 @@ export const ConsultGREPage = ({
   filteredGroups,
   loading,
   error,
-  fetchEconomicGroup // Recebendo fetchEconomicGroup para ser utilizado
+  fetchEconomicGroup
 }: ConsultGREPageProps) => {
-  console.log("|| =>", filteredGroups);
-
-  // Efeito que detecta quando o modal é fechado e dispara a atualização da tabela
-  useEffect(() => {
-    if (modalMode === null) {
-      // Modal foi fechado
-      fetchEconomicGroup(); // Recarregar a lista de grupos ao fechar o modal
-    }
-  }, [modalMode, fetchEconomicGroup]);
-
   return (
     <>
       <Stack sx={consultgre__breadcrumbs}>
