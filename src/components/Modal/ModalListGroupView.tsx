@@ -22,9 +22,9 @@ import { ModalListGroupProps } from "./types";
 
 import { ButtonIcon, Divider } from "@/components";
 import PALETTE from "@/styles/_palette";
-// import { IMAGE_DIAGRAMA } from "@/constants/images";
+import { IMAGE_DIAGRAMA } from "@/constants/images";
+// import { useRouter } from "next/navigation";
 import { useFetchEconomicGroupId } from "@/hooks";
-import { useRouter } from "next/navigation";
 
 export const ModalListGroupView = ({
   open,
@@ -36,11 +36,11 @@ export const ModalListGroupView = ({
   lastUpdate,
   relations = []
 }: ModalListGroupProps) => {
-  const router = useRouter();
+  // const router = useRouter();
 
-  const handleNavigation = (path: string) => {
-    router.push(path); // Navega para a rota desejada
-  };
+  // const handleNavigation = (path: string) => {
+  //   router.push(path); // Navega para a rota desejada
+  // };
   const { economicGroupId, fetchEconomicGroupId, loading } = useFetchEconomicGroupId();
 
   const [page, setPage] = useState(0);
@@ -93,8 +93,8 @@ export const ModalListGroupView = ({
             placement="right-start"
             title="Grupo Económico"
             icon={BezierCurve}
-            // onClick={() => window.open(IMAGE_DIAGRAMA, "_blank")}
-            onClick={() => handleNavigation("/utp")}
+            onClick={() => window.open(IMAGE_DIAGRAMA, "_blank")}
+            // onClick={() => handleNavigation("/utp")}
           />
         </Box>
 
