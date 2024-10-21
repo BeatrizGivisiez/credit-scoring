@@ -16,20 +16,16 @@ import {
   FormControlLabel,
   FormGroup,
   Switch,
-  Table,
-  TableBody,
-  TableCell,
-  TableContainer,
-  TableHead,
   TablePagination,
-  TableRow,
   Typography
 } from "@mui/material";
-import { Check, Pencil, Plus, X } from "@phosphor-icons/react";
+import { Check, MinusCircle, Plus, X } from "@phosphor-icons/react";
 
 import { ModalRelateEntityAdd } from "./ModalRelateEntityAdd";
 import { ModalRelateEntityEdit } from "./ModalRelateEntityEdit";
 import { ModalListGroupProps } from "./types";
+import { TableEconomicGroupModal } from "../Table/TableEconomicGroupModal/TableEconomicGroupModal";
+import { table__status } from "../Table/TableEconomicGroupModal/styles";
 
 export const ModalListGroupEdit = ({
   open,
@@ -54,7 +50,7 @@ export const ModalListGroupEdit = ({
   const [alertSeverity, setAlertSeverity] = useState<"success" | "error">("success");
 
   // Estado de loading para aguardar o POST ser refletido
-  const [switchLoading, setSwitchLoading] = useState(false);
+  const [iconLoading, setIconLoading] = useState(false);
 
   // Função para mudar a página da tabela
   const handleChangePage = useCallback((event: unknown, newPage: number) => {
@@ -88,23 +84,17 @@ export const ModalListGroupEdit = ({
     setSelectedRelation(null); // Limpa a relação selecionada
   };
 
-  // Função para alterar o estado do grupo, atualizar o backend e exibir alerta
-  const handleSwitchChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
-    const isActive = event.target.checked;
-    setIsGroupActive(isActive); // Atualiza visualmente no estado local
-    setLocalChange(true); // Marca que a mudança foi local para evitar que o backend sobreponha imediatamente
-    setSwitchLoading(true); // Inicia o estado de loading do switch
-
+  // Função para desativar o grupo
+  const handleIconClick = async () => {
+    setIconLoading(true); // Inicia o estado de loading
     const date = getTodayDate(); // Usa a função getTodayDate() para obter a data atual no formato YYYY-MM-DD
 
     if (id) {
-      await disableGroup(id.toString(), date); // Chama o hook para desativar/ativar o grupo com a data
-      setAlertMessage(
-        isActive ? "O grupo foi ativado com sucesso." : "O grupo foi desativado com sucesso."
-      );
-      setAlertSeverity(isActive ? "success" : "error");
+      await disableGroup(id.toString(), date); // Chama o hook para desativar o grupo com a data
+      setAlertMessage("O grupo foi desativado com sucesso.");
+      setAlertSeverity("error");
       setAlertOpen(true); // Abre o alerta
-      setSwitchLoading(false); // Finaliza o estado de loading do switch
+      setIconLoading(false); // Finaliza o estado de loading
     }
   };
 
@@ -171,104 +161,39 @@ export const ModalListGroupEdit = ({
               alignItems: "center"
             }}
           >
-            <FormGroup>
-              <FormControlLabel
-                label={isGroupActive ? "Grupo Ativo" : "Grupo Inativo"}
-                control={
-                  <Switch
-                    checked={isGroupActive}
-                    onChange={handleSwitchChange}
-                    disabled={disableLoading || switchLoading} // Desabilita o switch enquanto está carregando
+            {!iconLoading && (
+              <Box sx={{ display: "flex", alignItems: "center", mr: 3 }}>
+                {isGroupActive && (
+                  <ButtonIcon
+                    placement="top-start"
+                    title="Inativar Grupo"
+                    icon={MinusCircle}
+                    onClick={handleIconClick}
                   />
-                }
-              />
-              {switchLoading && <CircularProgress size={24} />} {/* Indicador de loading */}
-            </FormGroup>
+                )}
+
+                <Typography
+                  variant="body2"
+                  style={{
+                    color: isGroupActive ? "green" : "red"
+                  }}
+                >
+                  {isGroupActive ? "Grupo Ativo" : "Grupo Inativo"}
+                </Typography>
+              </Box>
+            )}
+            {iconLoading && <CircularProgress size={24} />} {/* Indicador de loading */}
             <Button iconEnd={Plus} label="Adicionar" onClick={handleOpenRelateEntityAddModal} />
           </Box>
         </Box>
 
-        <TableContainer>
-          <Table>
-            <TableHead>
-              <TableRow>
-                <TableCell>Nome</TableCell>
-                <TableCell>NIF</TableCell>
-                <TableCell>Característica Relação</TableCell>
-                <TableCell>Data Inicial</TableCell>
-                <TableCell>Data Fim</TableCell>
-                <TableCell>Status</TableCell>
-                <TableCell>Ações</TableCell>
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {loading && (
-                <TableRow>
-                  <TableCell colSpan={6}>
-                    <Box
-                      sx={{
-                        display: "flex",
-                        justifyContent: "center",
-                        alignItems: "center",
-                        height: "100px",
-                        width: "100%"
-                      }}
-                    >
-                      <CircularProgress />
-                    </Box>
-                  </TableCell>
-                </TableRow>
-              )}
-
-              {economicGroupId
-                .sort((a: any, b: any) => {
-                  if (!a.deleted) return -1;
-                  if (!b.deleted) return 1;
-                  return 0;
-                })
-                .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                .map((relation: any, index: any) => (
-                  <TableRow key={index}>
-                    <TableCell>{relation.child.name}</TableCell>
-                    <TableCell>{relation.child.documentNumber}</TableCell>
-                    <TableCell>{relation.economicGroupType.name}</TableCell>
-                    <TableCell>{relation.created}</TableCell>
-                    <TableCell>{relation.deleted}</TableCell>
-                    <TableCell>
-                      <Box
-                        sx={{
-                          display: "flex",
-                          alignItems: "center",
-                          justifyContent: "flex-start",
-                          width: "100%",
-                          height: "100%"
-                        }}
-                      >
-                        <Typography
-                          variant="body2"
-                          style={{
-                            color: relation.deleted ? "red" : "green"
-                          }}
-                        >
-                          {relation.deleted ? "Inativo" : "Ativo"}
-                        </Typography>
-                      </Box>
-                    </TableCell>
-                    <TableCell sx={{ padding: 0 }}>
-                      {!relation.deleted && (
-                        <ButtonIcon
-                          placement="top-start"
-                          title="Editar"
-                          icon={Pencil}
-                          onClick={() => handleOpenRelateEntityEditModal(relation)}
-                        />
-                      )}
-                    </TableCell>
-                  </TableRow>
-                ))}
-            </TableBody>
-          </Table>
-        </TableContainer>
+        <TableEconomicGroupModal
+          economicGroupId={economicGroupId}
+          loading={loading}
+          page={page}
+          rowsPerPage={rowsPerPage}
+          handleOpenRelateEntityEditModal={handleOpenRelateEntityEditModal}
+        />
 
         <TablePagination
           rowsPerPageOptions={[5, 10, 25]}

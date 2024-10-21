@@ -1,4 +1,3 @@
-import { EconomicGroupDisabledDTO } from "@/app/dto/EconomicGroupDisabled";
 import { NextResponse } from "next/server";
 
 export async function POST(request: Request): Promise<NextResponse> {
@@ -14,8 +13,6 @@ export async function POST(request: Request): Promise<NextResponse> {
     );
   }
 
-  const body: EconomicGroupDisabledDTO = await request.json();
-
   // Garantir que a variável de ambiente seja carregada corretamente
   const apiUrl: string | undefined = process.env.API_URL;
   if (!apiUrl) {
@@ -24,27 +21,26 @@ export async function POST(request: Request): Promise<NextResponse> {
 
   const url: string = `${apiUrl}/EconomicGroup/DisableGroup?id=${id}&date=${date}`;
   const headers: HeadersInit = {
-    accept: "application/ld+json",
-    "Content-Type": "application/ld+json"
+    accept: "text/plain" // A API espera "text/plain"
   };
 
   try {
     const response = await fetch(url, {
       method: "POST",
-      headers: headers,
-      body: JSON.stringify(body)
+      headers: headers
     });
 
     const contentType = response.headers.get("content-type");
-    if (contentType && contentType.includes("application/json")) {
-      const data = await response.json();
-      return NextResponse.json(data);
+
+    if (contentType && contentType.includes("text/plain")) {
+      const data = await response.text(); // Usa text() para processar a resposta
+      return NextResponse.json({ success: data });
     } else if (response.ok) {
       return NextResponse.json({
-        message: "Operação concluída com sucesso, mas sem conteúdo JSON."
+        message: "Operação concluída com sucesso, mas sem conteúdo de resposta."
       });
     } else {
-      throw new Error(`Error: ${response.status} - ${response.statusText}`);
+      throw new Error(`Erro: ${response.status} - ${response.statusText}`);
     }
   } catch (error: any) {
     console.error("Erro ao enviar dados:", error);
