@@ -13,7 +13,6 @@ import {
 import PALETTE from "@/styles/_palette";
 import { Box, CircularProgress, Stack, Typography } from "@mui/material";
 import { ArrowLeft, Check, MagnifyingGlass, Plus } from "@phosphor-icons/react";
-import { useEffect } from "react";
 
 import {
   consultgre__breadcrumbs,
