@@ -31,7 +31,7 @@ export const itemmenu = {
     backgroundColor: "transparent",
     color: PALETTE.PRIMARY_MAIN
   },
-  "&.ps-menu-button:hover": {
+  "&.psMenuButton:hover": {
     backgroundColor: "transparent"
   }
 };

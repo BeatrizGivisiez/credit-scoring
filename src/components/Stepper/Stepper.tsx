@@ -53,7 +53,7 @@ export const Stepper = () => {
   } = useStepperContext();
 
   const [openModal, setOpenModal] = useState<boolean>(false);
-  const [entitySelect, loading, entities] = useEntitySelect();
+  const [entitySelect, loading, entityNotInGroup] = useEntitySelect();
   const [selectedEntityObj, setSelectedEntityObj] = useState<EntityDTO>({} as EntityDTO);
   const [selectedEntityRelation, setSelectedEntityRelation] = useState<number | undefined>();
 
@@ -76,11 +76,11 @@ export const Stepper = () => {
 
   useEffect(() => {
     const item =
-      entities?.find((i: any) => Number(i.entityId) === selectedEntityRelation) ??
+      entityNotInGroup?.find((i: any) => Number(i.entityId) === selectedEntityRelation) ??
       ({} as EntityDTO);
 
     setSelectedEntityObj(item);
-  }, [entities, selectedEntityRelation]);
+  }, [entityNotInGroup, selectedEntityRelation]);
 
   const handleAddChild = (child: any) => {
     const newArray = [...associatedEntities];

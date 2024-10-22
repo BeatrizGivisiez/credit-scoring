@@ -2,12 +2,12 @@
 
 import { createContext, ReactNode, useContext } from "react";
 
-import { EntityDTO } from "@/app/dto/EntityDto";
+import { EntityNotInGroupDTO } from "@/app/dto/EntityNotInGroupDto";
 import { useFetchEntityNotInGroup } from "@/hooks";
 
 // Definir o formato do contexto
 interface EntityContextType {
-  entityNotInGroup: EntityDTO[];
+  entityNotInGroup: EntityNotInGroupDTO[];
   loading: boolean;
   error: string | null;
 }
@@ -30,7 +30,7 @@ export const EntityNotInGroupProvider = ({ children }: { children: ReactNode }) 
 export const EntityNotInGroup = () => {
   const context = useContext(EntityNotInGroupContext);
   if (!context) {
-    throw new Error("EntityNotInGroup deve ser usado dentro de EntityProvider");
+    throw new Error("EntityNotInGroup deve ser usado dentro de EntityNotInGroupProvider");
   }
   return context;
 };

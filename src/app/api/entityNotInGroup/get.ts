@@ -1,5 +1,4 @@
-//src/app/api/entity/route.ts
-import { EntityDTO } from "@/app/dto/EntityDto";
+import { EntityNotInGroupDTO } from "@/app/dto/EntityNotInGroupDto";
 import { NextResponse } from "next/server";
 
 export async function GET(): Promise<NextResponse> {
@@ -10,7 +9,7 @@ export async function GET(): Promise<NextResponse> {
   }
 
   // Construir a URL final para a rota correta
-  const url: string = `${apiUrl}Entity/GetAll`; // Adicione o endpoint correto aqui
+  const url: string = `${apiUrl}Entity/GetAllNotInGroup`; // Adicione o endpoint correto aqui
   const headers: HeadersInit = {
     accept: "application/ld+json"
   };
@@ -25,8 +24,8 @@ export async function GET(): Promise<NextResponse> {
       throw new Error(`Error fetching data: ${response.statusText}`);
     }
 
-    const data: EntityDTO[] = await response.json();
-    console.log("Dados recebidos GetAllNotInGroup:", data); // Log para verificar a resposta
+    const data: EntityNotInGroupDTO[] = await response.json();
+    console.log("Dados recebidos GetAllNotInGroupppppp:", data); // Log para verificar a resposta
 
     return NextResponse.json(data); // Retorna os dados em formato JSON
   } catch (error: any) {

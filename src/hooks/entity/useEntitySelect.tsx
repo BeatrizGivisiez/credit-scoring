@@ -1,5 +1,4 @@
 import { EntityDTO } from "@/app/dto/EntityDto";
-// import { useFetchEntity } from "@/hooks";
 import { useFetchEntityNotInGroup } from "@/hooks";
 
 export const useEntitySelect = (): [
@@ -17,6 +16,10 @@ export const useEntitySelect = (): [
     label: `${entityNotInGroup.name} - ${entityNotInGroup.documentNumber}`,
     value: entityNotInGroup.entityId // O value é o id da mae,
   }));
+
+  // Logs para verificar as saídas
+  console.log("entityNotInGroup ========>:", entityNotInGroup);
+  console.log("entitySelect: =====>", entitySelect);
 
   return [entitySelect, loading, entityNotInGroup]; // Retorna as opções e o estado de carregamento
 };
