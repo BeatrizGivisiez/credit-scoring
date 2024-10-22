@@ -37,12 +37,25 @@ export const EconomicGroupsPage = () => {
         console.log("Grupos filtrados (sem filtro):", economicGroup);
       } else {
         const lowercasedQuery = query.toLowerCase();
-        const filtered = economicGroup.filter(
-          (group: any) =>
+        const filtered = economicGroup.filter((group: any) => {
+          // Verifica se a pesquisa corresponde ao nome do grupo, entidade mãe ou NIF da entidade mãe
+          const matchesGroupDetails =
             group.name.toLowerCase().includes(lowercasedQuery) ||
             group.entityMotherName.toLowerCase().includes(lowercasedQuery) ||
-            group.entityMotherNIF.toLowerCase().includes(lowercasedQuery)
-        );
+            group.entityMotherNIF.toLowerCase().includes(lowercasedQuery);
+
+          // Verifica se a pesquisa corresponde a algum dos relacionamentos (entityName ou entityNIF)
+          const matchesRelationships = group.listRelationships.some((relationship: any) => {
+            return (
+              relationship.entityName.toLowerCase().includes(lowercasedQuery) ||
+              relationship.entityNIF.toLowerCase().includes(lowercasedQuery)
+            );
+          });
+
+          // Retorna true se a pesquisa corresponder a qualquer campo relevante
+          return matchesGroupDetails || matchesRelationships;
+        });
+
         setFilteredGroups(filtered);
       }
     },
