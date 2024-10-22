@@ -5,7 +5,6 @@ export const tableassociateentity__box: SxProps = {
   alignItems: "center",
   width: "100%",
   height: "100%",
-  gap: 1,
   outline: "none", // Remove o foco visual
   "& .MuiDataGrid-cell:focus": {
     outline: "none" // Remove o foco visual das células

@@ -104,6 +104,7 @@ export const Stepper = () => {
     setOpenModal(true);
   };
 
+  console.log("associatedEntities ===========>", associatedEntities);
   // Controle dos passos
   const [activeStep, setActiveStep] = useState(0);
   const handleNext = () => {
@@ -244,11 +245,10 @@ export const Stepper = () => {
             <ModalCreateRelationGroup
               open={openModal}
               handleClose={() => setOpenModal(false)}
-              parentClient={selectedEntityObj.name} // Passa os dados da entidade
+              parentClient={selectedEntityObj.name}
               nif={selectedEntityObj.documentNumber}
               childId={selectedEntityObj.entityId}
-              // optionsEntity={entitySelect}
-              optionsEntity={optionsModal} //filtrado
+              optionsEntity={optionsModal}
               optionRelation={characteristicRelationActive.map((i) => ({
                 id: i.economicGroupTypeId,
                 label: i.name
