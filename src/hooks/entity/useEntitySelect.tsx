@@ -1,5 +1,6 @@
 import { EntityDTO } from "@/app/dto/EntityDto";
-import { useFetchEntity } from "@/hooks";
+// import { useFetchEntity } from "@/hooks";
+import { useFetchEntityNotInGroup } from "@/hooks";
 
 export const useEntitySelect = (): [
   {
@@ -9,13 +10,13 @@ export const useEntitySelect = (): [
   boolean,
   Array<EntityDTO>
 ] => {
-  const { entity, loading } = useFetchEntity(); // Obtém entidades e estado de carregamento
+  const { entityNotInGroup, loading } = useFetchEntityNotInGroup(); // Obtém entidades e estado de carregamento
 
   // Mapeia as entidades para um formato de opções
-  const entitySelect = entity.map((entity: EntityDTO) => ({
-    label: `${entity.name} - ${entity.documentNumber}`,
-    value: entity.entityId // O value é o id da mae,
+  const entitySelect = entityNotInGroup.map((entityNotInGroup: EntityDTO) => ({
+    label: `${entityNotInGroup.name} - ${entityNotInGroup.documentNumber}`,
+    value: entityNotInGroup.entityId // O value é o id da mae,
   }));
 
-  return [entitySelect, loading, entity]; // Retorna as opções e o estado de carregamento
+  return [entitySelect, loading, entityNotInGroup]; // Retorna as opções e o estado de carregamento
 };

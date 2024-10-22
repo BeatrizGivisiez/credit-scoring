@@ -50,7 +50,7 @@ export const StepperContextProvider = ({ children }: { children: ReactNode }) =>
   const [associateEntitiesIds, setAssociateEntitiesIds] = useState<Array<string>>([]);
 
   const optionsModal = useMemo(() => {
-    return entitySelect.filter((e) => {
+    return entitySelect.filter((e: any) => {
       return (
         e.value.toString() === parentGroup?.toString() ||
         associateEntitiesIds.includes(e.value.toString())

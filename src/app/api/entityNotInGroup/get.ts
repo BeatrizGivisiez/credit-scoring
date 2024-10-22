@@ -10,7 +10,7 @@ export async function GET(): Promise<NextResponse> {
   }
 
   // Construir a URL final para a rota correta
-  const url: string = `${apiUrl}Entity/GetAllNotInGroup`; // Adicione o endpoint correto aqui
+  const url: string = `${apiUrl}Entity/GetAll`; // Adicione o endpoint correto aqui
   const headers: HeadersInit = {
     accept: "application/ld+json"
   };
@@ -26,7 +26,7 @@ export async function GET(): Promise<NextResponse> {
     }
 
     const data: EntityDTO[] = await response.json();
-    console.log("Dados recebidos EntityDto:", data); // Log para verificar a resposta
+    console.log("Dados recebidos GetAllNotInGroup:", data); // Log para verificar a resposta
 
     return NextResponse.json(data); // Retorna os dados em formato JSON
   } catch (error: any) {
