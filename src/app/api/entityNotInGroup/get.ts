@@ -12,7 +12,7 @@ export async function GET(): Promise<NextResponse> {
   const url: string = `${apiUrl}Entity/GetAllNotInGroup`; // Adicione o endpoint correto aqui
   const headers: HeadersInit = {
     accept: "application/ld+json",
-     "Cache-Control": "no-cache"
+    "Cache-Control": "no-cache"
   };
 
   try {
