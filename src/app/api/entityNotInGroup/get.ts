@@ -11,7 +11,8 @@ export async function GET(): Promise<NextResponse> {
   // Construir a URL final para a rota correta
   const url: string = `${apiUrl}Entity/GetAllNotInGroup`; // Adicione o endpoint correto aqui
   const headers: HeadersInit = {
-    accept: "application/ld+json"
+    accept: "application/ld+json",
+     "Cache-Control": "no-cache"
   };
 
   try {
