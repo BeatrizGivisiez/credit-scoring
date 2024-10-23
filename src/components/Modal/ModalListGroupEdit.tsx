@@ -115,6 +115,7 @@ export const ModalListGroupEdit = ({
     if (id) {
       fetchEconomicGroupId(id.toString());
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [id]);
 
   // Sincroniza o estado isGroupActive com o valor do backend
@@ -131,6 +132,7 @@ export const ModalListGroupEdit = ({
     if (localChange) {
       setLocalChange(false); // Reseta o controle após a primeira sincronização
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isGroupActive]);
 
   return (

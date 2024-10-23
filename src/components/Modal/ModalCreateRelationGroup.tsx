@@ -53,7 +53,7 @@ export const ModalCreateRelationGroup = ({
 
       <Box sx={{ mx: 4, my: 2 }}>
         <Typography variant="h6" mb={1}>
-          Selecione a entidade que pretende relacionar
+          Selecione a entidade que deseja associar
         </Typography>
         <InputSelect
           fullWidth

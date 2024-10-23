@@ -29,7 +29,7 @@ export const useDisableEconomicGroup = (): UseDisableEconomicGroupResult => {
 
       // A API está retornando um valor booleano como texto, não JSON
       const data = await response.text(); // Use "text" em vez de "json"
-      console.log("Grupo desativado com sucesso:", data); // Mostra 'true' no console
+      // console.log("Grupo desativado com sucesso:", data); // Mostra 'true' no console
     } catch (err: any) {
       console.error("Erro ao desativar o grupo:", err);
       setError(err.message);

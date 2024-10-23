@@ -23,7 +23,7 @@ export const useFetchEconomicGroup = () => {
 
       const data: EconomicGroupDTO[] = await response.json();
       setEconomicGroup(data); // Atualiza o estado com os dados novos
-      console.log("Dados recebidos setEconomicGroup:", data);
+      // console.log("Dados recebidos setEconomicGroup:", data);
     } catch (err: any) {
       setError(err.message);
     } finally {

@@ -26,7 +26,7 @@ export const useCreateEconomicGroupRelation = () => {
       // Retorna os dados criados ou uma confirmação se necessário
       return await response.json();
     } catch (err: any) {
-      console.log("Error", err);
+      // console.log("Error", err);
       setError(err.message);
     } finally {
       setLoading(false);

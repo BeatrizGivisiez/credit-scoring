@@ -92,7 +92,11 @@ export const Stepper = () => {
   };
 
   const handleDeleteChild = (childId: string) => {
+    // Remove a entidade associada
     setAssociatedEntities((prev) => prev.filter((i) => i.id.toString() !== childId));
+
+    // Adiciona a entidade de volta às opções disponíveis
+    setAssociateEntitiesIds((prev) => prev.filter((id) => id !== childId));
   };
 
   // Função para lidar com a mudança de Nome do Grupo
@@ -104,29 +108,24 @@ export const Stepper = () => {
     setOpenModal(true);
   };
 
-  console.log("associatedEntities ===========>", associatedEntities);
-  // Controle dos passos
   const [activeStep, setActiveStep] = useState(0);
   const handleNext = () => {
     // Verifica se os campos obrigatórios estão preenchidos
     if (activeStep === 0 && (!groupName || !parentGroup)) {
-      console.log("Nome do Grupo:", groupName);
-      console.log("Entidade-Mãe (entityId):", selectedEntityObj.entityId);
       alert("Preencha todos os campos obrigatórios!");
       return;
     } else if (activeStep === 0) {
       setActiveStep((prevActiveStep) => prevActiveStep + 1);
     } else {
-      console.log("associatedEntities", associatedEntities);
       // Construa o DTO completo para o POST
       const newGroupRelation: EconomicGroupRelationDTO = {
         name: groupName,
-        entityMotherId: parentGroup!, // ID da entidade mãe (obrigatório)
+        entityMotherId: parentGroup!,
         entities: associatedEntities.map(
           (child: any): EconomicGroupRelationEntityDTO => ({
-            parentId: child.parentId, // Usando o ID da entidade mãe
-            childId: child.id, // ID da entidade associada
-            economicGroupTypeId: child.characteristicRelation // ID da relação econômica
+            parentId: child.parentId,
+            childId: child.id,
+            economicGroupTypeId: child.characteristicRelation
           })
         )
       };
@@ -134,9 +133,12 @@ export const Stepper = () => {
       // Faça o POST de tudo em uma única requisição
       createEconomicGroup(newGroupRelation)
         .then(() => {
-          console.log("Grupo e relações criados com sucesso.");
+          // console.log("Grupo e relações criados com sucesso.");
           setAlertData({ message: "Grupo criado com sucesso!", type: "success" });
           setActiveStep((prevActiveStep) => prevActiveStep + 1);
+
+          // Limpar os estados após o sucesso
+          // resetStepper(); nao precisa
         })
         .catch((e: any) => {
           console.error("Erro ao criar grupo e relações:", e);

@@ -14,13 +14,13 @@ const EconomicGroupsPage = dynamic(
 export default async function EconomicGroups() {
   return (
     <LayoutDefault>
-      <StepperContextProvider>
-        <CharacteristicRelationProvider>
-          <EconomicGroupProvider>
+      <CharacteristicRelationProvider>
+        <EconomicGroupProvider>
+          <StepperContextProvider>
             <EconomicGroupsPage />
-          </EconomicGroupProvider>
-        </CharacteristicRelationProvider>
-      </StepperContextProvider>
+          </StepperContextProvider>
+        </EconomicGroupProvider>
+      </CharacteristicRelationProvider>
     </LayoutDefault>
   );
 }

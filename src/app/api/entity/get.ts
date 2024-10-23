@@ -25,7 +25,7 @@ export async function GET(): Promise<NextResponse> {
     }
 
     const data: EntityDTO[] = await response.json();
-    console.log("Dados recebidos EntityDto:", data); // Log para verificar a resposta
+    // console.log("Dados recebidos EntityDto:", data); // Log para verificar a resposta
 
     return NextResponse.json(data); // Retorna os dados em formato JSON
   } catch (error: any) {

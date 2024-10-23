@@ -22,12 +22,8 @@ export const TableAssociateEntity = ({
   const [createGroupEditOpen, setCreateGroupEditOpen] = useState<boolean>(false);
   const [createGroupEditData, setCreateGroupEditData] = useState<any>(null); // Aqui você vai armazenar os dados do grupo
 
-  // Verifique se os dados estão corretos
-  console.log("Dados da tabela (createGroups):", createGroups);
-
   // Função para abrir o modal e passar os dados do grupo
   const handleOpenGroupEditModal = (group: any) => {
-    console.log("||-> Group:", group);
     setCreateGroupEditData(group); // Armazena os dados do grupo que está sendo editado
     setCreateGroupEditOpen(true); // Abre o modal
   };
@@ -38,7 +34,21 @@ export const TableAssociateEntity = ({
   };
 
   const handleEditChild = (child: any) => {
-    setAssociatedEntities((prev: any) => [...prev.filter((i: any) => i.id != child.id), child]);
+    setAssociatedEntities((prev: any) => {
+      const index = prev.findIndex((entity: any) => entity.id === child.id); // Encontrar o índice da entidade
+
+      if (index !== -1) {
+        // Se a entidade existir, substitua-a
+        const updatedEntities = [...prev];
+        updatedEntities[index] = child;
+        return updatedEntities;
+      } else {
+        // Se a entidade não existir, adicione-a (não deveria acontecer nesse caso de edição)
+        return [...prev, child];
+      }
+    });
+
+    // Fecha o modal e limpa os dados
     setCreateGroupEditOpen(false);
     setCreateGroupEditData(undefined);
   };
@@ -48,7 +58,7 @@ export const TableAssociateEntity = ({
     const option = characteristicRelationActive.find((option) => option.economicGroupTypeId === id);
     return option ? option.name : "Desconhecido"; // Retorna "Desconhecido" se não encontrar
   };
-  console.log("===>>>> ||", createGroups);
+  // console.log("===>>>> ||", createGroups);
 
   const columns: GridColDef<(typeof createGroups)[number]>[] = [
     { field: "name", headerName: "Nome Entidade", width: 450 },
@@ -59,7 +69,7 @@ export const TableAssociateEntity = ({
       width: 300,
       valueGetter: (params) => getCharacteristicRelationLabel(params)
     },
-    { field: "parentId", headerName: "Entidade Mãe", width: 340 },
+    { field: "parentId", headerName: "Entidade Associada", width: 340 },
     {
       field: "actions",
       headerName: "Ações",
@@ -70,7 +80,7 @@ export const TableAssociateEntity = ({
             placement="top-start"
             title="Editar"
             icon={Pencil}
-            onClick={() => handleOpenGroupEditModal(params.row)} // Abre o modal e passa os dados
+            onClick={() => handleOpenGroupEditModal(params.row)}
           />
           <ButtonIcon
             placement="top-end"

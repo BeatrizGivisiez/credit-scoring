@@ -20,6 +20,7 @@ interface IStepperContext {
   associateEntitiesIds: string[];
   setAssociateEntitiesIds: Dispatch<SetStateAction<Array<string>>>;
   optionsModal: Array<any>;
+  resetStepper: () => void; // Adicionando a função resetStepper no contexto
 }
 
 interface IAssocietedEntitiesContext {
@@ -59,6 +60,13 @@ export const StepperContextProvider = ({ children }: { children: ReactNode }) =>
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [parentGroup, associateEntitiesIds]);
 
+  const resetStepper = () => {
+    setGroupName("");
+    setParentGroup(0);
+    setAssociatedEntities([]);
+    setAssociateEntitiesIds([]);
+  };
+
   return (
     <StepperContext.Provider
       value={{
@@ -70,7 +78,8 @@ export const StepperContextProvider = ({ children }: { children: ReactNode }) =>
         setAssociatedEntities,
         associateEntitiesIds,
         setAssociateEntitiesIds,
-        optionsModal
+        optionsModal,
+        resetStepper
       }}
     >
       {children}

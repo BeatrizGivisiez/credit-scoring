@@ -8,5 +8,5 @@ export {
   EconomicGroupRelationProvider
 } from "./EconomicGroupRelationContext";
 export { useEntity, EntityProvider } from "./EntityContext";
-export { EntityNotInGroup, EntityNotInGroupProvider } from "./EntityNotInGroupContext";
+export { useNotInGroupEntity, NotInGroupEntityProvider } from "./NotInGroupEntityContext";
 export { useStepperContext, StepperContextProvider } from "./StepperContext";

@@ -21,20 +21,20 @@ export const EconomicGroupsPage = () => {
   const [modalMode, setModalMode] = useState<"view" | "edit" | null>(null);
 
   useEffect(() => {
-    console.log("useEffect chamado com economicGroup:", economicGroup); // Verifique se o efeito está sendo chamado
+    // console.log("useEffect chamado com economicGroup:", economicGroup); // Verifique se o efeito está sendo chamado
     if (economicGroup.length > 0) {
       setFilteredGroups(economicGroup);
-      console.log("Dados filtrados atualizados:", economicGroup); // Verifique se os dados filtrados estão corretos
+      // console.log("Dados filtrados atualizados:", economicGroup); // Verifique se os dados filtrados estão corretos
     }
   }, [economicGroup]);
 
   const handleSearch = useCallback(
     (query: string) => {
-      console.log("Pesquisa:", query); // Log para verificar o valor da pesquisa
+      // console.log("Pesquisa:", query); // Log para verificar o valor da pesquisa
 
       if (query.trim() === "") {
         setFilteredGroups(economicGroup);
-        console.log("Grupos filtrados (sem filtro):", economicGroup);
+        // console.log("Grupos filtrados (sem filtro):", economicGroup);
       } else {
         const lowercasedQuery = query.toLowerCase();
         const filtered = economicGroup.filter((group: any) => {

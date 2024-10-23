@@ -12,7 +12,7 @@ export { useFetchEconomicGroupRelation } from "./economicGroupRelation/useFetchE
 
 export { useFetchEntity } from "./entity/useFetchEntity";
 export { useEntitySelect } from "./entity/useEntitySelect";
-export { useFetchEntityNotInGroup } from "./entityNotInGroup/useFetchEntityNotInGroup";
+export { useFetchNotInGroupEntity } from "./notInGroupEntity/useFetchNotInGroupEntity";
 
 export { useFetchTreeChartsId } from "./treeCharts/useFetchTreeChartsId";
 

@@ -23,7 +23,7 @@ export const useFetchTreeChartsId = () => {
 
       const data: EconomicGroupId[] = await response.json(); // API retorna um array
       setTreeChartsId(data);
-      console.log("Dados recebidos setEconomicGroupRelation:", data);
+      // console.log("Dados recebidos setEconomicGroupRelation:", data);
     } catch (err: any) {
       setError(err.message);
     } finally {

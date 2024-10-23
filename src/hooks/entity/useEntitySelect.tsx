@@ -1,5 +1,5 @@
 import { EntityDTO } from "@/app/dto/EntityDto";
-import { useFetchEntityNotInGroup } from "@/hooks";
+import { useFetchNotInGroupEntity } from "../notInGroupEntity/useFetchNotInGroupEntity";
 
 export const useEntitySelect = (): [
   {
@@ -7,19 +7,19 @@ export const useEntitySelect = (): [
     value: number;
   }[],
   boolean,
-  Array<EntityDTO>
+  Array<EntityDTO>,
+  () => void // Nova função de atualização manual
 ] => {
-  const { entityNotInGroup, loading } = useFetchEntityNotInGroup(); // Obtém entidades e estado de carregamento
+  const { notInGroupEntity, loading, refetch } = useFetchNotInGroupEntity();
 
   // Mapeia as entidades para um formato de opções
-  const entitySelect = entityNotInGroup.map((entityNotInGroup: EntityDTO) => ({
-    label: `${entityNotInGroup.name} - ${entityNotInGroup.documentNumber}`,
-    value: entityNotInGroup.entityId // O value é o id da mae,
+  const entitySelect = notInGroupEntity.map((item: EntityDTO) => ({
+    label: `${item.name} - ${item.documentNumber}`,
+    value: item.entityId
   }));
 
-  // Logs para verificar as saídas
-  console.log("entityNotInGroup ========>:", entityNotInGroup);
-  console.log("entitySelect: =====>", entitySelect);
+  console.log("Entidades obtidas do backend:", notInGroupEntity); // Verifique os dados recebidos
+  console.log("Opções para select:", entitySelect); // Verifique o que está sendo mapeado
 
-  return [entitySelect, loading, entityNotInGroup]; // Retorna as opções e o estado de carregamento
+  return [entitySelect, loading, notInGroupEntity, refetch];
 };

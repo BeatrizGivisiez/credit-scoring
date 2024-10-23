@@ -25,7 +25,7 @@ export const useFetchEntity = () => {
 
         const data: EntityDTO[] = await response.json(); // API retorna um array
         setEntity(data); // Atualiza o estado com as entidades recebidas
-        console.log("Dados recebidos setEntity:", data); // Log para verificar a resposta
+        // console.log("Dados recebidos setEntity:", data); // Log para verificar a resposta
       } catch (err: any) {
         setError(err.message);
       } finally {
