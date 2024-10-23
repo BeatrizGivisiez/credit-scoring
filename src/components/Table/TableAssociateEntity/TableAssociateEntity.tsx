@@ -17,7 +17,7 @@ export const TableAssociateEntity = ({
   handleDeleteRow = () => {}
 }: TableAssociateEntityProps) => {
   const { characteristicRelationActive } = useCharacteristicRelation();
-  const { setAssociatedEntities } = useStepperContext();
+  const { associatedEntities, setAssociatedEntities, parentGroup } = useStepperContext();
 
   const [createGroupEditOpen, setCreateGroupEditOpen] = useState<boolean>(false);
   const [createGroupEditData, setCreateGroupEditData] = useState<any>(null); // Aqui você vai armazenar os dados do grupo
@@ -34,8 +34,10 @@ export const TableAssociateEntity = ({
   };
 
   const handleEditChild = (child: any) => {
+    console.log(">>>", child, associatedEntities);
+
     setAssociatedEntities((prev: any) => {
-      const index = prev.findIndex((entity: any) => entity.id === child.id); // Encontrar o índice da entidade
+      const index = prev.findIndex((entity: any) => entity.documentNumber === child.documentNumber); // Encontrar o índice da entidade
 
       if (index !== -1) {
         // Se a entidade existir, substitua-a
@@ -116,10 +118,10 @@ export const TableAssociateEntity = ({
         <ModalCreateGroupEdit
           open={createGroupEditOpen}
           handleClose={handleCloseModal}
-          parentClient={createGroupEditData.name} // Passa os dados do grupo
+          parentClient={parentGroup?.toString()} // Passa os dados do grupo
           nif={createGroupEditData.documentNumber}
           characteristicRelation={createGroupEditData.characteristicRelation} // Passa a característica de relação
-          groupName={createGroupEditData.id} // Passa a entidade
+          groupName={createGroupEditData.name} // Passa a entidade
           optionsEntity={[createGroupEditData]}
           optionRelation={characteristicRelationActive.map((i) => ({
             id: i.economicGroupTypeId,

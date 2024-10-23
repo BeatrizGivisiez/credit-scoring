@@ -2,13 +2,14 @@
 
 import { Box, Dialog, DialogContent, DialogTitle, FormControl, Typography } from "@mui/material";
 import { FloppyDiskBack, X } from "@phosphor-icons/react";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 
 import { ModalListGroupProps } from "./types";
 
 import { Button, ButtonIcon, InputRadio, InputSelect } from "@/components";
 import { useStepperContext } from "@/app/context";
 import PALETTE from "@/styles/_palette";
+import { IAssocietedEntitiesContext } from "@/app/context/StepperContext";
 
 export const ModalCreateGroupEdit = ({
   open,
@@ -20,11 +21,11 @@ export const ModalCreateGroupEdit = ({
   optionRelation,
   handleSubmit = () => {}
 }: ModalListGroupProps) => {
-  const { optionsModal } = useStepperContext();
+  const { optionsModal, associatedEntities } = useStepperContext();
 
   // Agora o estado armazena um número (id) em vez de uma string
   const [selectedOption, setSelectedOption] = useState<number>(characteristicRelation || 0); // Iniciando com nenhuma
-  const [selectedEntity, setSelectedEntity] = useState<any>(groupName);
+  const [selectedEntity, setSelectedEntity] = useState<any>(0);
 
   // Função para lidar com a seleção de relação (valor numérico)
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -36,15 +37,23 @@ export const ModalCreateGroupEdit = ({
     setSelectedEntity(newValue); // Atualiza a entidade selecionada
   };
 
+  const groupId = useMemo(() => {
+    return (
+      associatedEntities.find((i: any) => i.documentNumber == nif) ??
+      ({} as IAssocietedEntitiesContext)
+    ).id;
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [nif]);
+
   useEffect(() => {
-    setSelectedEntity(groupName);
-  }, [groupName]);
+    setSelectedEntity(Number.parseInt(parentClient ?? "0"));
+  }, [parentClient]);
 
   return (
     <Dialog onClose={handleClose} open={open} maxWidth="md" fullWidth>
       <DialogTitle>
         <Typography variant="h6" color={PALETTE.PRIMARY_MAIN}>
-          Editar - {parentClient} {nif}
+          Editar - {groupName} {nif}
         </Typography>
         <ButtonIcon
           placement="top-start"
@@ -87,8 +96,9 @@ export const ModalCreateGroupEdit = ({
           color="success"
           onClick={() =>
             handleSubmit({
-              id: selectedEntity,
-              name: parentClient,
+              id: groupId,
+              name: groupName,
+              parentId: Number.parseInt(parentClient ?? "0"),
               documentNumber: nif,
               characteristicRelation: selectedOption
             })

@@ -11,6 +11,7 @@ import {
 } from "react";
 
 interface IStepperContext {
+  entitySelect: { label: string; value: number }[];
   groupName: string;
   setGroupName: Dispatch<SetStateAction<string>>;
   parentGroup: number | undefined;
@@ -25,7 +26,7 @@ interface IStepperContext {
   validateGroupName: (name: string) => string | null; // Função de validação
 }
 
-interface IAssocietedEntitiesContext {
+export interface IAssocietedEntitiesContext {
   id: number;
   entityId: number;
   entity: string;
@@ -87,6 +88,7 @@ export const StepperContextProvider = ({ children }: { children: ReactNode }) =>
   return (
     <StepperContext.Provider
       value={{
+        entitySelect,
         groupName,
         setGroupName,
         parentGroup,
