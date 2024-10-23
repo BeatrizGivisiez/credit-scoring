@@ -49,13 +49,15 @@ export const Stepper = () => {
     setAssociatedEntities,
     associateEntitiesIds,
     setAssociateEntitiesIds,
-    optionsModal
+    optionsModal,
+    validateGroupName
   } = useStepperContext();
 
   const [openModal, setOpenModal] = useState<boolean>(false);
   const [entitySelect, loading, entityNotInGroup] = useEntitySelect();
   const [selectedEntityObj, setSelectedEntityObj] = useState<EntityDTO>({} as EntityDTO);
   const [selectedEntityRelation, setSelectedEntityRelation] = useState<number | undefined>();
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
   const [alertData, setAlertData] = useState<{
     message: string;
@@ -100,8 +102,10 @@ export const Stepper = () => {
   };
 
   // Função para lidar com a mudança de Nome do Grupo
-  const handleGroupNameChange = (event: React.ChangeEvent<HTMLInputElement>) =>
+  const handleGroupNameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setGroupName(event.target.value);
+    setErrorMessage(null); // Limpa a mensagem de erro ao modificar o nome
+  };
 
   const handleChangeEntity = (newValue: number) => {
     setSelectedEntityRelation(newValue); // Armazena a opção da Entidade
@@ -109,12 +113,23 @@ export const Stepper = () => {
   };
 
   const [activeStep, setActiveStep] = useState(0);
+
   const handleNext = () => {
     // Verifica se os campos obrigatórios estão preenchidos
-    if (activeStep === 0 && (!groupName || !parentGroup)) {
-      alert("Preencha todos os campos obrigatórios!");
-      return;
-    } else if (activeStep === 0) {
+    if (activeStep === 0) {
+      // Valida se o nome do grupo já existe usando a função validateGroupName do contexto
+      const error = validateGroupName(groupName);
+      if (error) {
+        // Exibe um alerta ao invés de uma mensagem de erro no campo
+        alert("O nome desse grupo já existe. Por favor, escolha outro nome.");
+        return; // Bloqueia o avanço
+      }
+
+      if (!groupName || !parentGroup) {
+        alert("Preencha todos os campos obrigatórios!");
+        return;
+      }
+
       setActiveStep((prevActiveStep) => prevActiveStep + 1);
     } else {
       // Construa o DTO completo para o POST
@@ -133,12 +148,8 @@ export const Stepper = () => {
       // Faça o POST de tudo em uma única requisição
       createEconomicGroup(newGroupRelation)
         .then(() => {
-          // console.log("Grupo e relações criados com sucesso.");
           setAlertData({ message: "Grupo criado com sucesso!", type: "success" });
           setActiveStep((prevActiveStep) => prevActiveStep + 1);
-
-          // Limpar os estados após o sucesso
-          // resetStepper(); nao precisa
         })
         .catch((e: any) => {
           console.error("Erro ao criar grupo e relações:", e);

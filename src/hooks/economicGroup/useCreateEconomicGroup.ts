@@ -1,7 +1,6 @@
 "use client";
 import { useState } from "react";
 
-// import { EconomicGroupDTO } from "@/app/dto/EconomicGroupDto";
 import { EconomicGroupRelationDTO } from "@/app/dto/EconomicGroupRelationDto";
 
 export const useCreateEconomicGroup = () => {

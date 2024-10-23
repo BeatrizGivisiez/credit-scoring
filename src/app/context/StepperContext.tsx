@@ -1,5 +1,5 @@
 "use client";
-import { useEntitySelect } from "@/hooks";
+import { useEntitySelect, useFetchEconomicGroup } from "@/hooks";
 import {
   createContext,
   Dispatch,
@@ -21,6 +21,8 @@ interface IStepperContext {
   setAssociateEntitiesIds: Dispatch<SetStateAction<Array<string>>>;
   optionsModal: Array<any>;
   resetStepper: () => void; // Adicionando a função resetStepper no contexto
+  existingGroupNames: string[]; // Lista de nomes já existentes
+  validateGroupName: (name: string) => string | null; // Função de validação
 }
 
 interface IAssocietedEntitiesContext {
@@ -49,6 +51,21 @@ export const StepperContextProvider = ({ children }: { children: ReactNode }) =>
     []
   );
   const [associateEntitiesIds, setAssociateEntitiesIds] = useState<Array<string>>([]);
+
+  // Obtendo a lista de grupos usando o hook useFetchEconomicGroup
+  const { economicGroup } = useFetchEconomicGroup(); // Supondo que `data` retorna os grupos
+
+  // Extrair apenas os nomes dos grupos da resposta
+  const existingGroupNames = economicGroup?.map((group: any) => group.name) || [];
+
+  // Função para validar o nome do grupo
+  const validateGroupName = (name: string): string | null => {
+    // Verifica se o nome já existe na lista de grupos existentes
+    if (existingGroupNames.includes(name)) {
+      return "Esse nome de grupo já existe. Por favor, escolha outro nome.";
+    }
+    return null;
+  };
 
   const optionsModal = useMemo(() => {
     return entitySelect.filter((e: any) => {
@@ -79,7 +96,9 @@ export const StepperContextProvider = ({ children }: { children: ReactNode }) =>
         associateEntitiesIds,
         setAssociateEntitiesIds,
         optionsModal,
-        resetStepper
+        resetStepper,
+        existingGroupNames, // Lista de nomes de grupos já existentes
+        validateGroupName // Função de validação
       }}
     >
       {children}
