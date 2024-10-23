@@ -26,9 +26,10 @@ import {
   Step,
   StepLabel,
   Stepper as MuiStepper,
-  Typography
+  Typography,
+  Dialog
 } from "@mui/material";
-import { ArrowLeft, ArrowRight, Check, FloppyDiskBack } from "@phosphor-icons/react";
+import { ArrowLeft, ArrowRight, Check, FloppyDiskBack, Warning } from "@phosphor-icons/react";
 
 import { SeverityType } from "../Alert/types";
 import { stepper__1step, stepper__active, stepper__box } from "./styles";
@@ -57,7 +58,7 @@ export const Stepper = () => {
   const [entitySelect, loading, entityNotInGroup] = useEntitySelect();
   const [selectedEntityObj, setSelectedEntityObj] = useState<EntityDTO>({} as EntityDTO);
   const [selectedEntityRelation, setSelectedEntityRelation] = useState<number | undefined>();
-  const [errorMessage, setErrorMessage] = useState<string | null>(null);
+  const [alertOpen, setAlertOpen] = useState<boolean>(false);
 
   const [alertData, setAlertData] = useState<{
     message: string;
@@ -96,7 +97,6 @@ export const Stepper = () => {
   const handleDeleteChild = (childId: string) => {
     // Remove a entidade associada
     setAssociatedEntities((prev) => prev.filter((i) => i.id.toString() !== childId));
-
     // Adiciona a entidade de volta às opções disponíveis
     setAssociateEntitiesIds((prev) => prev.filter((id) => id !== childId));
   };
@@ -104,7 +104,7 @@ export const Stepper = () => {
   // Função para lidar com a mudança de Nome do Grupo
   const handleGroupNameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setGroupName(event.target.value);
-    setErrorMessage(null); // Limpa a mensagem de erro ao modificar o nome
+    setAlertData({ message: "", type: "info" });
   };
 
   const handleChangeEntity = (newValue: number) => {
@@ -117,19 +117,20 @@ export const Stepper = () => {
   const handleNext = () => {
     // Verifica se os campos obrigatórios estão preenchidos
     if (activeStep === 0) {
-      // Valida se o nome do grupo já existe usando a função validateGroupName do contexto
       const error = validateGroupName(groupName);
       if (error) {
-        // Exibe um alerta ao invés de uma mensagem de erro no campo
-        alert("O nome desse grupo já existe. Por favor, escolha outro nome.");
+        setAlertData({
+          message: "O nome desse grupo já existe. Por favor, escolha outro nome.",
+          type: "error"
+        });
+        setAlertOpen(true); // Abre o Dialog com o Alert
         return; // Bloqueia o avanço
       }
-
       if (!groupName || !parentGroup) {
-        alert("Preencha todos os campos obrigatórios!");
+        setAlertData({ message: "Preencha todos os campos obrigatórios!", type: "error" });
+        setAlertOpen(true); // Abre o Dialog para o alerta de campos obrigatórios
         return;
       }
-
       setActiveStep((prevActiveStep) => prevActiveStep + 1);
     } else {
       // Construa o DTO completo para o POST
@@ -162,6 +163,17 @@ export const Stepper = () => {
 
   return (
     <>
+      {alertData.message && (
+        <Dialog open={alertOpen} onClose={() => setAlertOpen(false)}>
+          <Alert
+            icon={Warning}
+            severity={alertData.type}
+            onClose={() => setAlertData({ message: "", type: "info" })}
+            label={alertData.message}
+          ></Alert>
+        </Dialog>
+      )}
+
       <Box sx={stepper__box}>
         <MuiStepper activeStep={activeStep} sx={stepper__active}>
           {steps.map((label) => (
