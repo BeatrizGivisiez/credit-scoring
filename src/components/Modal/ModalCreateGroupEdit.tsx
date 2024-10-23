@@ -71,7 +71,7 @@ export const ModalCreateGroupEdit = ({
         </Typography>
         <InputSelect
           fullWidth
-          options={optionsModal}
+          options={optionsModal.filter((i: any) => i.value != groupId)}
           value={selectedEntity} // Estado para controlar a entidade selecionada
           onChange={handleChangeSelect}
           label="Entidade-Mãe relacionada"
