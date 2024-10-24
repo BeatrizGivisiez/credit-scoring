@@ -37,6 +37,11 @@ export const ModalCreateGroupEdit = ({
     setSelectedEntity(newValue); // Atualiza a entidade selecionada
   };
 
+  const parentGroupName = useMemo(() => {
+    const option = optionsModal.find((i: any) => i.value == selectedEntity)?.label ?? "";
+    return option.split("-")[0].trim();
+  }, [selectedEntity]);
+
   const groupId = useMemo(() => {
     return (
       associatedEntities.find((i: any) => i.documentNumber == nif) ??
@@ -100,6 +105,7 @@ export const ModalCreateGroupEdit = ({
               name: groupName,
               parentId: Number.parseInt(parentClient ?? "0"),
               documentNumber: nif,
+              parentName: parentGroupName,
               characteristicRelation: selectedOption
             })
           }

@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useMemo } from "react";
 
 import { Button, ButtonIcon, InputRadio, InputSelect } from "@/components";
 import PALETTE from "@/styles/_palette";
@@ -8,6 +8,7 @@ import { Box, Dialog, DialogContent, DialogTitle, FormControl, Typography } from
 import { FloppyDiskBack, X } from "@phosphor-icons/react";
 
 import { ModalCreateRelationGroupProps } from "./types";
+import { useStepperContext } from "@/app/context";
 
 export const ModalCreateRelationGroup = ({
   open,
@@ -34,6 +35,11 @@ export const ModalCreateRelationGroup = ({
 
   // Verifica se ambos os campos foram preenchidos (entidade e relação)
   const isSubmitDisabled = !selectedEntity || selectedOption === 0;
+
+  const parentGroupName = useMemo(() => {
+    const option = optionsEntity.find((i: any) => i.value == selectedEntity)?.label ?? "";
+    return option.split("-")[0].trim();
+  }, [selectedEntity]);
 
   return (
     <Dialog onClose={handleClose} open={open} maxWidth="md" fullWidth>
@@ -84,6 +90,7 @@ export const ModalCreateRelationGroup = ({
             handleSubmit({
               id: childId,
               parentId: selectedEntity,
+              parentName: parentGroupName,
               name: parentClient,
               documentNumber: nif,
               characteristicRelation: selectedOption

@@ -60,7 +60,7 @@ export const TableAssociateEntity = ({
     const option = characteristicRelationActive.find((option) => option.economicGroupTypeId === id);
     return option ? option.name : "Desconhecido"; // Retorna "Desconhecido" se não encontrar
   };
-  // console.log("===>>>> ||", createGroups);
+  console.log("===>>>> ||", createGroups);
 
   const columns: GridColDef<(typeof createGroups)[number]>[] = [
     { field: "name", headerName: "Nome Entidade", width: 450 },
@@ -71,7 +71,7 @@ export const TableAssociateEntity = ({
       width: 300,
       valueGetter: (params) => getCharacteristicRelationLabel(params)
     },
-    { field: "parentId", headerName: "Entidade Associada", width: 340 },
+    { field: "parentName", headerName: "Entidade Associada", width: 340 },
     {
       field: "actions",
       headerName: "Ações",
