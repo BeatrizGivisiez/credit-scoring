@@ -118,7 +118,7 @@ export const TableAssociateEntity = ({
         <ModalCreateGroupEdit
           open={createGroupEditOpen}
           handleClose={handleCloseModal}
-          parentClient={parentGroup?.toString()} // Passa os dados do grupo
+          parentClient={createGroupEditData?.parentId?.toString()} // Passa os dados do grupo
           nif={createGroupEditData.documentNumber}
           characteristicRelation={createGroupEditData.characteristicRelation} // Passa a característica de relação
           groupName={createGroupEditData.name} // Passa a entidade
