@@ -27,6 +27,8 @@ export const ModalCreateGroupEdit = ({
   const [selectedOption, setSelectedOption] = useState<number>(characteristicRelation || 0); // Iniciando com nenhuma
   const [selectedEntity, setSelectedEntity] = useState<any>(0);
 
+  const isSubmitDisabled = selectedEntity === 0 || selectedOption === 0;
+
   // Função para lidar com a seleção de relação (valor numérico)
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setSelectedOption(Number(event.target.value)); // Converte o valor para número
@@ -110,6 +112,7 @@ export const ModalCreateGroupEdit = ({
             })
           }
           iconEnd={FloppyDiskBack}
+          disabled={isSubmitDisabled}
         />
       </Box>
     </Dialog>
