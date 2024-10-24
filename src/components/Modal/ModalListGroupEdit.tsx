@@ -4,7 +4,11 @@ import { useCallback, useEffect, useState } from "react";
 
 import { EconomicGroupId } from "@/app/dto/EconomicGroupIdDto";
 import { Button, ButtonIcon, Divider } from "@/components";
-import { useDisableEconomicGroup, useFetchEconomicGroupId } from "@/hooks";
+import {
+  useCreateEconomicGroupRelation,
+  useDisableEconomicGroup,
+  useFetchEconomicGroupId
+} from "@/hooks";
 import PALETTE from "@/styles/_palette";
 import { getTodayDate } from "@/utils/getTodayDate";
 import {
@@ -22,18 +26,23 @@ import { ModalRelateEntityAdd } from "./ModalRelateEntityAdd";
 import { ModalRelateEntityEdit } from "./ModalRelateEntityEdit";
 import { ModalListGroupProps } from "./types";
 import { TableEconomicGroupModal } from "../Table/TableEconomicGroupModal/TableEconomicGroupModal";
+import { EconomicGroupRelationNewEntityDTO } from "@/app/dto/EconomicGroupRelationDto";
+import { modallistgroupedit__loading, modallistgroupedit__title } from "./styles";
 
 export const ModalListGroupEdit = ({
   open,
   handleClose,
   groupName,
   parentClient,
+  parentId,
   relations = [],
   id,
   fetchEconomicGroup // Recebendo a função como prop para atualizar a lista
 }: ModalListGroupProps) => {
   const { economicGroupId, fetchEconomicGroupId, loading } = useFetchEconomicGroupId();
-  const { disableGroup, loading: disableLoading } = useDisableEconomicGroup();
+  const { disableGroup } = useDisableEconomicGroup();
+
+  const { createEconomicGroupRelation } = useCreateEconomicGroupRelation();
 
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(5);
@@ -135,6 +144,45 @@ export const ModalListGroupEdit = ({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isGroupActive]);
 
+  // TODO: Fazer POST para API
+  const handleAddGroup = async (data: { id: number; characteristicRelation: number }) => {
+    // Verifica se o 'id' e o 'parentId' estão definidos
+    if (!id) {
+      setAlertSeverity("error");
+      setAlertOpen(true);
+      return;
+    }
+
+    const body: EconomicGroupRelationNewEntityDTO = {
+      economicGroupId: id, // Id do grupo econômico
+      // parentId: parentId, // Id da entidade mãe
+      parentId: 0,
+
+      childId: data.id, // ID da entidade filha
+      economicGroupTypeId: data.characteristicRelation // Tipo de relação
+    };
+
+    try {
+      // Chama o POST para criar a nova relação
+      await createEconomicGroupRelation(body);
+
+      // Exibe a mensagem de sucesso
+      setAlertMessage("Relação criada com sucesso!");
+      setAlertSeverity("success");
+      setAlertOpen(true);
+
+      // Atualiza a lista de relações do grupo econômico
+      fetchEconomicGroupId(id.toString());
+
+      // Fecha o modal de adição
+      handleCloseRelateEntityAddModal();
+    } catch (error) {
+      setAlertMessage("Erro ao criar a relação. Tente novamente.");
+      setAlertSeverity("error");
+      setAlertOpen(true);
+    }
+  };
+
   return (
     <Dialog onClose={handleClose} open={open} maxWidth="md" fullWidth>
       <DialogTitle>
@@ -154,25 +202,11 @@ export const ModalListGroupEdit = ({
       <Divider />
 
       <Box sx={{ margin: 5 }}>
-        <Box
-          sx={{
-            display: "flex",
-            width: "100%",
-            justifyContent: "space-between",
-            alignItems: "center",
-            mb: 3
-          }}
-        >
+        <Box sx={modallistgroupedit__title}>
           <Typography variant="h6" gutterBottom color={PALETTE.PRIMARY_MAIN}>
             Lista de Relações com o grupo econômico
           </Typography>
-          <Box
-            sx={{
-              display: "flex",
-              gap: 2,
-              alignItems: "center"
-            }}
-          >
+          <Box sx={modallistgroupedit__loading}>
             {!iconLoading && (
               <Box sx={{ display: "flex", alignItems: "center", mr: 3 }}>
                 {isGroupActive && (
@@ -183,13 +217,7 @@ export const ModalListGroupEdit = ({
                     onClick={handleIconClick}
                   />
                 )}
-
-                <Typography
-                  variant="body2"
-                  style={{
-                    color: isGroupActive ? "green" : "red"
-                  }}
-                >
+                <Typography variant="body2" style={{ color: isGroupActive ? "green" : "red" }}>
                   {isGroupActive ? "Grupo Ativo" : "Grupo Inativo"}
                 </Typography>
               </Box>
@@ -235,6 +263,7 @@ export const ModalListGroupEdit = ({
           open={relateEntityAddOpen}
           handleClose={handleCloseRelateEntityAddModal}
           parentClient={parentClient}
+          handleSubmit={handleAddGroup}
         />
       )}
 

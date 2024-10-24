@@ -111,6 +111,7 @@ export const ConsultGREPage = ({
             id={selectedGroup.id}
             groupName={selectedGroup.groupName}
             parentClient={selectedGroup.parentClient}
+            parentId={selectedGroup.parentId}
             nif={selectedGroup.nif}
             user="Admin"
             version="1.0"

@@ -1,13 +1,18 @@
 "use client";
 import { useState } from "react";
 
-import { EconomicGroupRelationDTO } from "@/app/dto/EconomicGroupRelationDto";
+import {
+  EconomicGroupRelationDTO,
+  EconomicGroupRelationNewEntityDTO
+} from "@/app/dto/EconomicGroupRelationDto";
 
 export const useCreateEconomicGroupRelation = () => {
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
 
-  const createEconomicGroupRelation = async (newRelation: EconomicGroupRelationDTO) => {
+  const createEconomicGroupRelation = async (
+    newRelation: EconomicGroupRelationDTO | EconomicGroupRelationNewEntityDTO
+  ) => {
     setLoading(true);
     try {
       const response = await fetch(`/api/economicGroupRelation`, {

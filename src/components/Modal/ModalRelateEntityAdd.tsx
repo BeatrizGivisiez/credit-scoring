@@ -1,42 +1,62 @@
 "use client";
 
-import { Box, Dialog, DialogTitle, FormControl, Grid, Typography } from "@mui/material";
-import { FloppyDiskBack, X } from "@phosphor-icons/react";
-import { useState } from "react";
-
-import { ModalListGroupProps } from "./types";
+import { useEffect, useState } from "react";
 
 import { Button, ButtonIcon, Divider, InputRadio, InputSelect } from "@/components";
-import PALETTE from "@/styles/_palette";
 import { useEntitySelect, useRelationOption } from "@/hooks";
+import PALETTE from "@/styles/_palette";
+import { Box, Dialog, DialogTitle, FormControl, Typography } from "@mui/material";
+import { FloppyDiskBack, X } from "@phosphor-icons/react";
+
+import { ModalListGroupProps } from "./types";
 
 export const ModalRelateEntityAdd = ({
   open,
   handleClose,
-  characteristicRelation
+  handleSubmit = () => {}
 }: ModalListGroupProps) => {
-  // Agora o estado armazena um número (id) em vez de uma string
-  const [selectedOption, setSelectedOption] = useState<string>("1"); // Iniciando com '1' como valor string
-  const [selectedEntity, setSelectedEntity] = useState<string>("");
+  const [selectedOption, setSelectedOption] = useState<number>(0);
+  const [selectedEntity, setSelectedEntity] = useState<number>(); // Entidade filha e nova
+  const [selectedParentEntity, setSelectedParentEntity] = useState<number>(); // Entidade mãe
 
-  const [entitySelect, loadingEntity] = useEntitySelect(); // Seleção de entidade
-  const [relationSelect, loadingRelation] = useRelationOption(); // Seleção de característica de relação
-
-  // Função para lidar com a seleção da entidade
-  const handleChangeSelect = (newValue: string) => {
-    setSelectedEntity(newValue); // Atualiza a entidade selecionada
-  };
+  const [entitySelect, loadingEntity] = useEntitySelect(); // Seleção de entidades (tanto mãe quanto filha)
+  const [relationSelect] = useRelationOption(); // Seleção de característica de relação
 
   // Função para lidar com a seleção de relação (valor numérico)
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setSelectedOption(event.target.value); // Atualiza o valor do radio button selecionado
+    setSelectedOption(Number(event.target.value)); // Converte o valor para número
   };
+
+  // Função para lidar com a seleção da entidade filha
+  const handleChangeSelect = (newValue: number) => {
+    setSelectedEntity(newValue); // Atualiza a entidade selecionada
+  };
+
+  // Função para lidar com a seleção da entidade mãe
+  const handleChangeParentSelect = (newValue: number) => {
+    setSelectedParentEntity(newValue); // Atualiza a entidade mãe selecionada
+  };
+
+  // Verifica se todos os campos foram preenchidos (entidade mãe, filha e relação)
+  const isSubmitDisabled = !selectedEntity || !selectedParentEntity || selectedOption === 0;
+
+  useEffect(() => {
+    console.log("Entidade filha selecionada mudou:", selectedEntity);
+  }, [selectedEntity]);
+
+  useEffect(() => {
+    console.log("Entidade mãe selecionada mudou:", selectedParentEntity);
+  }, [selectedParentEntity]);
+
+  useEffect(() => {
+    console.log("Relação selecionada mudou:", selectedOption);
+  }, [selectedOption]);
 
   return (
     <Dialog onClose={handleClose} open={open} maxWidth="md" fullWidth>
       <DialogTitle>
         <Typography variant="h6" color={PALETTE.PRIMARY_MAIN}>
-          Adicionar relação
+          Adicionar Nova Entidade
         </Typography>
         <ButtonIcon
           placement="top-start"
@@ -48,25 +68,31 @@ export const ModalRelateEntityAdd = ({
         />
       </DialogTitle>
 
-      <Divider />
-
-      <FormControl component="fieldset" sx={{ margin: 3 }}>
-        <Typography variant="h6" mb={2} color={PALETTE.PRIMARY_MAIN}>
-          Adicionar nova entidade ao grupo
+      <Box sx={{ m: 4 }}>
+        <Typography variant="h6" mb={2}>
+          Selecione a nova Entidade que predente adicionar ao grupo
         </Typography>
+        <InputSelect
+          fullWidth
+          loading={loadingEntity}
+          options={entitySelect}
+          value={selectedEntity}
+          onChange={(value) => handleChangeSelect(Number(value))}
+          label="Indique a nova Entidade"
+        />
 
-        <Grid container>
-          <FormControl fullWidth sx={{ mb: 2 }}>
-            <InputSelect
-              loading={loadingEntity}
-              options={entitySelect}
-              value={selectedEntity}
-              onChange={(value) => handleChangeSelect(value.toString())}
-              label="Indique a Entidade que pretende adicionar"
-            />
-          </FormControl>
-        </Grid>
-      </FormControl>
+        <Typography variant="h6" mt={4} mb={2}>
+          Selecione a Entidade que pretende relacionar entre as existentes
+        </Typography>
+        <InputSelect
+          fullWidth
+          loading={loadingEntity}
+          options={entitySelect} // Mesma lista de entidades, pois pode-se selecionar qualquer uma como mãe
+          value={selectedParentEntity}
+          onChange={(value) => handleChangeParentSelect(Number(value))}
+          label="Indique a Entidade Associada"
+        />
+      </Box>
 
       <Divider />
 
@@ -78,10 +104,23 @@ export const ModalRelateEntityAdd = ({
           onChange={handleChange}
         />
       </FormControl>
+
       <Divider />
       <Box sx={{ display: "flex", justifyContent: "space-between", p: 2, gap: 2 }}>
         <Button label="Cancelar" color="success" onClick={handleClose} iconEnd={X} />
-        <Button label="Gravar" color="success" onClick={() => {}} iconEnd={FloppyDiskBack} />
+        <Button
+          label="Gravar"
+          color="success"
+          onClick={() => {
+            handleSubmit({
+              id: selectedEntity, // Entidade filha selecionada
+              characteristicRelation: selectedOption, // Tipo de relação
+              parentId: selectedParentEntity // Entidade mãe selecionada
+            });
+          }}
+          iconEnd={FloppyDiskBack}
+          disabled={isSubmitDisabled}
+        />
       </Box>
     </Dialog>
   );

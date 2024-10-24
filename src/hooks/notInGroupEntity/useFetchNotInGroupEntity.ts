@@ -1,5 +1,6 @@
 "use client";
-import { useEffect, useState, useCallback } from "react";
+import { useCallback, useEffect, useState } from "react";
+
 import { EntityNotInGroupDTO } from "@/app/dto/EntityNotInGroupDto";
 
 export const useFetchNotInGroupEntity = () => {
@@ -23,9 +24,7 @@ export const useFetchNotInGroupEntity = () => {
       }
 
       const data: EntityNotInGroupDTO[] = await response.json(); // API retorna um array
-
-      console.log("Dados recebidos do backend (NotInGroupEntity):", data);
-
+      // console.log("Dados recebidos do backend (NotInGroupEntity):", data);
       setNotInGroupEntity(data); // Atualiza o estado com as entidades recebidas
     } catch (err: any) {
       setError(err.message);

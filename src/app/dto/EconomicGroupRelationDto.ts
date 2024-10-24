@@ -8,3 +8,10 @@ export interface EconomicGroupRelationEntityDTO {
   parentId: number; // id ent mae
   economicGroupTypeId: number; // id relacao
 }
+
+export interface EconomicGroupRelationNewEntityDTO {
+  economicGroupId: number;
+  parentId: number | undefined;
+  childId: number;
+  economicGroupTypeId: number;
+}

@@ -18,8 +18,8 @@ export const useEntitySelect = (): [
     value: item.entityId
   }));
 
-  console.log("Entidades obtidas do backend:", notInGroupEntity); // Verifique os dados recebidos
-  console.log("Opções para select:", entitySelect); // Verifique o que está sendo mapeado
+  // console.log("Entidades obtidas do backend:", notInGroupEntity); // Verifique os dados recebidos
+  // console.log("Opções para select:", entitySelect); // Verifique o que está sendo mapeado
 
   return [entitySelect, loading, notInGroupEntity, refetch];
 };

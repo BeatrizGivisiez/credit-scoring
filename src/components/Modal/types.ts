@@ -28,6 +28,7 @@ export interface ModalCreateRelationGroupProps {
   // characteristicRelation?: number;
 }
 export interface ModalListGroupProps {
+  parentId?: number | undefined;
   fetchEconomicGroup?: () => void;
   open: boolean;
   handleClose: () => void;
