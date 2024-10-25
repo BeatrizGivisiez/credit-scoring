@@ -40,6 +40,7 @@ export const ModalListGroupEdit = ({
   parentId,
   relations = [],
   id,
+  nif,
   deletedAt = "",
   fetchEconomicGroup // Recebendo a função como prop para atualizar a lista
 }: ModalListGroupProps) => {
@@ -60,6 +61,7 @@ export const ModalListGroupEdit = ({
   const [alertMessage, setAlertMessage] = useState("");
   const [alertSeverity, setAlertSeverity] = useState<"success" | "error">("success");
   const [loadingUpdates, setLoadingUpdates] = useState<boolean>(false);
+  const [localRelations, setLocalRelations] = useState<EconomicGroupId[]>(economicGroupId);
 
   // Estado de loading para aguardar o POST ser refletido
   const [iconLoading, setIconLoading] = useState(false);
@@ -134,11 +136,6 @@ export const ModalListGroupEdit = ({
     }
   }, [deletedAt, localChange]);
 
-  useEffect(() => {
-    setLoadingUpdates(true);
-    setTimeout(() => setLoadingUpdates(false), 1000);
-  }, [economicGroupId]);
-
   // Após a sincronização inicial, permite mudanças locais
   useEffect(() => {
     if (localChange) {
@@ -146,6 +143,10 @@ export const ModalListGroupEdit = ({
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isGroupActive]);
+
+  useEffect(() => {
+    setLocalRelations(economicGroupId);
+  }, [economicGroupId]);
 
   const handleAddGroup = async (data: {
     childId: number;
@@ -166,6 +167,7 @@ export const ModalListGroupEdit = ({
       fetchEconomicGroupId(id?.toString() ?? "");
       handleCloseRelateEntityAddModal();
     } catch (error) {
+      console.error("Erro ao criar a relação:", error);
       setAlertMessage("Erro ao criar a relação. Tente novamente.");
       setAlertSeverity("error");
       setAlertOpen(true);
@@ -186,7 +188,9 @@ export const ModalListGroupEdit = ({
       setAlertSeverity("success");
       setAlertOpen(true);
 
-      fetchEconomicGroupId(id?.toString() ?? "");
+      const newData = await fetchEconomicGroupId(id?.toString() ?? "");
+      console.log("NewData:", newData);
+      setLocalRelations(newData ?? economicGroupId);
       handleCloseRelateEntityEditModal();
     } catch (error) {
       console.error("Erro ao inativar a entidade:", error);
@@ -240,20 +244,18 @@ export const ModalListGroupEdit = ({
           </Box>
         </Box>
 
-        {!loadingUpdates && (
-          <TableEconomicGroupModal
-            economicGroupId={economicGroupId}
-            loading={loading}
-            page={page}
-            rowsPerPage={rowsPerPage}
-            handleOpenRelateEntityEditModal={handleOpenRelateEntityEditModal}
-          />
-        )}
+        <TableEconomicGroupModal
+          economicGroupId={localRelations}
+          loading={loading}
+          page={page}
+          rowsPerPage={rowsPerPage}
+          handleOpenRelateEntityEditModal={handleOpenRelateEntityEditModal}
+        />
 
         <TablePagination
           rowsPerPageOptions={[5, 10, 25]}
           component="div"
-          count={economicGroupId.length}
+          count={localRelations.length}
           rowsPerPage={rowsPerPage}
           page={page}
           onPageChange={handleChangePage}
@@ -279,6 +281,13 @@ export const ModalListGroupEdit = ({
           open={relateEntityAddOpen}
           handleClose={handleCloseRelateEntityAddModal}
           handleSubmit={handleAddGroup}
+          listEntities={[
+            { label: `${parentClient} - ${nif}`, value: Number.parseInt(nif ?? "0") },
+            ...localRelations.map((i) => ({
+              label: `${i.child.name} - ${i.child.documentNumber}`,
+              value: Number.parseInt(i.child.documentNumber)
+            }))
+          ]}
         />
       )}
 

@@ -13,7 +13,6 @@ import { economicgroup__box } from "./styles";
 
 export const EconomicGroupsPage = () => {
   const { economicGroup, loading, error, fetchEconomicGroup } = useEconomicGroup();
-
   const [isConsult, setIsConsult] = useState(true);
   const [isCreatingGroup, setIsCreatingGroup] = useState(false);
   const [filteredGroups, setFilteredGroups] = useState(economicGroup);

@@ -1,5 +1,5 @@
 "use client";
-
+import { useEffect } from "react";
 import {
   Alert,
   Breadcrumbs,
@@ -38,6 +38,10 @@ export const ConsultGREPage = ({
   error,
   fetchEconomicGroup
 }: ConsultGREPageProps) => {
+  useEffect(() => {
+    console.log("selectedGroup", selectedGroup);
+  }, [selectedGroup]);
+
   return (
     <>
       <Stack sx={consultgre__breadcrumbs}>

@@ -54,6 +54,10 @@ export interface ModalRelateEntityAddProps {
   open: boolean;
   handleClose: () => void;
   handleSubmit?: (c: any) => void;
+  listEntities: {
+    label: string;
+    value: number;
+  }[];
 }
 
 export interface ModalRelateEntityEditProps {

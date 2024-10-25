@@ -24,6 +24,7 @@ export const useFetchEconomicGroupId = () => {
       const data: EconomicGroupId[] = await response.json(); // API retorna um array
       setEconomicGroupId(data);
       // console.log("Dados recebidos setEconomicGroupRelation:", data);
+      return data;
     } catch (err: any) {
       setError(err.message);
     } finally {

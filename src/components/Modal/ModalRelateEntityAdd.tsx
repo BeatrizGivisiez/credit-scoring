@@ -14,6 +14,7 @@ import { ModalRelateEntityAddProps } from "./types";
 export const ModalRelateEntityAdd = ({
   open,
   handleClose,
+  listEntities,
   handleSubmit = () => {}
 }: ModalRelateEntityAddProps) => {
   const [selectedOption, setSelectedOption] = useState<number>(0);
@@ -88,7 +89,7 @@ export const ModalRelateEntityAdd = ({
         <InputSelect
           fullWidth
           loading={loadingEntity}
-          options={entitySelect} // trocar, irmaos e mae do grupo.
+          options={listEntities} // trocar, irmaos e mae do grupo.
           value={selectedParentEntity}
           onChange={(value) => handleChangeParentSelect(Number(value))}
           label="Indique a Entidade Associada"

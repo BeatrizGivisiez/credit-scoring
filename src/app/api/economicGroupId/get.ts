@@ -14,7 +14,8 @@ export async function GET(request: Request): Promise<NextResponse> {
   // Construir a URL final para a rota correta
   const url: string = `${apiUrl}EconomicGroupRelationship/GetByGroupId/${id}`; // Adicione o endpoint correto aqui
   const headers: HeadersInit = {
-    accept: "application/ld+json"
+    accept: "application/ld+json",
+    "Cache-Control": "no-cache"
   };
 
   try {
