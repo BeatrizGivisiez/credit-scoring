@@ -15,10 +15,10 @@ export const useDisableEconomicGroupRelationId = (): UseDisableEconomicGroupResu
     setError(null);
 
     try {
-      const response = await fetch(`/api/economicGroupDisabled?id=${id}&date=${date}`, {
+      const response = await fetch(`/api/economicGroupRelationIdDisabled?id=${id}&date=${date}`, {
         method: "POST",
         headers: {
-          accept: "text/plain" // O Swagger mostra que aceita "text/plain"
+          accept: "text/plain"
         }
       });
 

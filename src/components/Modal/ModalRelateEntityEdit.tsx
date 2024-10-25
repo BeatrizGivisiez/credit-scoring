@@ -1,18 +1,16 @@
 "use client";
 
-import { Box, Dialog, DialogTitle, Typography } from "@mui/material";
-import { FloppyDiskBack, X } from "@phosphor-icons/react";
 import dayjs, { Dayjs } from "dayjs";
 import { useEffect, useState } from "react";
 
-import { ModalListGroupProps, RelationData } from "./types";
-import { InputDate } from "../Inputs/InputDate/InputDate";
-
 import { Button, ButtonIcon, Divider } from "@/components";
 import PALETTE from "@/styles/_palette";
-import { EconomicGroupId } from "@/app/dto/EconomicGroupIdDto";
+import { Box, Dialog, DialogTitle, Typography } from "@mui/material";
+import { FloppyDiskBack, X } from "@phosphor-icons/react";
 
-// Configura o Dayjs para usar a localidade pt-BR
+import { InputDate } from "../Inputs/InputDate/InputDate";
+import { ModalRelateEntityEditProps } from "./types";
+
 dayjs.locale("pt-br");
 
 export const ModalRelateEntityEdit = ({
@@ -20,13 +18,11 @@ export const ModalRelateEntityEdit = ({
   handleClose,
   parentClient,
   nif,
-  selectedRelation
-}: ModalListGroupProps & { selectedRelation: EconomicGroupId | null }) => {
-  const [value, setValue] = useState<Dayjs | null>(null); // Estado para controlar a data de término
+  selectedRelation,
+  handleSubmit = () => {}
+}: ModalRelateEntityEditProps) => {
+  const [value, setValue] = useState<Dayjs | null>(null);
 
-  // Verifica se relations está definido e seleciona a primeira relação (ajuste conforme necessário)
-
-  // Se a relação estiver inativa (tem deletedAt), preenche a data de término
   useEffect(() => {
     if (selectedRelation?.deleted) {
       setValue(dayjs(selectedRelation.deleted));
@@ -37,7 +33,7 @@ export const ModalRelateEntityEdit = ({
     <Dialog onClose={handleClose} open={open} maxWidth="md" fullWidth>
       <DialogTitle>
         <Typography variant="h6" color={PALETTE.PRIMARY_MAIN}>
-          Editar relação
+          Inativar Relação
         </Typography>
         <ButtonIcon
           placement="top-start"
@@ -90,7 +86,16 @@ export const ModalRelateEntityEdit = ({
 
       <Box sx={{ display: "flex", justifyContent: "space-between", p: 2, gap: 2 }}>
         <Button label="Cancelar" color="success" onClick={handleClose} iconEnd={X} />
-        <Button label="Gravar" color="success" onClick={() => {}} iconEnd={FloppyDiskBack} />
+        <Button
+          label="Gravar"
+          color="success"
+          onClick={() => {
+            handleSubmit({
+              deletedAt: value
+            });
+          }}
+          iconEnd={FloppyDiskBack}
+        />
       </Box>
     </Dialog>
   );

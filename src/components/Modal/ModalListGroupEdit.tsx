@@ -40,9 +40,11 @@ export const ModalListGroupEdit = ({
   fetchEconomicGroup // Recebendo a função como prop para atualizar a lista
 }: ModalListGroupProps) => {
   const { economicGroupId, fetchEconomicGroupId, loading } = useFetchEconomicGroupId();
+
   const { disableGroup } = useDisableEconomicGroup();
 
   const { createEconomicGroupRelation } = useCreateEconomicGroupRelation();
+  // const {economicGroupRelationDesabled} = economicGroupRelationDesabled()
 
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(5);
@@ -178,6 +180,15 @@ export const ModalListGroupEdit = ({
     }
   };
 
+  // const handleInactivateEntity = (data: {
+  //   deletedAt: formatDate()
+  // }) => {
+  //   const body = {
+  //     entityId:
+  //     deletedAt:
+  //   }
+  // };
+
   return (
     <Dialog onClose={handleClose} open={open} maxWidth="md" fullWidth>
       <DialogTitle>
@@ -242,15 +253,17 @@ export const ModalListGroupEdit = ({
       </Box>
 
       {/* Modal de Editar Entidade */}
-      {relateEntityEditOpen && selectedRelation && (
+      {/* {relateEntityEditOpen && selectedRelation && (
         <ModalRelateEntityEdit
           open={relateEntityEditOpen}
           handleClose={handleCloseRelateEntityEditModal}
           parentClient={selectedRelation.child.name}
           nif={selectedRelation.child.documentNumber}
           selectedRelation={selectedRelation}
+          parentId={}
+          handleSubmit={handleInactivateEntity}
         />
-      )}
+      )} */}
 
       {/* Button que abre a modal para Adicionar nova Entidade */}
       {relateEntityAddOpen && (

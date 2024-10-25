@@ -18,8 +18,7 @@ export const useCreateEconomicGroupRelation = () => {
       const response = await fetch(`/api/economicGroupRelation`, {
         method: "POST",
         headers: {
-          "Content-Type": "application/json",
-          accept: "application/ld+json"
+          accept: "text/plain"
         },
         body: JSON.stringify(newRelation)
       });

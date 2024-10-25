@@ -16,7 +16,7 @@ export const useDisableEconomicGroup = (): UseDisableEconomicGroupResult => {
 
     try {
       // Envia a requisição para o endpoint de desativação com id e data
-      const response = await fetch(`/api/economicGroupRelationIdDisabled?id=${id}&date=${date}`, {
+      const response = await fetch(`/api/economicGroupDisabled?id=${id}&date=${date}`, {
         method: "POST",
         headers: {
           accept: "text/plain" // O Swagger mostra que aceita "text/plain"
@@ -27,9 +27,7 @@ export const useDisableEconomicGroup = (): UseDisableEconomicGroupResult => {
         throw new Error(`Erro ao desativar o grupo: ${response.statusText}`);
       }
 
-      // A API está retornando um valor booleano como texto, não JSON
-      const data = await response.text(); // Use "text" em vez de "json"
-      // console.log("Grupo desativado com sucesso:", data); // Mostra 'true' no console
+      await response.text();
     } catch (err: any) {
       console.error("Erro ao desativar o grupo:", err);
       setError(err.message);

@@ -1,3 +1,4 @@
+import { EconomicGroupId } from "@/app/dto/EconomicGroupIdDto";
 import { User } from "@/types/types";
 
 export interface ModalProps {
@@ -53,6 +54,16 @@ export interface ModalRelateEntityAddProps {
   open: boolean;
   handleClose: () => void;
   handleSubmit?: (c: any) => void;
+}
+
+export interface ModalRelateEntityEditProps {
+  open: boolean;
+  handleClose: () => void;
+  parentClient?: string;
+  nif?: string;
+  optionRelation?: any;
+  handleSubmit?: (c: any) => void;
+  selectedRelation: EconomicGroupId | null;
 }
 
 export interface ModalCreateGroupEditProps {
