@@ -12,3 +12,9 @@ export const modallistgroupedit__loading: SxProps = {
   gap: 2,
   alignItems: "center"
 };
+export const modalrelateentityadd__box: SxProps = {
+  display: "flex",
+  justifyContent: "space-between",
+  p: 2,
+  gap: 2
+};

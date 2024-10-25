@@ -9,6 +9,7 @@ export { useFetchEconomicGroupId } from "./economicGroupId/useFetchEconomicGroup
 
 export { useCreateEconomicGroupRelation } from "./economicGroupRelation/useCreateEconomicGroupRelation";
 export { useFetchEconomicGroupRelation } from "./economicGroupRelation/useFetchEconomicGroupRelation";
+export { useDisableEconomicGroupRelationId } from "./economicGroupRelationIdDisabled/useDisableEonomicGroupRelationId";
 
 export { useFetchEntity } from "./entity/useFetchEntity";
 export { useEntitySelect } from "./entity/useEntitySelect";
@@ -17,3 +18,5 @@ export { useFetchNotInGroupEntity } from "./notInGroupEntity/useFetchNotInGroupE
 export { useFetchTreeChartsId } from "./treeCharts/useFetchTreeChartsId";
 
 export { useDisableEconomicGroup } from "./economicGroupDisabled/useDisableEconomicGroup";
+
+export { useFetchEconomicGroupRelationId } from "./economicGroupRelationId/useFetchEconomicGroupRelationId";

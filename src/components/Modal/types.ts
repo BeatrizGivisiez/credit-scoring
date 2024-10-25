@@ -46,6 +46,13 @@ export interface ModalListGroupProps {
   optionsEntity?: any;
   optionRelation?: any;
   handleSubmit?: (c: any) => void;
+  onDisableRelation?: () => void;
+}
+
+export interface ModalRelateEntityAddProps {
+  open: boolean;
+  handleClose: () => void;
+  handleSubmit?: (c: any) => void;
 }
 
 export interface ModalCreateGroupEditProps {

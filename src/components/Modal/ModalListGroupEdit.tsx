@@ -145,20 +145,15 @@ export const ModalListGroupEdit = ({
   }, [isGroupActive]);
 
   // TODO: Fazer POST para API
-  const handleAddGroup = async (data: { id: number; characteristicRelation: number }) => {
-    // Verifica se o 'id' e o 'parentId' estão definidos
-    if (!id) {
-      setAlertSeverity("error");
-      setAlertOpen(true);
-      return;
-    }
-
+  const handleAddGroup = async (data: {
+    childId: number;
+    parentId: number;
+    characteristicRelation: number;
+  }) => {
     const body: EconomicGroupRelationNewEntityDTO = {
-      economicGroupId: id, // Id do grupo econômico
-      // parentId: parentId, // Id da entidade mãe
-      parentId: 0,
-
-      childId: data.id, // ID da entidade filha
+      economicGroupId: id ?? 0, // Id do grupo econômico
+      parentId: data.parentId, // Id da entidade mãe
+      childId: data.childId, // ID da entidade filha
       economicGroupTypeId: data.characteristicRelation // Tipo de relação
     };
 
@@ -172,7 +167,7 @@ export const ModalListGroupEdit = ({
       setAlertOpen(true);
 
       // Atualiza a lista de relações do grupo econômico
-      fetchEconomicGroupId(id.toString());
+      fetchEconomicGroupId(id?.toString() ?? "");
 
       // Fecha o modal de adição
       handleCloseRelateEntityAddModal();
@@ -257,12 +252,11 @@ export const ModalListGroupEdit = ({
         />
       )}
 
-      {/* Modal de Adicionar Entidade */}
+      {/* Button que abre a modal para Adicionar nova Entidade */}
       {relateEntityAddOpen && (
         <ModalRelateEntityAdd
           open={relateEntityAddOpen}
           handleClose={handleCloseRelateEntityAddModal}
-          parentClient={parentClient}
           handleSubmit={handleAddGroup}
         />
       )}

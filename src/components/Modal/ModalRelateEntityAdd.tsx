@@ -8,13 +8,14 @@ import PALETTE from "@/styles/_palette";
 import { Box, Dialog, DialogTitle, FormControl, Typography } from "@mui/material";
 import { FloppyDiskBack, X } from "@phosphor-icons/react";
 
-import { ModalListGroupProps } from "./types";
+import { modalrelateentityadd__box } from "./styles";
+import { ModalRelateEntityAddProps } from "./types";
 
 export const ModalRelateEntityAdd = ({
   open,
   handleClose,
   handleSubmit = () => {}
-}: ModalListGroupProps) => {
+}: ModalRelateEntityAddProps) => {
   const [selectedOption, setSelectedOption] = useState<number>(0);
   const [selectedEntity, setSelectedEntity] = useState<number>(); // Entidade filha e nova
   const [selectedParentEntity, setSelectedParentEntity] = useState<number>(); // Entidade mãe
@@ -87,7 +88,7 @@ export const ModalRelateEntityAdd = ({
         <InputSelect
           fullWidth
           loading={loadingEntity}
-          options={entitySelect} // Mesma lista de entidades, pois pode-se selecionar qualquer uma como mãe
+          options={entitySelect} // trocar, irmaos e mae do grupo.
           value={selectedParentEntity}
           onChange={(value) => handleChangeParentSelect(Number(value))}
           label="Indique a Entidade Associada"
@@ -106,16 +107,16 @@ export const ModalRelateEntityAdd = ({
       </FormControl>
 
       <Divider />
-      <Box sx={{ display: "flex", justifyContent: "space-between", p: 2, gap: 2 }}>
+      <Box sx={modalrelateentityadd__box}>
         <Button label="Cancelar" color="success" onClick={handleClose} iconEnd={X} />
         <Button
           label="Gravar"
           color="success"
           onClick={() => {
             handleSubmit({
-              id: selectedEntity, // Entidade filha selecionada
-              characteristicRelation: selectedOption, // Tipo de relação
-              parentId: selectedParentEntity // Entidade mãe selecionada
+              childId: selectedEntity, // Entidade filha selecionada
+              parentId: selectedParentEntity, // Entidade mãe selecionada
+              characteristicRelation: selectedOption // Tipo de relação
             });
           }}
           iconEnd={FloppyDiskBack}
