@@ -3,13 +3,16 @@
 import { useCallback, useEffect, useState } from "react";
 
 import { EconomicGroupId } from "@/app/dto/EconomicGroupIdDto";
+import { EconomicGroupRelationNewEntityDTO } from "@/app/dto/EconomicGroupRelationDto";
 import { Button, ButtonIcon, Divider } from "@/components";
 import {
   useCreateEconomicGroupRelation,
   useDisableEconomicGroup,
+  useDisableEconomicGroupRelationId,
   useFetchEconomicGroupId
 } from "@/hooks";
 import PALETTE from "@/styles/_palette";
+import { formatDate } from "@/utils/formatDate";
 import { getTodayDate } from "@/utils/getTodayDate";
 import {
   Alert,
@@ -22,12 +25,12 @@ import {
 } from "@mui/material";
 import { Check, MinusCircle, Plus, X } from "@phosphor-icons/react";
 
+import { TableEconomicGroupModal } from "../Table/TableEconomicGroupModal/TableEconomicGroupModal";
 import { ModalRelateEntityAdd } from "./ModalRelateEntityAdd";
 import { ModalRelateEntityEdit } from "./ModalRelateEntityEdit";
-import { ModalListGroupProps } from "./types";
-import { TableEconomicGroupModal } from "../Table/TableEconomicGroupModal/TableEconomicGroupModal";
-import { EconomicGroupRelationNewEntityDTO } from "@/app/dto/EconomicGroupRelationDto";
+
 import { modallistgroupedit__loading, modallistgroupedit__title } from "./styles";
+import { ModalListGroupProps } from "./types";
 
 export const ModalListGroupEdit = ({
   open,
@@ -37,14 +40,14 @@ export const ModalListGroupEdit = ({
   parentId,
   relations = [],
   id,
+  deletedAt = "",
   fetchEconomicGroup // Recebendo a função como prop para atualizar a lista
 }: ModalListGroupProps) => {
   const { economicGroupId, fetchEconomicGroupId, loading } = useFetchEconomicGroupId();
-
   const { disableGroup } = useDisableEconomicGroup();
-
   const { createEconomicGroupRelation } = useCreateEconomicGroupRelation();
-  // const {economicGroupRelationDesabled} = economicGroupRelationDesabled()
+
+  const { disableRelationGroupId } = useDisableEconomicGroupRelationId();
 
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(5);
@@ -56,6 +59,7 @@ export const ModalListGroupEdit = ({
   const [alertOpen, setAlertOpen] = useState(false);
   const [alertMessage, setAlertMessage] = useState("");
   const [alertSeverity, setAlertSeverity] = useState<"success" | "error">("success");
+  const [loadingUpdates, setLoadingUpdates] = useState<boolean>(false);
 
   // Estado de loading para aguardar o POST ser refletido
   const [iconLoading, setIconLoading] = useState(false);
@@ -96,20 +100,13 @@ export const ModalListGroupEdit = ({
   const handleIconClick = async () => {
     setIconLoading(true); // Inicia o estado de loading
     const date = getTodayDate(); // Usa a função getTodayDate() para obter a data atual no formato YYYY-MM-DD
-
     if (id) {
       try {
         await disableGroup(id.toString(), date); // Chama o hook para desativar o grupo com a data
-
-        // Atualiza manualmente o estado local para refletir que o grupo foi desativado
         setIsGroupActive(false); // Marca o grupo como inativo
-
-        // Exibe a mensagem de sucesso
         setAlertMessage("O grupo foi desativado com sucesso.");
         setAlertSeverity("error");
         setAlertOpen(true); // Abre o alerta
-
-        // Verifica se a função fetchEconomicGroup foi passada como prop antes de invocá-la
         if (fetchEconomicGroup) {
           fetchEconomicGroup(); // Atualiza a lista de grupos
         }
@@ -131,12 +128,16 @@ export const ModalListGroupEdit = ({
 
   // Sincroniza o estado isGroupActive com o valor do backend
   useEffect(() => {
-    if (economicGroupId.length > 0 && !localChange) {
+    if (deletedAt == "" && !localChange) {
       // Se não houve mudança local, atualiza o estado com base no backend
-      const groupStatus = !economicGroupId[0].deleted;
-      setIsGroupActive(groupStatus);
+      setIsGroupActive(deletedAt == "");
     }
-  }, [economicGroupId, localChange]);
+  }, [deletedAt, localChange]);
+
+  useEffect(() => {
+    setLoadingUpdates(true);
+    setTimeout(() => setLoadingUpdates(false), 1000);
+  }, [economicGroupId]);
 
   // Após a sincronização inicial, permite mudanças locais
   useEffect(() => {
@@ -146,7 +147,6 @@ export const ModalListGroupEdit = ({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isGroupActive]);
 
-  // TODO: Fazer POST para API
   const handleAddGroup = async (data: {
     childId: number;
     parentId: number;
@@ -158,20 +158,12 @@ export const ModalListGroupEdit = ({
       childId: data.childId, // ID da entidade filha
       economicGroupTypeId: data.characteristicRelation // Tipo de relação
     };
-
     try {
-      // Chama o POST para criar a nova relação
       await createEconomicGroupRelation(body);
-
-      // Exibe a mensagem de sucesso
       setAlertMessage("Relação criada com sucesso!");
       setAlertSeverity("success");
       setAlertOpen(true);
-
-      // Atualiza a lista de relações do grupo econômico
       fetchEconomicGroupId(id?.toString() ?? "");
-
-      // Fecha o modal de adição
       handleCloseRelateEntityAddModal();
     } catch (error) {
       setAlertMessage("Erro ao criar a relação. Tente novamente.");
@@ -180,14 +172,29 @@ export const ModalListGroupEdit = ({
     }
   };
 
-  // const handleInactivateEntity = (data: {
-  //   deletedAt: formatDate()
-  // }) => {
-  //   const body = {
-  //     entityId:
-  //     deletedAt:
-  //   }
-  // };
+  const handleInactivateEntity = async (data: {
+    economicGroupRelationshipId: number;
+    deletedAt: string;
+  }) => {
+    try {
+      disableRelationGroupId(
+        data.economicGroupRelationshipId.toString(),
+        formatDate(data.deletedAt)
+      );
+
+      setAlertMessage("Relação desativada com sucesso!");
+      setAlertSeverity("success");
+      setAlertOpen(true);
+
+      fetchEconomicGroupId(id?.toString() ?? "");
+      handleCloseRelateEntityEditModal();
+    } catch (error) {
+      console.error("Erro ao inativar a entidade:", error);
+      setAlertMessage("Erro ao desativar relação. Tente novamente.");
+      setAlertSeverity("error");
+      setAlertOpen(true);
+    }
+  };
 
   return (
     <Dialog onClose={handleClose} open={open} maxWidth="md" fullWidth>
@@ -233,13 +240,15 @@ export const ModalListGroupEdit = ({
           </Box>
         </Box>
 
-        <TableEconomicGroupModal
-          economicGroupId={economicGroupId}
-          loading={loading}
-          page={page}
-          rowsPerPage={rowsPerPage}
-          handleOpenRelateEntityEditModal={handleOpenRelateEntityEditModal}
-        />
+        {!loadingUpdates && (
+          <TableEconomicGroupModal
+            economicGroupId={economicGroupId}
+            loading={loading}
+            page={page}
+            rowsPerPage={rowsPerPage}
+            handleOpenRelateEntityEditModal={handleOpenRelateEntityEditModal}
+          />
+        )}
 
         <TablePagination
           rowsPerPageOptions={[5, 10, 25]}
@@ -253,17 +262,16 @@ export const ModalListGroupEdit = ({
       </Box>
 
       {/* Modal de Editar Entidade */}
-      {/* {relateEntityEditOpen && selectedRelation && (
+      {relateEntityEditOpen && selectedRelation && (
         <ModalRelateEntityEdit
           open={relateEntityEditOpen}
           handleClose={handleCloseRelateEntityEditModal}
           parentClient={selectedRelation.child.name}
           nif={selectedRelation.child.documentNumber}
           selectedRelation={selectedRelation}
-          parentId={}
           handleSubmit={handleInactivateEntity}
         />
-      )} */}
+      )}
 
       {/* Button que abre a modal para Adicionar nova Entidade */}
       {relateEntityAddOpen && (

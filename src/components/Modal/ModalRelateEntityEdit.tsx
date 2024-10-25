@@ -91,6 +91,7 @@ export const ModalRelateEntityEdit = ({
           color="success"
           onClick={() => {
             handleSubmit({
+              economicGroupRelationshipId: selectedRelation?.economicGroupRelationshipId,
               deletedAt: value
             });
           }}
