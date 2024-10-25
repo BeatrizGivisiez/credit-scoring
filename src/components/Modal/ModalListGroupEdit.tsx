@@ -60,22 +60,11 @@ export const ModalListGroupEdit = ({
   const [alertOpen, setAlertOpen] = useState(false);
   const [alertMessage, setAlertMessage] = useState("");
   const [alertSeverity, setAlertSeverity] = useState<"success" | "error">("success");
-  const [loadingUpdates, setLoadingUpdates] = useState<boolean>(false);
+  // const [loadingUpdates, setLoadingUpdates] = useState<boolean>(false);
   const [localRelations, setLocalRelations] = useState<EconomicGroupId[]>(economicGroupId);
 
   // Estado de loading para aguardar o POST ser refletido
   const [iconLoading, setIconLoading] = useState(false);
-
-  // Função para mudar a página da tabela
-  const handleChangePage = useCallback((event: unknown, newPage: number) => {
-    setPage(newPage);
-  }, []);
-
-  // Função para alterar o número de linhas por página
-  const handleChangeRowsPerPage = useCallback((event: React.ChangeEvent<HTMLInputElement>) => {
-    setRowsPerPage(parseInt(event.target.value, 10));
-    setPage(0);
-  }, []);
 
   // Função para abrir o modal de adição
   const handleOpenRelateEntityAddModal = () => {
@@ -120,14 +109,6 @@ export const ModalListGroupEdit = ({
     }
   };
 
-  // Atualiza o estado do grupo com base nos dados do backend, mas respeita mudanças locais
-  useEffect(() => {
-    if (id) {
-      fetchEconomicGroupId(id.toString());
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [id]);
-
   // Sincroniza o estado isGroupActive com o valor do backend
   useEffect(() => {
     if (deletedAt == "" && !localChange) {
@@ -144,9 +125,14 @@ export const ModalListGroupEdit = ({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isGroupActive]);
 
+  // Carrega dados ao abrir o modal
   useEffect(() => {
-    setLocalRelations(economicGroupId);
-  }, [economicGroupId]);
+    if (id) fetchEconomicGroupId(id.toString());
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [id]);
+
+  // Atualiza `localRelations` quando `economicGroupId` muda
+  useEffect(() => setLocalRelations(economicGroupId), [economicGroupId]);
 
   const handleAddGroup = async (data: {
     childId: number;
@@ -179,7 +165,7 @@ export const ModalListGroupEdit = ({
     deletedAt: string;
   }) => {
     try {
-      disableRelationGroupId(
+      await disableRelationGroupId(
         data.economicGroupRelationshipId.toString(),
         formatDate(data.deletedAt)
       );
@@ -187,10 +173,7 @@ export const ModalListGroupEdit = ({
       setAlertMessage("Relação desativada com sucesso!");
       setAlertSeverity("success");
       setAlertOpen(true);
-
-      const newData = await fetchEconomicGroupId(id?.toString() ?? "");
-      console.log("NewData:", newData);
-      setLocalRelations(newData ?? economicGroupId);
+      await fetchEconomicGroupId(id?.toString() ?? "");
       handleCloseRelateEntityEditModal();
     } catch (error) {
       console.error("Erro ao inativar a entidade:", error);
@@ -258,8 +241,8 @@ export const ModalListGroupEdit = ({
           count={localRelations.length}
           rowsPerPage={rowsPerPage}
           page={page}
-          onPageChange={handleChangePage}
-          onRowsPerPageChange={handleChangeRowsPerPage}
+          onPageChange={(event, newPage) => setPage(newPage)}
+          onRowsPerPageChange={(event) => setRowsPerPage(parseInt(event.target.value, 10))}
         />
       </Box>
 
@@ -267,7 +250,7 @@ export const ModalListGroupEdit = ({
       {relateEntityEditOpen && selectedRelation && (
         <ModalRelateEntityEdit
           open={relateEntityEditOpen}
-          handleClose={handleCloseRelateEntityEditModal}
+          handleClose={() => setRelateEntityEditOpen(false)}
           parentClient={selectedRelation.child.name}
           nif={selectedRelation.child.documentNumber}
           selectedRelation={selectedRelation}
@@ -279,7 +262,7 @@ export const ModalListGroupEdit = ({
       {relateEntityAddOpen && (
         <ModalRelateEntityAdd
           open={relateEntityAddOpen}
-          handleClose={handleCloseRelateEntityAddModal}
+          handleClose={() => setRelateEntityAddOpen(false)}
           handleSubmit={handleAddGroup}
           listEntities={[
             { label: `${parentClient} - ${nif}`, value: Number.parseInt(nif ?? "0") },
