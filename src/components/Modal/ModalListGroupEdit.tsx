@@ -183,6 +183,13 @@ export const ModalListGroupEdit = ({
     }
   };
 
+  const activeEntities = localRelations
+    .filter((i) => i.status === true) // Filtra apenas entidades com status true
+    .map((i) => ({
+      label: `${i.child.name} - ${i.child.documentNumber}`,
+      value: i.child.id || 0 // Usa o ID da entidade como valor
+    }));
+
   return (
     <Dialog onClose={handleClose} open={open} maxWidth="md" fullWidth>
       <DialogTitle>
@@ -266,10 +273,7 @@ export const ModalListGroupEdit = ({
           handleSubmit={handleAddGroup}
           listEntities={[
             { label: `${parentClient} - ${nif}`, value: Number.parseInt(nif ?? "0") },
-            ...localRelations.map((i) => ({
-              label: `${i.child.name} - ${i.child.documentNumber}`,
-              value: Number.parseInt(i.child.documentNumber)
-            }))
+            ...activeEntities
           ]}
         />
       )}
