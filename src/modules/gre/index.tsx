@@ -29,32 +29,23 @@ export const EconomicGroupsPage = () => {
 
   const handleSearch = useCallback(
     (query: string) => {
-      // console.log("Pesquisa:", query); // Log para verificar o valor da pesquisa
-
-      if (query.trim() === "") {
+      const cleanedQuery = query.trim().replace(/\s+/g, " ").toLowerCase();
+      if (cleanedQuery === "") {
         setFilteredGroups(economicGroup);
-        // console.log("Grupos filtrados (sem filtro):", economicGroup);
       } else {
-        const lowercasedQuery = query.toLowerCase();
         const filtered = economicGroup.filter((group: any) => {
-          // Verifica se a pesquisa corresponde ao nome do grupo, entidade mãe ou NIF da entidade mãe
           const matchesGroupDetails =
-            group.name.toLowerCase().includes(lowercasedQuery) ||
-            group.entityMotherName.toLowerCase().includes(lowercasedQuery) ||
-            group.entityMotherNIF.toLowerCase().includes(lowercasedQuery);
-
-          // Verifica se a pesquisa corresponde a algum dos relacionamentos (entityName ou entityNIF)
+            group.name.toLowerCase().includes(cleanedQuery) ||
+            group.entityMotherName.toLowerCase().includes(cleanedQuery) ||
+            group.entityMotherNIF.toLowerCase().includes(cleanedQuery);
           const matchesRelationships = group.listRelationships.some((relationship: any) => {
             return (
-              relationship.entityName.toLowerCase().includes(lowercasedQuery) ||
-              relationship.entityNIF.toLowerCase().includes(lowercasedQuery)
+              relationship.entityName.toLowerCase().includes(cleanedQuery) ||
+              relationship.entityNIF.toLowerCase().includes(cleanedQuery)
             );
           });
-
-          // Retorna true se a pesquisa corresponder a qualquer campo relevante
           return matchesGroupDetails || matchesRelationships;
         });
-
         setFilteredGroups(filtered);
       }
     },
