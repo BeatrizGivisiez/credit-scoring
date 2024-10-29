@@ -191,7 +191,7 @@ export const ModalListGroupEdit = ({
     }));
 
   return (
-    <Dialog onClose={handleClose} open={open} maxWidth="md" fullWidth>
+    <Dialog onClose={handleClose} open={open} maxWidth="lg" fullWidth>
       <DialogTitle>
         <Typography variant="h6" color={PALETTE.PRIMARY_MAIN}>
           Editar - {groupName}

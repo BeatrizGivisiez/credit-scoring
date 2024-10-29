@@ -43,6 +43,7 @@ export const TableEconomicGroupModal = ({
             <TableCell>Nome</TableCell>
             <TableCell>NIF</TableCell>
             <TableCell>Característica Relação</TableCell>
+            <TableCell>Entidade Associada</TableCell>
             <TableCell>Data Inicial</TableCell>
             <TableCell>Data Fim</TableCell>
             <TableCell>Status</TableCell>
@@ -72,6 +73,7 @@ export const TableEconomicGroupModal = ({
                 <TableCell>{relation.child.name}</TableCell>
                 <TableCell>{relation.child.documentNumber}</TableCell>
                 <TableCell>{relation.economicGroupType.name}</TableCell>
+                <TableCell>{relation.parent.name}</TableCell>
                 <TableCell>{relation.created}</TableCell>
                 <TableCell>{relation.deleted}</TableCell>
                 <TableCell>

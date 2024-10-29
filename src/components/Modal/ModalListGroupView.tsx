@@ -23,7 +23,6 @@ import { ModalListGroupProps } from "./types";
 import { ButtonIcon, Divider } from "@/components";
 import PALETTE from "@/styles/_palette";
 import { IMAGE_DIAGRAMA } from "@/constants/images";
-// import { useRouter } from "next/navigation";
 import { useFetchEconomicGroupId } from "@/hooks";
 
 export const ModalListGroupView = ({
@@ -36,11 +35,6 @@ export const ModalListGroupView = ({
   lastUpdate,
   relations = []
 }: ModalListGroupProps) => {
-  // const router = useRouter();
-
-  // const handleNavigation = (path: string) => {
-  //   router.push(path); // Navega para a rota desejada
-  // };
   const { economicGroupId, fetchEconomicGroupId, loading } = useFetchEconomicGroupId();
 
   const [page, setPage] = useState(0);
@@ -76,7 +70,7 @@ export const ModalListGroupView = ({
   }, [id]);
 
   return (
-    <Dialog onClose={handleClose} open={open} maxWidth="md" fullWidth>
+    <Dialog onClose={handleClose} open={open} maxWidth="lg" fullWidth>
       <DialogTitle>
         <Box
           sx={{
@@ -132,6 +126,7 @@ export const ModalListGroupView = ({
                 <TableCell>Nome</TableCell>
                 <TableCell>NIF</TableCell>
                 <TableCell>Característica Relação</TableCell>
+                <TableCell>Entidade Associada</TableCell>
                 <TableCell>Data Inicial</TableCell>
                 <TableCell>Data Fim</TableCell>
                 <TableCell>Status</TableCell>
@@ -164,6 +159,7 @@ export const ModalListGroupView = ({
                       <TableCell>{relation.child.name}</TableCell>
                       <TableCell>{relation.child.documentNumber}</TableCell>
                       <TableCell>{relation.economicGroupType.name}</TableCell>
+                      <TableCell>{relation.parent.name}</TableCell>
                       <TableCell>{relation.created}</TableCell>
                       <TableCell>{relation.deleted}</TableCell>
                       <TableCell>
