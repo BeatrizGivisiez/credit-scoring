@@ -61,15 +61,10 @@ export const StepperContextProvider = ({ children }: { children: ReactNode }) =>
 
   // Função para validar o nome do grupo
   const validateGroupName = (name: string): string | null => {
-    // Normaliza o nome, removendo espaços extras e ignorando maiúsculas/minúsculas
     const normalizedNewName = name.trim().toLowerCase();
-
-    // Normaliza os nomes dos grupos existentes da mesma forma
     const normalizedExistingNames = existingGroupNames.map((existingName) =>
       existingName.trim().toLowerCase()
     );
-
-    // Verifica se o nome já existe na lista de grupos existentes normalizados
     if (normalizedExistingNames.includes(normalizedNewName)) {
       return "Esse nome de grupo já existe. Por favor, escolha outro nome.";
     }

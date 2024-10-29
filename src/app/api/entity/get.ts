@@ -1,3 +1,4 @@
+export const fetchCache = "force-no-store";
 import { EntityDTO } from "@/app/dto/EntityDto";
 import { NextResponse } from "next/server";
 
