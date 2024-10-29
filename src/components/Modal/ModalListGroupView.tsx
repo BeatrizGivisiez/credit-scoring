@@ -33,6 +33,7 @@ export const ModalListGroupView = ({
   user,
   version,
   lastUpdate,
+  deletedAt,
   relations = []
 }: ModalListGroupProps) => {
   const { economicGroupId, fetchEconomicGroupId, loading } = useFetchEconomicGroupId();
@@ -81,8 +82,10 @@ export const ModalListGroupView = ({
           }}
         >
           <Typography variant="h6" color={PALETTE.PRIMARY_MAIN}>
-            Visualizar - {groupName}
+            Visualizar -{" "}
+            <span style={{ color: deletedAt === "Ativo" ? "green" : "red" }}>{groupName}</span>
           </Typography>
+
           <ButtonIcon
             placement="right-start"
             title="Grupo Económico"
