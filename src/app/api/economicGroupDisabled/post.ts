@@ -21,7 +21,7 @@ export async function POST(request: Request): Promise<NextResponse> {
 
   const url: string = `${apiUrl}/EconomicGroup/DisableGroup?id=${id}&date=${date}`;
   const headers: HeadersInit = {
-    accept: "text/plain" // A API espera "text/plain"
+    accept: "text/plain"
   };
 
   try {

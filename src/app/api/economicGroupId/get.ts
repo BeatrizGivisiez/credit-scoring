@@ -20,6 +20,7 @@ export async function GET(request: Request): Promise<NextResponse> {
 
   try {
     const response = await fetch(url, {
+      cache: "no-cache",
       method: "GET",
       headers: headers
     });
