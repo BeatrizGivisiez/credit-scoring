@@ -8,31 +8,15 @@ import {
   EconomicGroupRelationEntityDTO
 } from "@/app/dto/EconomicGroupRelationDto";
 import { EntityDTO } from "@/app/dto/EntityDto";
-import {
-  Alert,
-  Button,
-  Card,
-  InputSelect,
-  InputText,
-  ModalCreateRelationGroup,
-  TableAssociateEntity
-} from "@/components";
+import { Alert, Button, ModalCreateRelationGroup } from "@/components";
 import { useCreateEconomicGroup, useEntitySelect } from "@/hooks";
-import PALETTE from "@/styles/_palette";
-import {
-  Box,
-  FormControl,
-  Grid,
-  Step,
-  StepLabel,
-  Stepper as MuiStepper,
-  Typography,
-  Dialog
-} from "@mui/material";
+import { Box, Dialog, Step, StepLabel, Stepper as MuiStepper, Typography } from "@mui/material";
 import { ArrowLeft, ArrowRight, Check, FloppyDiskBack, Warning } from "@phosphor-icons/react";
 
 import { SeverityType } from "../Alert/types";
-import { stepper__1step, stepper__active, stepper__box } from "./styles";
+import { StepAssociateEntity } from "./StepAssociateEntity/StepAssociateEntity";
+import { StepGroupDetails } from "./StepGroupDetails/StepGroupDetails";
+import { stepper__active, stepper__box } from "./styles";
 
 const steps = ["Dados do Grupo", "Associar Entidade"];
 
@@ -95,10 +79,8 @@ export const Stepper = () => {
   };
 
   const handleDeleteChild = (childId: string) => {
-    // Remove a entidade associada
-    setAssociatedEntities((prev) => prev.filter((i) => i.id.toString() !== childId));
-    // Adiciona a entidade de volta às opções disponíveis
-    setAssociateEntitiesIds((prev) => prev.filter((id) => id !== childId));
+    setAssociatedEntities((prev) => prev.filter((i) => i.id.toString() !== childId)); // Remove a entidade associada
+    setAssociateEntitiesIds((prev) => prev.filter((id) => id !== childId)); // Adiciona a entidade de volta às opções disponíveis
   };
 
   // Função para lidar com a mudança de Nome do Grupo
@@ -191,68 +173,29 @@ export const Stepper = () => {
       ) : (
         <>
           {activeStep === 0 && (
-            <Grid container>
-              <FormControl fullWidth sx={{ mt: 5 }}>
-                <InputText
-                  id="nome-grupo"
-                  label="Nome do Grupo"
-                  value={groupName}
-                  onChange={handleGroupNameChange}
-                />
-              </FormControl>
-              <FormControl fullWidth sx={{ mt: 3 }}>
-                <InputSelect
-                  loading={loading}
-                  options={entitySelect}
-                  value={parentGroup}
-                  onChange={(e) => setParentGroup(e)}
-                  label="Indique a Entidade-Mãe do Grupo"
-                />
-              </FormControl>
-            </Grid>
+            <StepGroupDetails
+              groupName={groupName}
+              parentGroup={parentGroup}
+              setParentGroup={setParentGroup}
+              entitySelect={entitySelect}
+              loading={loading}
+              handleGroupNameChange={handleGroupNameChange}
+            />
           )}
           {activeStep === 1 && (
-            <>
-              <Box sx={stepper__1step}>
-                <InputText
-                  id="nome-grupo"
-                  label="Nome do Grupo"
-                  value={groupName} // Valor do Nome do Grupo preenchido na etapa 1
-                  onChange={handleGroupNameChange}
-                  disabled // Desabilitado para evitar alteração
-                />
-                <InputSelect
-                  options={entitySelect}
-                  value={parentGroup} // O valor da Entidade-Mãe selecionada na etapa 1
-                  onChange={(e: any) => setParentGroup(e)}
-                  label="Entidade-Mãe"
-                  fullWidth={true}
-                  disabled // Desabilitado para evitar alteração
-                />
-              </Box>
-              <Grid container>
-                <FormControl fullWidth>
-                  <InputSelect
-                    options={listAvailableEntities}
-                    loading={loading}
-                    value={selectedEntityRelation} // O valor da Entidade selecionada
-                    onChange={(e) => handleChangeEntity(e)} // Função para mudar a Entidade
-                    label="Entidade"
-                  />
-                </FormControl>
-              </Grid>
-
-              <Card>
-                <Typography variant="h6" marginBottom={2} color={PALETTE.PRIMARY_MAIN}>
-                  Entidades Associadas
-                </Typography>
-                <TableAssociateEntity
-                  pageSize={5}
-                  createGroups={associatedEntities}
-                  handleDeleteRow={handleDeleteChild}
-                />
-              </Card>
-            </>
+            <StepAssociateEntity
+              groupName={groupName}
+              parentGroup={parentGroup}
+              entitySelect={entitySelect}
+              associatedEntities={associatedEntities}
+              selectedEntityRelation={selectedEntityRelation}
+              listAvailableEntities={listAvailableEntities}
+              loading={loading}
+              handleGroupNameChange={handleGroupNameChange}
+              handleChangeEntity={handleChangeEntity}
+              handleDeleteChild={handleDeleteChild}
+              setParentGroup={setParentGroup}
+            />
           )}
           <Box sx={{ display: "flex", flexDirection: "row", justifyContent: "flex-end" }}>
             {activeStep > 0 && (
