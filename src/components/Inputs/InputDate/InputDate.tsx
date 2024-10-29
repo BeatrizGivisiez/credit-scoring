@@ -1,6 +1,6 @@
 "use client";
 
-import { Box, Typography } from "@mui/material";
+import { Box, Typography, TextField } from "@mui/material";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
@@ -16,6 +16,15 @@ interface InputDateProps {
 }
 
 export const InputDate = ({ label, value, onChange, disabled = false }: InputDateProps) => {
+  const handleDateChange = (newValue: Dayjs | null) => {
+    // Impede seleção de datas futuras
+    if (newValue && newValue.isAfter(dayjs())) {
+      onChange(dayjs()); // Volta ao valor atual se for uma data futura
+    } else {
+      onChange(newValue);
+    }
+  };
+
   return (
     <Box sx={{ display: "flex", gap: 1, alignItems: "center" }}>
       <Typography variant="body1" sx={{ fontWeight: "bold" }}>
@@ -24,10 +33,15 @@ export const InputDate = ({ label, value, onChange, disabled = false }: InputDat
       <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale="pt-br">
         <DatePicker
           value={value}
-          onChange={onChange}
-          format="YYYY-MM-DD"
+          onChange={handleDateChange}
           disableFuture
           disabled={disabled}
+          views={["year", "month", "day"]}
+          slotProps={{
+            textField: {
+              inputProps: { readOnly: true }
+            }
+          }}
         />
       </LocalizationProvider>
     </Box>
