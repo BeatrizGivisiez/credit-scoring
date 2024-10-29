@@ -112,7 +112,7 @@ export const ModalListGroupView = ({
 
       <Box sx={{ margin: 5 }}>
         <Grid container spacing={2}>
-          <GridItem label="ID Entidade" value={id ? String(id) : "-"} />
+          <GridItem label="ID Grupo" value={id ? String(id) : "-"} />
           <GridItem label="Nome do Utilizador Criador" value={user || "-"} />
           <GridItem label="Versão" value={version ? String(version) : "-"} />
           <GridItem label="Última Atualização Grupo" value={lastUpdate || "-"} />
