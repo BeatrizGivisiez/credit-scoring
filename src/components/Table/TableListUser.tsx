@@ -27,9 +27,8 @@ export const TableListUser = ({ userList, pageSize = 10 }: TableProps) => {
 
   const columns: GridColDef<(typeof userList)[number]>[] = [
     { field: "id", headerName: "ID", width: 90, headerAlign: "center", align: "center" },
-    { field: "userName", headerName: "Nome Utilizador", width: 400 },
-    { field: "email", headerName: "E-mail", width: 250 },
-    { field: "password", headerName: "Senha", width: 180 },
+    { field: "userName", headerName: "Nome Utilizador", width: 550 },
+    { field: "email", headerName: "E-mail", width: 350 },
     {
       field: "perfil",
       headerName: "Perfil",
@@ -38,7 +37,7 @@ export const TableListUser = ({ userList, pageSize = 10 }: TableProps) => {
     {
       field: "status",
       headerName: "Status",
-      width: 180,
+      width: 120,
       renderCell: (params) => (
         <Box
           sx={{
@@ -61,7 +60,7 @@ export const TableListUser = ({ userList, pageSize = 10 }: TableProps) => {
       ),
       sortComparator: (v1, v2) => {
         if (v1 === v2) return 0;
-        return v1 ? -1 : 1; // Coloca Ativos (true) antes dos Inativos (false)
+        return v1 ? -1 : 1;
       }
     },
     {
