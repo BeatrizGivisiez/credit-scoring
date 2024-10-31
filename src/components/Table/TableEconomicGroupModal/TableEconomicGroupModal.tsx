@@ -10,7 +10,7 @@ import {
   Typography
 } from "@mui/material";
 import { ButtonIcon } from "@/components";
-import { Pencil } from "@phosphor-icons/react";
+import { MinusCircle } from "@phosphor-icons/react";
 import { table__circle, table__status } from "./styles";
 
 interface Relation {
@@ -92,8 +92,8 @@ export const TableEconomicGroupModal = ({
                   {!relation.deleted && (
                     <ButtonIcon
                       placement="top-start"
-                      title="Editar"
-                      icon={Pencil}
+                      title="Inativar"
+                      icon={MinusCircle}
                       onClick={() => handleOpenRelateEntityEditModal(relation)}
                     />
                   )}
