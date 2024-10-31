@@ -38,5 +38,5 @@ export { Stepper } from "./Stepper/Stepper";
 export { Tabs } from "./Tabs/Tabs";
 export { TableAssociateEntity } from "./Table/TableAssociateEntity/TableAssociateEntity";
 export { TableListGroup } from "./Table/TableListGroup";
-export { TableListRelation } from "./Table/TableListRelation";
+export { TableListRelation } from "./Table/TableListRelation/TableListRelation";
 export { TableListUser } from "./Table/TableListUser";

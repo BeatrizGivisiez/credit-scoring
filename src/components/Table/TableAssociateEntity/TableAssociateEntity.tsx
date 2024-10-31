@@ -110,6 +110,7 @@ export const TableAssociateEntity = ({
             }
           }}
           pageSizeOptions={[5]}
+          autoHeight
           disableRowSelectionOnClick
           sx={tableassociateentity__datagrid}
         />

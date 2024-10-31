@@ -96,7 +96,8 @@ export const TableListUser = ({ userList, pageSize = 10 }: TableProps) => {
               }
             }
           }}
-          pageSizeOptions={[10, 15, 30]}
+          pageSizeOptions={[10, 50, 100]}
+          autoHeight
           disableRowSelectionOnClick
           sx={{
             "& .MuiDataGrid-root": {

@@ -81,7 +81,6 @@ export const TableListGroup = memo(({ groups, onViewGroup, onEditGroup }: TableL
     <Box sx={{ height: "auto", width: "100%" }}>
       <DataGrid
         rows={groups}
-        // rowCount={groups.length}
         columns={columns}
         pageSizeOptions={[10, 50, 100]}
         autoHeight

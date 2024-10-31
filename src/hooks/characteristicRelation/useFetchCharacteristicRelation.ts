@@ -1,6 +1,6 @@
 "use client";
-import { useEffect, useState } from "react";
 
+import { useEffect, useState, useCallback } from "react";
 import { CharacteristicRelationDTO } from "@/app/dto/CharacteristicRelationDto";
 
 export const useFetchCharacteristicRelation = () => {
@@ -10,32 +10,34 @@ export const useFetchCharacteristicRelation = () => {
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
 
-  useEffect(() => {
-    const fetchCharacteristicRelation = async () => {
-      try {
-        const response = await fetch(`/api/characteristicRelation`, {
-          method: "GET",
-          headers: {
-            accept: "application/ld+json"
-          }
-        });
-
-        if (!response.ok) {
-          throw new Error(`Error fetching data: ${response.statusText}`);
+  // Define a função de busca com useCallback para evitar recriação em cada renderização
+  const fetchCharacteristicRelation = useCallback(async () => {
+    setLoading(true);
+    setError(null);
+    try {
+      const response = await fetch(`/api/characteristicRelation`, {
+        method: "GET",
+        headers: {
+          accept: "application/ld+json"
         }
+      });
 
-        const data: CharacteristicRelationDTO[] = await response.json(); // API retorna um array
-        setCharacteristicRelation(data);
-        // console.log("Dados recebidos setCharacteristicRelation:", data);
-      } catch (err: any) {
-        setError(err.message);
-      } finally {
-        setLoading(false);
+      if (!response.ok) {
+        throw new Error(`Error fetching data: ${response.statusText}`);
       }
-    };
 
-    fetchCharacteristicRelation();
+      const data: CharacteristicRelationDTO[] = await response.json(); // API retorna um array
+      setCharacteristicRelation(data);
+    } catch (err: any) {
+      setError(err.message);
+    } finally {
+      setLoading(false);
+    }
   }, []);
 
-  return { characteristicRelation, loading, error };
+  useEffect(() => {
+    fetchCharacteristicRelation();
+  }, [fetchCharacteristicRelation]);
+
+  return { characteristicRelation, loading, error, fetchCharacteristicRelation };
 };

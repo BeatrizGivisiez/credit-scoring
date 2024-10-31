@@ -5,7 +5,7 @@ import { Check, MinusCircle } from "@phosphor-icons/react";
 import { Box, Alert, Dialog, Typography } from "@mui/material";
 import { useState } from "react";
 
-import { gridcoldef } from "./styles";
+import { gridcoldef, table__box, table__datagrid } from "./styles";
 import { TableRelationProps } from "./types";
 import { ButtonIcon } from "@/components";
 
@@ -21,7 +21,6 @@ export const TableListRelation = ({
   // Função para inativar e exibir o alerta
   const handleInactivate = (id: number) => {
     onInactivate(id); // Chama a função passada via prop para inativar o item no estado do ManagerGREPage
-
     setAlertMessage("A característica relação foi inativada com sucesso.");
     setAlertSeverity("error");
     setAlertOpen(true);
@@ -36,15 +35,7 @@ export const TableListRelation = ({
       headerName: "Data Inicial",
       width: 130,
       renderCell: (params) => (
-        <Box
-          sx={{
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "flex-start",
-            width: "100%",
-            height: "100%"
-          }}
-        >
+        <Box sx={table__box}>
           <Typography variant="body2">
             {params.row.createdAt ? params.row.createdAt : "-"}
           </Typography>
@@ -56,15 +47,7 @@ export const TableListRelation = ({
       headerName: "Data Fim",
       width: 130,
       renderCell: (params) => (
-        <Box
-          sx={{
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "flex-start",
-            width: "100%",
-            height: "100%"
-          }}
-        >
+        <Box sx={table__box}>
           <Typography variant="body2">
             {params.row.deletedAt ? params.row.deletedAt : "-"}
           </Typography>
@@ -76,29 +59,12 @@ export const TableListRelation = ({
       headerName: "Status",
       width: 120,
       renderCell: (params) => (
-        <Box
-          sx={{
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "flex-start",
-            width: "100%",
-            height: "100%"
-          }}
-        >
-          <Typography
-            variant="body2"
-            style={{
-              color: params.row.deletedAt ? "red" : "green"
-            }}
-          >
-            {params.row.deletedAt ? "Inativo" : "Ativo"}
+        <Box sx={table__box}>
+          <Typography variant="body2" style={{ color: params.row.status ? "green" : "red" }}>
+            {params.row.status ? "Ativo" : "Inativo"}
           </Typography>
         </Box>
-      ),
-      sortComparator: (v1, v2) => {
-        if (v1 === v2) return 0;
-        return v1 === "Ativo" ? -1 : 1; // Coloca Ativos antes dos Inativos
-      }
+      )
     },
     {
       field: "actions",
@@ -122,14 +88,11 @@ export const TableListRelation = ({
     <>
       <Box sx={{ height: "auto", width: "100%" }}>
         <DataGrid
-          rows={relationList} // Usa a lista de relações recebida como prop
+          rows={relationList}
           columns={columns}
           initialState={{
             sorting: {
-              sortModel: [
-                { field: "status", sort: "asc" },
-                { field: "id", sort: "asc" }
-              ]
+              sortModel: [{ field: "status", sort: "desc" }]
             },
             pagination: {
               paginationModel: {
@@ -137,23 +100,13 @@ export const TableListRelation = ({
               }
             }
           }}
-          pageSizeOptions={[10, 15, 30]}
+          pageSizeOptions={[10, 50, 100]}
+          autoHeight
           disableRowSelectionOnClick
-          sx={{
-            "& .MuiDataGrid-root": {
-              fontSize: "14px"
-            },
-            "& .MuiDataGrid-columnHeaders": {
-              fontSize: "15px"
-            },
-            "& .MuiDataGrid-cell": {
-              fontSize: "14px"
-            }
-          }}
+          sx={table__datagrid}
         />
       </Box>
 
-      {/* Modal para exibir o alerta de inativação */}
       <Dialog open={alertOpen} onClose={() => setAlertOpen(false)}>
         <Alert
           icon={<Check />}
