@@ -6,3 +6,7 @@ export interface CharacteristicRelationDTO {
   economicGroupTypeId: number;
   name: string;
 }
+
+export interface CreateCharacteristicRelationDTO {
+  name: string;
+}

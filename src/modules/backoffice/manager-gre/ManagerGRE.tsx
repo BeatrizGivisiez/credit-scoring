@@ -11,7 +11,7 @@ import {
   TableListRelation
 } from "@/components";
 import { breadcrumbsBackofficeGRE } from "@/constants/breadcrumbs";
-import { useFetchCharacteristicRelation } from "@/hooks";
+import { useCreateCharacteristicRelation, useFetchCharacteristicRelation } from "@/hooks";
 import PALETTE from "@/styles/_palette";
 import { Box, CircularProgress, Stack, Typography } from "@mui/material";
 import { Check, Plus } from "@phosphor-icons/react";
@@ -21,17 +21,21 @@ import { backoffice__box, backoffice__manager } from "./styles";
 export const ManagerGREPage = () => {
   const [modalOpen, setModalOpen] = useState(false);
   const { characteristicRelation, loading, error } = useFetchCharacteristicRelation();
+  const {
+    createCharacteristicRelation,
+    loading: creating,
+    error: createError
+  } = useCreateCharacteristicRelation();
 
   // Função para adicionar nova relação à lista
-  const handleAddRelation = (newRelation: any) => {
-    // const formattedRelation = {
-    //   id: newRelation.id,
-    //   characteristicRelation: newRelation.label, // Mapeando o campo correto
-    //   status: "Ativo", // Ou conforme necessário
-    //   createdAt: getTodayDate(), // Ou outro campo relevante
-    //   deletedAt: ""
-    // };
-    // Atualize o estado se necessário, caso esteja gerenciando localmente
+  const handleAddRelation = async (newRelation: { label: string }) => {
+    const createdRelation = await createCharacteristicRelation({ name: newRelation.label });
+
+    if (createdRelation) {
+      // Se o gerenciamento for local, você pode adicionar o item na lista de relações localmente
+      // Atualize characteristicRelation ou recarregue os dados conforme necessário
+      setModalOpen(false);
+    }
   };
 
   // Função para inativar uma relação

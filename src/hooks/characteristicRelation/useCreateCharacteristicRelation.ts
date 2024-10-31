@@ -1,13 +1,13 @@
 "use client";
 import { useState } from "react";
 
-import { CharacteristicRelationDTO } from "@/app/dto/CharacteristicRelationDto";
+import { CreateCharacteristicRelationDTO } from "@/app/dto/CharacteristicRelationDto";
 
 export const useCreateCharacteristicRelation = () => {
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
 
-  const createCharacteristicRelation = async (newRelation: CharacteristicRelationDTO) => {
+  const createCharacteristicRelation = async (newRelation: CreateCharacteristicRelationDTO) => {
     setLoading(true);
     try {
       const response = await fetch(`/api/characteristicRelation`, {
@@ -23,7 +23,6 @@ export const useCreateCharacteristicRelation = () => {
         throw new Error(`Error creating data: ${response.statusText}`);
       }
 
-      // Retorna os dados criados ou uma confirmação se necessário
       return await response.json();
     } catch (err: any) {
       setError(err.message);
