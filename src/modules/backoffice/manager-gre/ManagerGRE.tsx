@@ -34,7 +34,7 @@ export const ManagerGREPage = () => {
 
   // Função para inativar uma relação
   const handleInactivateRelation = (id: number) => {
-    // Aqui você pode adicionar a lógica para inativar uma relação, se necessário
+    // Adicionar a lógica para inativar uma relação, se necessário
   };
 
   return (
