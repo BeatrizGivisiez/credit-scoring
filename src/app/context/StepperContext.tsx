@@ -57,7 +57,9 @@ export const StepperContextProvider = ({ children }: { children: ReactNode }) =>
   const { economicGroup } = useFetchEconomicGroup(); // Supondo que `data` retorna os grupos
 
   // Extrair apenas os nomes dos grupos da resposta
-  const existingGroupNames = economicGroup?.map((group: any) => group.name) || [];
+  const existingGroupNames = useMemo(() => {
+    return economicGroup?.map((group: any) => group.name.trim().toLowerCase()) || [];
+  }, [economicGroup]);
 
   // Função para validar o nome do grupo
   const validateGroupName = (name: string): string | null => {
