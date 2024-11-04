@@ -10,3 +10,7 @@ export interface CharacteristicRelationDTO {
 export interface CreateCharacteristicRelationDTO {
   name: string;
 }
+
+export interface DeletedCharacteristicRelationDTO {
+  id: number;
+}

@@ -17,12 +17,14 @@ import { Box, CircularProgress, Stack, Typography } from "@mui/material";
 import { Check, Plus } from "@phosphor-icons/react";
 
 import { backoffice__box, backoffice__manager } from "./styles";
+import { useDisableRelation } from "@/hooks/characteristicRelation/useDisableCharacteristicRelation";
 
 export const ManagerGREPage = () => {
   const [modalOpen, setModalOpen] = useState(false);
   const { characteristicRelation, loading, error, fetchCharacteristicRelation } =
     useFetchCharacteristicRelation();
   const { createCharacteristicRelation } = useCreateCharacteristicRelation();
+  const { disableCharacteristicRelation } = useDisableRelation();
 
   const handleAddRelation = async (newRelation: { label: string }) => {
     const createdRelation = await createCharacteristicRelation({ name: newRelation.label });
@@ -33,8 +35,9 @@ export const ManagerGREPage = () => {
   };
 
   // Função para inativar uma relação
-  const handleInactivateRelation = (id: number) => {
-    // Adicionar a lógica para inativar uma relação, se necessário
+  const handleInactivateRelation = async (id: number) => {
+    await disableCharacteristicRelation(id);
+    await fetchCharacteristicRelation();
   };
 
   return (
@@ -89,7 +92,7 @@ export const ManagerGREPage = () => {
         open={modalOpen}
         handleClose={() => setModalOpen(false)}
         onSave={handleAddRelation}
-        relationList={[]} // ou ajuste conforme necessário
+        relationList={[]}
       />
     </>
   );
