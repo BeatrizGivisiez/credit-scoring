@@ -75,7 +75,7 @@ export const ManagerGREPage = () => {
               relationList={characteristicRelation.map((item) => ({
                 id: item.economicGroupTypeId,
                 characteristicRelation: item.name,
-                status: "Ativo",
+                status: item.status,
                 createdAt: item.created,
                 deletedAt: item.deleted || undefined
               }))}
