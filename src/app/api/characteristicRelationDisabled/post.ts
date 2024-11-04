@@ -14,7 +14,7 @@ export async function POST(request: Request): Promise<NextResponse> {
     return NextResponse.json({ error: "API_URL não está definida" }, { status: 500 });
   }
 
-  const url: string = `${apiUrl}/EconomicGroupType/Disable?id=${id}`;
+  const url: string = `${apiUrl}/EconomicGroupType/Disable/${id}`;
   const headers: HeadersInit = {
     accept: "text/plain"
   };
