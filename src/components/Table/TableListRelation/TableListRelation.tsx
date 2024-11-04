@@ -71,7 +71,6 @@ export const TableListRelation = ({
       headerName: "Ações",
       width: 80,
       renderCell: (params) => {
-        console.log("Status:", params.row.status); // Verifique o valor de status aqui
         return params.row.status === true || params.row.status === "Ativo" ? ( // Ajuste a condição
           <Box sx={gridcoldef}>
             <ButtonIcon
