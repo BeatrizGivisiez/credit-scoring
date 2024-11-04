@@ -4,6 +4,7 @@ type RelationList = {
   createdAt?: string;
   deletedAt?: string | null;
   status?: boolean | string;
+  inativar?: boolean | string;
 };
 
 export interface TableRelationProps {

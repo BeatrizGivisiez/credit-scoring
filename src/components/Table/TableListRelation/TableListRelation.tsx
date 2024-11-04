@@ -71,7 +71,7 @@ export const TableListRelation = ({
       headerName: "Ações",
       width: 80,
       renderCell: (params) => {
-        return params.row.status === true || params.row.status === "Ativo" ? ( // Ajuste a condição
+        return params.row.inativar === true ? (
           <Box sx={gridcoldef}>
             <ButtonIcon
               placement="top-start"

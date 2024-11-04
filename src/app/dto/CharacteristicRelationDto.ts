@@ -5,6 +5,7 @@ export interface CharacteristicRelationDTO {
   deleted: string | null;
   economicGroupTypeId: number;
   name: string;
+  inativar: boolean;
 }
 
 export interface CreateCharacteristicRelationDTO {
