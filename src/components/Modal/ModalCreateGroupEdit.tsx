@@ -42,6 +42,7 @@ export const ModalCreateGroupEdit = ({
   const parentGroupName = useMemo(() => {
     const option = optionsModal.find((i: any) => i.value == selectedEntity)?.label ?? "";
     return option.split("-")[0].trim();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedEntity]);
 
   const groupId = useMemo(() => {

@@ -8,7 +8,6 @@ import { Box, Dialog, DialogContent, DialogTitle, FormControl, Typography } from
 import { FloppyDiskBack, X } from "@phosphor-icons/react";
 
 import { ModalCreateRelationGroupProps } from "./types";
-import { useStepperContext } from "@/app/context";
 
 export const ModalCreateRelationGroup = ({
   open,
@@ -39,6 +38,7 @@ export const ModalCreateRelationGroup = ({
   const parentGroupName = useMemo(() => {
     const option = optionsEntity.find((i: any) => i.value == selectedEntity)?.label ?? "";
     return option.split("-")[0].trim();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedEntity]);
 
   return (

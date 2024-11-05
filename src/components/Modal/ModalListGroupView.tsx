@@ -33,8 +33,7 @@ export const ModalListGroupView = ({
   user,
   version,
   lastUpdate,
-  deletedAt,
-  relations = []
+  deletedAt
 }: ModalListGroupProps) => {
   const { economicGroupId, fetchEconomicGroupId, loading } = useFetchEconomicGroupId();
 

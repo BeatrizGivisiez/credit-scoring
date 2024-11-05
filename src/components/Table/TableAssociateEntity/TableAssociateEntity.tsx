@@ -17,7 +17,7 @@ export const TableAssociateEntity = ({
   handleDeleteRow = () => {}
 }: TableAssociateEntityProps) => {
   const { characteristicRelationActive } = useCharacteristicRelation();
-  const { associatedEntities, setAssociatedEntities, parentGroup } = useStepperContext();
+  const { associatedEntities, setAssociatedEntities } = useStepperContext();
 
   const [createGroupEditOpen, setCreateGroupEditOpen] = useState<boolean>(false);
   const [createGroupEditData, setCreateGroupEditData] = useState<any>(null); // Aqui você vai armazenar os dados do grupo

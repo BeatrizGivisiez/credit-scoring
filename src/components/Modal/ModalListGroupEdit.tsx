@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 
 import { EconomicGroupId } from "@/app/dto/EconomicGroupIdDto";
 import { EconomicGroupRelationNewEntityDTO } from "@/app/dto/EconomicGroupRelationDto";
@@ -37,12 +37,10 @@ export const ModalListGroupEdit = ({
   handleClose,
   groupName,
   parentClient,
-  parentId,
-  relations = [],
   id,
   nif,
   deletedAt = "",
-  fetchEconomicGroup // Recebendo a função como prop para atualizar a lista
+  fetchEconomicGroup
 }: ModalListGroupProps) => {
   const { economicGroupId, fetchEconomicGroupId, loading } = useFetchEconomicGroupId();
   const { disableGroup } = useDisableEconomicGroup();
@@ -60,7 +58,6 @@ export const ModalListGroupEdit = ({
   const [alertOpen, setAlertOpen] = useState(false);
   const [alertMessage, setAlertMessage] = useState("");
   const [alertSeverity, setAlertSeverity] = useState<"success" | "error">("success");
-  // const [loadingUpdates, setLoadingUpdates] = useState<boolean>(false);
   const [localRelations, setLocalRelations] = useState<EconomicGroupId[]>(economicGroupId);
 
   // Estado de loading para aguardar o POST ser refletido
@@ -101,6 +98,7 @@ export const ModalListGroupEdit = ({
         if (fetchEconomicGroup) {
           fetchEconomicGroup(); // Atualiza a lista de grupos
         }
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
       } catch (error) {
         // Caso haja um erro, lidar com ele aqui (opcional)
       } finally {
@@ -182,13 +180,6 @@ export const ModalListGroupEdit = ({
       setAlertOpen(true);
     }
   };
-
-  const activeEntities = localRelations
-    .filter((i) => i.status === true) // Filtra apenas entidades com status true
-    .map((i) => ({
-      label: `${i.child.name} - ${i.child.documentNumber}`,
-      value: i.child.id || 0 // Usa o ID da entidade como valor
-    }));
 
   return (
     <Dialog onClose={handleClose} open={open} maxWidth="lg" fullWidth>
