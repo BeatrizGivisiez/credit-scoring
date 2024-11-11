@@ -1,13 +1,5 @@
 import { SxProps } from "@mui/material";
 
-export const table__circle: SxProps = {
-  display: "flex",
-  justifyContent: "center",
-  alignItems: "center",
-  height: "100px",
-  width: "100%"
-};
-
 export const table__status: SxProps = {
   display: "flex",
   alignItems: "center",

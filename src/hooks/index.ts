@@ -20,3 +20,5 @@ export { useFetchTreeChartsId } from "./treeCharts/useFetchTreeChartsId";
 export { useDisableEconomicGroup } from "./economicGroupDisabled/useDisableEconomicGroup";
 
 export { useFetchEconomicGroupRelationId } from "./economicGroupRelationId/useFetchEconomicGroupRelationId";
+
+export { useFetchUser } from "./user/useFetchUser";

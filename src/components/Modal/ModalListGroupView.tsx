@@ -20,7 +20,7 @@ import { useCallback, useState, useEffect } from "react";
 
 import { ModalListGroupProps } from "./types";
 
-import { ButtonIcon, Divider } from "@/components";
+import { ButtonIcon, Divider, Loading } from "@/components";
 import PALETTE from "@/styles/_palette";
 import { IMAGE_DIAGRAMA } from "@/constants/images";
 import { useFetchEconomicGroupId } from "@/hooks";
@@ -138,17 +138,7 @@ export const ModalListGroupView = ({
               {loading && (
                 <TableRow>
                   <TableCell colSpan={6}>
-                    <Box
-                      sx={{
-                        display: "flex",
-                        justifyContent: "center",
-                        alignItems: "center",
-                        height: "100px",
-                        width: "100%"
-                      }}
-                    >
-                      <CircularProgress />
-                    </Box>
+                    <Loading />
                   </TableCell>
                 </TableRow>
               )}

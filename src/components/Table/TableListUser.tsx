@@ -27,7 +27,7 @@ export const TableListUser = ({ userList, pageSize = 10 }: TableProps) => {
 
   const columns: GridColDef<(typeof userList)[number]>[] = [
     { field: "id", headerName: "ID", width: 90, headerAlign: "center", align: "center" },
-    { field: "userName", headerName: "Nome Utilizador", width: 550 },
+    { field: "name", headerName: "Nome Utilizador", width: 550 },
     { field: "email", headerName: "E-mail", width: 350 },
     {
       field: "perfil",

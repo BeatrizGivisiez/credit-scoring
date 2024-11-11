@@ -7,6 +7,7 @@ import {
   Breadcrumbs,
   Button,
   Card,
+  Loading,
   ModalRelationAdd,
   TableListRelation
 } from "@/components";
@@ -55,18 +56,7 @@ export const ManagerGREPage = () => {
           <Typography variant="h6" mb={2} color={PALETTE.PRIMARY_MAIN}>
             Lista da Característica Relação
           </Typography>
-          {loading && (
-            <Box
-              sx={{
-                display: "flex",
-                justifyContent: "center",
-                alignItems: "center",
-                height: "100px"
-              }}
-            >
-              <CircularProgress />
-            </Box>
-          )}
+          {loading && <Loading />}
 
           {error && (
             <Alert severity="error" label={`Erro ao carregar dados: ${error}`} icon={Check} />

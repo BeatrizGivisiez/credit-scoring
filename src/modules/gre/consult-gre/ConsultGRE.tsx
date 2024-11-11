@@ -6,6 +6,7 @@ import {
   Button,
   Card,
   InputSearch,
+  Loading,
   ModalListGroupEdit,
   ModalListGroupView,
   TableListGroup
@@ -14,12 +15,7 @@ import PALETTE from "@/styles/_palette";
 import { Box, CircularProgress, Stack, Typography } from "@mui/material";
 import { ArrowLeft, Check, MagnifyingGlass, Plus } from "@phosphor-icons/react";
 
-import {
-  consultgre__breadcrumbs,
-  consultgre__loading,
-  consultgre__search,
-  consultgre__table
-} from "./styles";
+import { consultgre__breadcrumbs, consultgre__search, consultgre__table } from "./styles";
 import { ConsultGREPageProps } from "./types";
 
 export const ConsultGREPage = ({
@@ -67,11 +63,7 @@ export const ConsultGREPage = ({
           Lista de Grupos
         </Typography>
 
-        {loading && (
-          <Box sx={consultgre__loading}>
-            <CircularProgress />
-          </Box>
-        )}
+        {loading && <Loading />}
         {error && (
           <Alert severity="error" label={`Erro ao carregar dados: ${error}`} icon={Check} />
         )}

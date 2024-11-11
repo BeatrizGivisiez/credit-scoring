@@ -22,9 +22,3 @@ export const consultgre__search: SxProps = {
   justifyContent: "space-between",
   width: "100%"
 };
-export const consultgre__loading: SxProps = {
-  display: "flex",
-  justifyContent: "center",
-  alignItems: "center",
-  height: "100px"
-};

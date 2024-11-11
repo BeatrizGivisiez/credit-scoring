@@ -9,9 +9,9 @@ import {
   TableRow,
   Typography
 } from "@mui/material";
-import { ButtonIcon } from "@/components";
+import { ButtonIcon, Loading } from "@/components";
 import { MinusCircle } from "@phosphor-icons/react";
-import { table__circle, table__status } from "./styles";
+import { table__status } from "./styles";
 
 interface Relation {
   child: { name: string; documentNumber: string };
@@ -54,9 +54,7 @@ export const TableEconomicGroupModal = ({
           {loading && (
             <TableRow>
               <TableCell colSpan={6}>
-                <Box sx={table__circle}>
-                  <CircularProgress />
-                </Box>
+                <Loading />
               </TableCell>
             </TableRow>
           )}

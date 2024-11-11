@@ -52,12 +52,12 @@ export const Header = () => {
             </ListItemIcon>
             <ListItemText primary="Português" />
           </MenuItem>
-          <MenuItem onClick={handleClose}>
+          {/* <MenuItem onClick={handleClose}>
             <ListItemIcon>
               <Image src="/assets/icons/flag_uk.svg" alt="UK" width={22} height={18} />
             </ListItemIcon>
             <ListItemText primary="Inglês" />
-          </MenuItem>
+          </MenuItem> */}
         </Menu>
         <Tooltip title="Logout">
           <IconButton onClick={handleLogout}>

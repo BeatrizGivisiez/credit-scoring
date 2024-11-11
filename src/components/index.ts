@@ -20,6 +20,7 @@ export { InputSelect } from "./Inputs/InputSelect/InputSelect";
 export { InputText } from "./Inputs/InputText/InputText";
 
 export { Login } from "./Login/Login";
+export { Loading } from "./Loading/Loading";
 
 export { Menu } from "./Menu/Menu";
 export { MenuItem } from "./Menu/MenuItem";

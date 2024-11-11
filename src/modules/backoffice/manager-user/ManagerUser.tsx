@@ -1,20 +1,35 @@
 "use client";
 
 import { Box, Stack, Typography } from "@mui/material";
-import { Plus } from "@phosphor-icons/react";
-import { useState } from "react";
+import { Plus, WarningCircle } from "@phosphor-icons/react";
+import { useEffect, useState } from "react";
 
 import { backoffice__box, backoffice__manager } from "./styles";
 
-import { TABLE_USERS } from "@/app/_mocks/tableusers"; // Mock inicial de usuários
-import { Breadcrumbs, Button, Card, TableListUser, ModalCreateUser } from "@/components";
+import {
+  Alert,
+  Breadcrumbs,
+  Button,
+  Card,
+  TableListUser,
+  ModalCreateUser,
+  Loading
+} from "@/components";
 import { breadcrumbsBackoffice } from "@/constants/breadcrumbs";
 import PALETTE from "@/styles/_palette";
-import { User } from "@/types/types";
+import { useFetchUser } from "@/hooks";
+import { UserDTO } from "@/app/dto/UserDto";
 
 export const ManagerUserPage = () => {
-  const [users, setUsers] = useState<User[]>(TABLE_USERS); // Inicializa com a lista de usuários mockada
-  const [createUserOpen, setCreateUserOpen] = useState<boolean>(false); // Estado para controlar a abertura do modal
+  const { user: fetchedUsers, loading, error } = useFetchUser();
+  const [users, setUsers] = useState<UserDTO[]>([]);
+  const [createUserOpen, setCreateUserOpen] = useState<boolean>(false);
+
+  useEffect(() => {
+    if (fetchedUsers) {
+      setUsers(fetchedUsers);
+    }
+  }, [fetchedUsers]);
 
   // Função para abrir o modal
   const handleOpenCreateUser = () => {
@@ -27,7 +42,7 @@ export const ManagerUserPage = () => {
   };
 
   // Função para adicionar um novo usuário
-  const handleAddUser = (newUser: User) => {
+  const handleAddUser = (newUser: UserDTO) => {
     const userWithStatus = {
       ...newUser,
       status: true // Define como ativo por padrão
@@ -48,7 +63,13 @@ export const ManagerUserPage = () => {
           <Typography variant="h6" mb={2} color={PALETTE.PRIMARY_MAIN}>
             Lista de Utilizadores
           </Typography>
-          <TableListUser pageSize={10} userList={users} /> {/* Usa a lista de usuários do estado */}
+          {loading ? (
+            <Loading />
+          ) : error ? (
+            <Alert severity="error" label="Erro ao carregar usuários" icon={WarningCircle}></Alert> // Exibe erro, se houver
+          ) : (
+            <TableListUser pageSize={10} userList={users} /> // Usa a lista de usuários carregada
+          )}
         </Card>
       </Box>
 
