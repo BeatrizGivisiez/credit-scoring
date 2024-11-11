@@ -220,8 +220,13 @@ export const ModalListGroupEdit = ({
                 </Typography>
               </Box>
             )}
-            {iconLoading && <CircularProgress size={24} />} {/* Indicador de loading */}
-            <Button iconEnd={Plus} label="Adicionar" onClick={handleOpenRelateEntityAddModal} />
+            {iconLoading && <CircularProgress size={24} />}
+            <Button
+              iconEnd={Plus}
+              label="Adicionar"
+              onClick={handleOpenRelateEntityAddModal}
+              disabled={!isGroupActive}
+            />
           </Box>
         </Box>
 
