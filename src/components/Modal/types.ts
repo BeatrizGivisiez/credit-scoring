@@ -1,5 +1,5 @@
 import { EconomicGroupId } from "@/app/dto/EconomicGroupIdDto";
-import { User } from "@/types/types";
+import { UserDTO } from "@/app/dto/UserDto";
 
 export interface ModalProps {
   title: string;
@@ -26,7 +26,6 @@ export interface ModalCreateRelationGroupProps {
   optionRelation?: any;
   handleSubmit?: (c: any) => void;
   childId?: number;
-  // characteristicRelation?: number;
 }
 export interface ModalListGroupProps {
   parentId?: number | undefined;
@@ -91,7 +90,7 @@ export interface ModalListUserProps {
 export interface ModalCreateUserProps {
   open: boolean;
   handleClose: () => void;
-  users: User[];
+  users: UserDTO[];
 }
 
 export interface ModalCreateUserEditProps {

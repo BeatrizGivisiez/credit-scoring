@@ -1,3 +1,5 @@
+import { UserDTO } from "@/app/dto/UserDto";
+
 export interface Group {
   id: number;
   groupName: string;
@@ -32,17 +34,9 @@ export interface TableAssociatedEntitiesEGProps {
 }
 
 export interface TableProps {
-  userList: UserList[];
+  userList: UserDTO[];
   pageSize?: number;
 }
-
-type UserList = {
-  id: number | string;
-  userName: string;
-  email: string;
-  password: string;
-  perfil: string;
-};
 
 type RelationList = {
   id: number;

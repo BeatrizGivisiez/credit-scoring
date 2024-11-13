@@ -1,6 +1,6 @@
+"use client";
 import {
   Box,
-  CircularProgress,
   Table,
   TableBody,
   TableCell,

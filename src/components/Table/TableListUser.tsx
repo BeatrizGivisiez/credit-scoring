@@ -116,7 +116,7 @@ export const TableListUser = ({ userList, pageSize = 10 }: TableProps) => {
         <ModalCreateUserEdit
           open={createUserOpen}
           handleClose={handleCloseModal}
-          userName={selectedUser.userName}
+          userName={selectedUser.name}
           email={selectedUser.email}
           password={selectedUser.password}
           perfil={`${selectedUser.perfil}`}

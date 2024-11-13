@@ -66,14 +66,13 @@ export const ManagerUserPage = () => {
           {loading ? (
             <Loading />
           ) : error ? (
-            <Alert severity="error" label="Erro ao carregar usuários" icon={WarningCircle}></Alert> // Exibe erro, se houver
+            <Alert severity="error" label="Erro ao carregar usuários" icon={WarningCircle} />
           ) : (
-            <TableListUser pageSize={10} userList={users} /> // Usa a lista de usuários carregada
+            <TableListUser pageSize={10} userList={users} />
           )}
         </Card>
       </Box>
 
-      {/* Passa a função handleAddUser para o modal */}
       <ModalCreateUser
         open={createUserOpen}
         handleClose={handleCloseModal}
