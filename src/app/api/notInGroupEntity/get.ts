@@ -16,7 +16,7 @@ export async function GET(): Promise<NextResponse> {
 
   try {
     const response = await fetch(url, {
-      cache: "no-cache",
+      // cache: "no-cache",
       method: "GET",
       headers: headers
     });
