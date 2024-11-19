@@ -89,7 +89,6 @@ export const Stepper = () => {
   };
 
   const handleChangeEntity = (newValue: string) => {
-    alert(newValue);
     setSelectedEntityRelation(newValue); // Armazena a opção da Entidade
     setOpenModal(true);
   };
