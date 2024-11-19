@@ -114,14 +114,20 @@ export const Stepper = () => {
       }
       setActiveStep((prevActiveStep) => prevActiveStep + 1);
     } else {
+      const parentId = parentGroup?.split("-")[0];
+      const parentNif = parentGroup?.split("-")[1];
+
       // Construa o DTO completo para o POST
       const newGroupRelation: EconomicGroupRelationDTO = {
         name: groupName,
-        entityMotherId: parentGroup!,
+        entityMotherId: parentId ?? "",
+        entityMotherNif: parentNif ?? "",
         entities: associatedEntities.map(
           (child: any): EconomicGroupRelationEntityDTO => ({
             parentId: child.parentId,
+            parentNif: child.parentNif,
             childId: child.id,
+            childNif: child.nif,
             economicGroupTypeId: child.characteristicRelation
           })
         )

@@ -41,6 +41,14 @@ export const ModalCreateRelationGroup = ({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedEntity]);
 
+  const getChildNif = () => {
+    return selectedEntity.split("-")[1];
+  };
+
+  const getParentId = () => {
+    return selectedEntity.split("-")[0];
+  };
+
   return (
     <Dialog onClose={handleClose} open={open} maxWidth="md" fullWidth>
       <DialogTitle>
@@ -89,10 +97,12 @@ export const ModalCreateRelationGroup = ({
           onClick={() =>
             handleSubmit({
               id: childId,
-              parentId: selectedEntity,
+              parentId: getParentId(),
               parentName: parentGroupName,
+              parentNif: nif,
               name: parentClient,
               documentNumber: nif,
+              nif: getChildNif(),
               characteristicRelation: selectedOption
             })
           }
