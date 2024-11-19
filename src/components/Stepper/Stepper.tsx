@@ -1,7 +1,6 @@
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
-
 import { useCharacteristicRelation, useStepperContext } from "@/app/context";
 import {
   EconomicGroupRelationDTO,
@@ -22,7 +21,6 @@ const steps = ["Dados do Grupo", "Associar Entidade"];
 
 export const Stepper = () => {
   const { characteristicRelationActive } = useCharacteristicRelation();
-
   const { createEconomicGroup, loading: loadingCreateEconomicGroup } = useCreateEconomicGroup();
 
   const {
