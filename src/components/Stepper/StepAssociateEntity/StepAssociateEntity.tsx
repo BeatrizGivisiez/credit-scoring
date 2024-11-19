@@ -5,19 +5,20 @@ import PALETTE from "@/styles/_palette";
 import { Box, FormControl, Grid, Typography } from "@mui/material";
 
 import { stepper__1step } from "../styles";
+import { EntitySelectOption } from "@/hooks/entity/useEntitySelect";
 
 interface StepAssociateEntityProps {
   groupName: string;
-  parentGroup: number | undefined;
-  entitySelect: any[];
+  parentGroup: string | undefined;
+  entitySelect: EntitySelectOption[];
   associatedEntities: any[];
-  selectedEntityRelation: number | undefined;
-  listAvailableEntities: any[];
+  selectedEntityRelation: string | undefined;
+  listAvailableEntities: EntitySelectOption[];
   loading: boolean;
   handleGroupNameChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
-  handleChangeEntity: (id: number) => void;
+  handleChangeEntity: (id: string) => void;
   handleDeleteChild: (childId: string) => void;
-  setParentGroup: (value: number) => void;
+  setParentGroup: (value: string) => void;
 }
 
 export const StepAssociateEntity = ({
@@ -45,7 +46,7 @@ export const StepAssociateEntity = ({
       <InputSelect
         options={entitySelect}
         value={parentGroup}
-        onChange={(e) => setParentGroup(Number(e))}
+        onChange={(e) => setParentGroup(e)}
         label="Entidade-Mãe"
         fullWidth
         disabled
@@ -58,7 +59,7 @@ export const StepAssociateEntity = ({
           options={listAvailableEntities}
           loading={loading}
           value={selectedEntityRelation}
-          onChange={(e) => handleChangeEntity(Number(e))}
+          onChange={(e) => handleChangeEntity(e)}
           label="Entidade"
         />
       </FormControl>

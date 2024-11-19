@@ -1,25 +1,27 @@
 import { EntityDTO } from "@/app/dto/EntityDto";
 import { useFetchNotInGroupEntity } from "../notInGroupEntity/useFetchNotInGroupEntity";
 
+export interface EntitySelectOption {
+  label: string;
+  value: string; // Combinando entityId e documentNumber para gerar uma chave única
+}
+
 export const useEntitySelect = (): [
-  {
-    label: string;
-    value: number;
-  }[],
+  EntitySelectOption[],
   boolean,
   Array<EntityDTO>,
-  () => void // Nova função de atualização manual
+  () => void
 ] => {
   const { notInGroupEntity, loading, refetch } = useFetchNotInGroupEntity();
 
-  // Mapeia as entidades para um formato de opções
+  const getUniqueListBy = (arr: any[], key: string) => {
+    return [...new Map(arr.map((item) => [item[key], item])).values()];
+  };
+
   const entitySelect = notInGroupEntity.map((item: EntityDTO) => ({
     label: `${item.name} - ${item.documentNumber}`,
-    value: item.entityId
+    value: `${item.entityId}-${item.documentNumber}-${item.id}`
   }));
 
-  // console.log("Entidades obtidas do backend:", notInGroupEntity); // Verifique os dados recebidos
-  // console.log("Opções para select:", entitySelect); // Verifique o que está sendo mapeado
-
-  return [entitySelect, loading, notInGroupEntity, refetch];
+  return [getUniqueListBy(entitySelect, "label"), loading, notInGroupEntity, refetch];
 };

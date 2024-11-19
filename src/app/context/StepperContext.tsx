@@ -1,5 +1,8 @@
+//src/app/context/StepperContext.tsx
+
 "use client";
 import { useEntitySelect, useFetchEconomicGroup } from "@/hooks";
+import { EntitySelectOption } from "@/hooks/entity/useEntitySelect";
 import {
   createContext,
   Dispatch,
@@ -11,16 +14,16 @@ import {
 } from "react";
 
 interface IStepperContext {
-  entitySelect: { label: string; value: number }[];
+  entitySelect: EntitySelectOption[];
   groupName: string;
   setGroupName: Dispatch<SetStateAction<string>>;
-  parentGroup: number | undefined;
-  setParentGroup: Dispatch<SetStateAction<number>>;
-  associatedEntities: any[];
-  setAssociatedEntities: Dispatch<SetStateAction<Array<any>>>;
+  parentGroup: string | undefined;
+  setParentGroup: Dispatch<SetStateAction<string>>;
+  associatedEntities: IAssocietedEntitiesContext[];
+  setAssociatedEntities: Dispatch<SetStateAction<IAssocietedEntitiesContext[]>>;
   associateEntitiesIds: string[];
-  setAssociateEntitiesIds: Dispatch<SetStateAction<Array<string>>>;
-  optionsModal: Array<any>;
+  setAssociateEntitiesIds: Dispatch<SetStateAction<string[]>>;
+  optionsModal: EntitySelectOption[];
   resetStepper: () => void; // Adicionando a função resetStepper no contexto
   existingGroupNames: string[]; // Lista de nomes já existentes
   validateGroupName: (name: string) => string | null; // Função de validação
@@ -47,11 +50,11 @@ export const StepperContextProvider = ({ children }: { children: ReactNode }) =>
   const [entitySelect] = useEntitySelect();
 
   const [groupName, setGroupName] = useState<string>(""); // Nome do grupo
-  const [parentGroup, setParentGroup] = useState<number>(0); // id da Mae do grupo
+  const [parentGroup, setParentGroup] = useState<string>(""); // id da Mae do grupo
   const [associatedEntities, setAssociatedEntities] = useState<Array<IAssocietedEntitiesContext>>(
     []
   );
-  const [associateEntitiesIds, setAssociateEntitiesIds] = useState<Array<string>>([]);
+  const [associateEntitiesIds, setAssociateEntitiesIds] = useState<string[]>([]);
 
   // Obtendo a lista de grupos usando o hook useFetchEconomicGroup
   const { economicGroup } = useFetchEconomicGroup(); // Supondo que `data` retorna os grupos
@@ -74,18 +77,16 @@ export const StepperContextProvider = ({ children }: { children: ReactNode }) =>
   };
 
   const optionsModal = useMemo(() => {
-    return entitySelect.filter((e: any) => {
-      return (
-        e.value.toString() === parentGroup?.toString() ||
-        associateEntitiesIds.includes(e.value.toString())
-      );
+    return entitySelect.filter((e: EntitySelectOption) => {
+      return e.value === parentGroup || associateEntitiesIds.includes(e.value);
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [parentGroup, associateEntitiesIds]);
+  // [parentGroup, associateEntitiesIds, entitySelect]);
 
   const resetStepper = () => {
     setGroupName("");
-    setParentGroup(0);
+    setParentGroup("");
     setAssociatedEntities([]);
     setAssociateEntitiesIds([]);
   };

@@ -1,3 +1,4 @@
+//src/components/Stepper/Stepper.tsx
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
@@ -39,7 +40,7 @@ export const Stepper = () => {
   const [openModal, setOpenModal] = useState<boolean>(false);
   const [entitySelect, loading, entityNotInGroup] = useEntitySelect();
   const [selectedEntityObj, setSelectedEntityObj] = useState<EntityDTO>({} as EntityDTO);
-  const [selectedEntityRelation, setSelectedEntityRelation] = useState<number | undefined>();
+  const [selectedEntityRelation, setSelectedEntityRelation] = useState<string | undefined>();
   const [alertOpen, setAlertOpen] = useState<boolean>(false);
 
   const [alertData, setAlertData] = useState<{
@@ -61,9 +62,8 @@ export const Stepper = () => {
 
   useEffect(() => {
     const item =
-      entityNotInGroup?.find((i: any) => Number(i.entityId) === selectedEntityRelation) ??
+      entityNotInGroup?.find((i: any) => i.entityId === Number(selectedEntityRelation)) ??
       ({} as EntityDTO);
-
     setSelectedEntityObj(item);
   }, [entityNotInGroup, selectedEntityRelation]);
 
@@ -87,7 +87,7 @@ export const Stepper = () => {
     setAlertData({ message: "", type: "info" });
   };
 
-  const handleChangeEntity = (newValue: number) => {
+  const handleChangeEntity = (newValue: string) => {
     setSelectedEntityRelation(newValue); // Armazena a opção da Entidade
     setOpenModal(true);
   };

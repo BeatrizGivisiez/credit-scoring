@@ -1,14 +1,16 @@
+//src/components/Stepper/StepGroupDetais/StepGroupDetails.tsx
 "use client";
 
 import { FormControl, Grid } from "@mui/material";
 import { InputText, InputSelect } from "@/components";
 import { Dispatch, SetStateAction } from "react";
+import { EntitySelectOption } from "@/hooks/entity/useEntitySelect";
 
 interface StepGroupDetailsProps {
   groupName: string;
-  parentGroup: number | undefined;
-  setParentGroup: Dispatch<SetStateAction<number>>;
-  entitySelect: { label: string; value: number }[];
+  parentGroup: string | undefined;
+  setParentGroup: Dispatch<SetStateAction<string>>;
+  entitySelect: EntitySelectOption[];
   loading: boolean;
   handleGroupNameChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
 }

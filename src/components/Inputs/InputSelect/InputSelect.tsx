@@ -1,9 +1,23 @@
+//src/components/Inputs/InputSelect/InputSelect.tsx
 "use client";
 
-import { Autocomplete, FormControl, TextField } from "@mui/material";
+import { Autocomplete, FormControl, SxProps, TextField } from "@mui/material";
 
 import { select } from "./styles";
-import { Option, InputSelectProps } from "./types";
+
+import { Theme } from "@emotion/react";
+import { EntitySelectOption } from "@/hooks/entity/useEntitySelect";
+
+export type InputSelectProps = {
+  options: EntitySelectOption[];
+  value: string | undefined;
+  onChange: (value: string) => void;
+  label: string;
+  sx?: SxProps<Theme>;
+  fullWidth?: boolean;
+  disabled?: boolean;
+  loading?: boolean;
+};
 
 export const InputSelect = ({
   options,
@@ -22,12 +36,11 @@ export const InputSelect = ({
     <FormControl variant="outlined" sx={sx} fullWidth={fullWidth} required>
       <Autocomplete
         value={selectedOption}
-        onChange={(event, newValue: Option | null) => {
-          // Se houver uma nova opção selecionada, envie o valor (número), senão, envie 0
-          onChange(newValue ? Number(newValue.value) : 0);
+        onChange={(event, newValue: EntitySelectOption | null) => {
+          onChange(newValue?.value || "");
         }}
         options={options}
-        getOptionLabel={(option: Option) => option.label} // Mostrar o label corretamente
+        getOptionLabel={(option: EntitySelectOption) => option.label}
         isOptionEqualToValue={(option, selectedOption) => option.value === selectedOption?.value}
         disabled={disabled || loading}
         renderInput={(params) => (

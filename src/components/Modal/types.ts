@@ -1,4 +1,5 @@
 import { EconomicGroupId } from "@/app/dto/EconomicGroupIdDto";
+import { EntitySelectOption } from "@/hooks/entity/useEntitySelect";
 import { User } from "@/types/types";
 
 export interface ModalProps {
@@ -54,10 +55,7 @@ export interface ModalRelateEntityAddProps {
   open: boolean;
   handleClose: () => void;
   handleSubmit?: (c: any) => void;
-  listEntities: {
-    label: string;
-    value: number;
-  }[];
+  listEntities: EntitySelectOption[];
 }
 
 export interface ModalRelateEntityEditProps {

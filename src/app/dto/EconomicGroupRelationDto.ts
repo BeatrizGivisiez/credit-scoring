@@ -1,6 +1,6 @@
 export interface EconomicGroupRelationDTO {
   name: string; //nome do grupo
-  entityMotherId: number; // id ent mae
+  entityMotherId: string; // id ent mae
   entities: EconomicGroupRelationEntityDTO[];
 }
 export interface EconomicGroupRelationEntityDTO {
