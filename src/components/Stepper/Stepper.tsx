@@ -62,8 +62,9 @@ export const Stepper = () => {
 
   useEffect(() => {
     const item =
-      entityNotInGroup?.find((i: any) => i.entityId === Number(selectedEntityRelation)) ??
-      ({} as EntityDTO);
+      entityNotInGroup?.find(
+        (i: any) => `${i.entityId}-${i.documentNumber}` === selectedEntityRelation
+      ) ?? ({} as EntityDTO);
     setSelectedEntityObj(item);
   }, [entityNotInGroup, selectedEntityRelation]);
 
@@ -88,6 +89,7 @@ export const Stepper = () => {
   };
 
   const handleChangeEntity = (newValue: string) => {
+    alert(newValue);
     setSelectedEntityRelation(newValue); // Armazena a opção da Entidade
     setOpenModal(true);
   };

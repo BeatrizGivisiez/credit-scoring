@@ -35,7 +35,7 @@ export const ModalCreateGroupEdit = ({
   };
 
   // Função para lidar com a seleção da entidade
-  const handleChangeSelect = (newValue: number) => {
+  const handleChangeSelect = (newValue: string) => {
     setSelectedEntity(newValue); // Atualiza a entidade selecionada
   };
 

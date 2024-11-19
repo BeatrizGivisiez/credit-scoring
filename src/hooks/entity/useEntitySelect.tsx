@@ -20,7 +20,7 @@ export const useEntitySelect = (): [
 
   const entitySelect = notInGroupEntity.map((item: EntityDTO) => ({
     label: `${item.name} - ${item.documentNumber}`,
-    value: `${item.entityId}-${item.documentNumber}-${item.id}`
+    value: `${item.entityId}-${item.documentNumber}`
   }));
 
   return [getUniqueListBy(entitySelect, "label"), loading, notInGroupEntity, refetch];

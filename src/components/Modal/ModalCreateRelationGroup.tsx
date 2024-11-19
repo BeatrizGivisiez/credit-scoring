@@ -20,7 +20,7 @@ export const ModalCreateRelationGroup = ({
   handleSubmit = () => {}
 }: ModalCreateRelationGroupProps) => {
   const [selectedOption, setSelectedOption] = useState<number>(0);
-  const [selectedEntity, setSelectedEntity] = useState<number>();
+  const [selectedEntity, setSelectedEntity] = useState<string>("");
 
   // Função para lidar com a seleção de relação (valor numérico)
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -28,7 +28,7 @@ export const ModalCreateRelationGroup = ({
   };
 
   // Função para lidar com a seleção da entidade
-  const handleChangeSelect = (newValue: number) => {
+  const handleChangeSelect = (newValue: string) => {
     setSelectedEntity(newValue); // Atualiza a entidade selecionada
   };
 
