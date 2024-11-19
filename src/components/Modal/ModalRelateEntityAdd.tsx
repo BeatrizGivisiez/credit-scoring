@@ -18,8 +18,8 @@ export const ModalRelateEntityAdd = ({
   handleSubmit = () => {}
 }: ModalRelateEntityAddProps) => {
   const [selectedOption, setSelectedOption] = useState<number>(0);
-  const [selectedEntity, setSelectedEntity] = useState<number>(); // Entidade filha e nova
-  const [selectedParentEntity, setSelectedParentEntity] = useState<number>(); // Entidade mãe
+  const [selectedEntity, setSelectedEntity] = useState<string>(""); // Entidade filha e nova
+  const [selectedParentEntity, setSelectedParentEntity] = useState<string>(""); // Entidade mãe
 
   const [entitySelect, loadingEntity] = useEntitySelect(); // Seleção de entidades (tanto mãe quanto filha)
   const [relationSelect] = useRelationOption(); // Seleção de característica de relação
@@ -30,12 +30,12 @@ export const ModalRelateEntityAdd = ({
   };
 
   // Função para lidar com a seleção da entidade filha
-  const handleChangeSelect = (newValue: number) => {
+  const handleChangeSelect = (newValue: string) => {
     setSelectedEntity(newValue); // Atualiza a entidade selecionada
   };
 
   // Função para lidar com a seleção da entidade mãe
-  const handleChangeParentSelect = (newValue: number) => {
+  const handleChangeParentSelect = (newValue: string) => {
     setSelectedParentEntity(newValue); // Atualiza a entidade mãe selecionada
   };
 
@@ -79,7 +79,7 @@ export const ModalRelateEntityAdd = ({
           loading={loadingEntity}
           options={entitySelect}
           value={selectedEntity}
-          onChange={(value) => handleChangeSelect(Number(value))}
+          onChange={handleChangeSelect}
           label="Indique a nova Entidade"
         />
 
@@ -89,9 +89,9 @@ export const ModalRelateEntityAdd = ({
         <InputSelect
           fullWidth
           loading={loadingEntity}
-          options={listEntities} // trocar, irmaos e mae do grupo.
+          options={listEntities}
           value={selectedParentEntity}
-          onChange={(value) => handleChangeParentSelect(Number(value))}
+          onChange={handleChangeParentSelect}
           label="Indique a Entidade Associada"
         />
       </Box>

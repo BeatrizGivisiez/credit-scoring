@@ -1,7 +1,7 @@
+//src/components/Stepper/Stepper.tsx
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
-
 import { useCharacteristicRelation, useStepperContext } from "@/app/context";
 import {
   EconomicGroupRelationDTO,
@@ -22,7 +22,6 @@ const steps = ["Dados do Grupo", "Associar Entidade"];
 
 export const Stepper = () => {
   const { characteristicRelationActive } = useCharacteristicRelation();
-
   const { createEconomicGroup, loading: loadingCreateEconomicGroup } = useCreateEconomicGroup();
 
   const {
@@ -41,7 +40,7 @@ export const Stepper = () => {
   const [openModal, setOpenModal] = useState<boolean>(false);
   const [entitySelect, loading, entityNotInGroup] = useEntitySelect();
   const [selectedEntityObj, setSelectedEntityObj] = useState<EntityDTO>({} as EntityDTO);
-  const [selectedEntityRelation, setSelectedEntityRelation] = useState<number | undefined>();
+  const [selectedEntityRelation, setSelectedEntityRelation] = useState<string | undefined>();
   const [alertOpen, setAlertOpen] = useState<boolean>(false);
 
   const [alertData, setAlertData] = useState<{
@@ -63,9 +62,9 @@ export const Stepper = () => {
 
   useEffect(() => {
     const item =
-      entityNotInGroup?.find((i: any) => Number(i.entityId) === selectedEntityRelation) ??
-      ({} as EntityDTO);
-
+      entityNotInGroup?.find(
+        (i: any) => `${i.entityId}-${i.documentNumber}` === selectedEntityRelation
+      ) ?? ({} as EntityDTO);
     setSelectedEntityObj(item);
   }, [entityNotInGroup, selectedEntityRelation]);
 
@@ -89,7 +88,7 @@ export const Stepper = () => {
     setAlertData({ message: "", type: "info" });
   };
 
-  const handleChangeEntity = (newValue: number) => {
+  const handleChangeEntity = (newValue: string) => {
     setSelectedEntityRelation(newValue); // Armazena a opção da Entidade
     setOpenModal(true);
   };
@@ -115,14 +114,20 @@ export const Stepper = () => {
       }
       setActiveStep((prevActiveStep) => prevActiveStep + 1);
     } else {
+      const parentId = parentGroup?.split("-")[0];
+      const parentNif = parentGroup?.split("-")[1];
+
       // Construa o DTO completo para o POST
       const newGroupRelation: EconomicGroupRelationDTO = {
         name: groupName,
-        entityMotherId: parentGroup!,
+        entityMotherId: parentId ?? "",
+        entityMotherNif: parentNif ?? "",
         entities: associatedEntities.map(
           (child: any): EconomicGroupRelationEntityDTO => ({
             parentId: child.parentId,
+            parentNif: child.parentNif,
             childId: child.id,
+            childNif: child.nif,
             economicGroupTypeId: child.characteristicRelation
           })
         )

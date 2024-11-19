@@ -268,12 +268,12 @@ export const ModalListGroupEdit = ({
           handleClose={() => setRelateEntityAddOpen(false)}
           handleSubmit={handleAddGroup}
           listEntities={[
-            { label: `${parentClient} - ${nif}`, value: Number.parseInt(nif ?? "0") },
+            { label: `${parentClient} - ${nif}`, value: nif ?? "0" },
             ...localRelations
               .filter((i) => i.status === true)
               .map((i) => ({
                 label: `${i.child.name} - ${i.child.documentNumber}`,
-                value: Number.parseInt(i.child.documentNumber)
+                value: i.child.documentNumber
               }))
           ]}
         />

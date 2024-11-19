@@ -22,8 +22,7 @@ export const useFetchEconomicGroup = () => {
       }
 
       const data: EconomicGroupDTO[] = await response.json();
-      setEconomicGroup(data); // Atualiza o estado com os dados novos
-      // console.log("Dados recebidos setEconomicGroup:", data);
+      setEconomicGroup(data);
     } catch (err: any) {
       setError(err.message);
     } finally {
@@ -32,8 +31,8 @@ export const useFetchEconomicGroup = () => {
   }, []);
 
   useEffect(() => {
-    fetchEconomicGroup(); // Chama a função na primeira renderização
+    fetchEconomicGroup();
   }, [fetchEconomicGroup]);
 
-  return { economicGroup, loading, error, fetchEconomicGroup }; // Retorna a função fetchEconomicGroup
+  return { economicGroup, loading, error, fetchEconomicGroup };
 };

@@ -20,7 +20,7 @@ export const ModalCreateRelationGroup = ({
   handleSubmit = () => {}
 }: ModalCreateRelationGroupProps) => {
   const [selectedOption, setSelectedOption] = useState<number>(0);
-  const [selectedEntity, setSelectedEntity] = useState<number>();
+  const [selectedEntity, setSelectedEntity] = useState<string>("");
 
   // Função para lidar com a seleção de relação (valor numérico)
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -28,7 +28,7 @@ export const ModalCreateRelationGroup = ({
   };
 
   // Função para lidar com a seleção da entidade
-  const handleChangeSelect = (newValue: number) => {
+  const handleChangeSelect = (newValue: string) => {
     setSelectedEntity(newValue); // Atualiza a entidade selecionada
   };
 
@@ -40,6 +40,14 @@ export const ModalCreateRelationGroup = ({
     return option.split("-")[0].trim();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedEntity]);
+
+  const getChildNif = () => {
+    return selectedEntity.split("-")[1];
+  };
+
+  const getParentId = () => {
+    return selectedEntity.split("-")[0];
+  };
 
   return (
     <Dialog onClose={handleClose} open={open} maxWidth="md" fullWidth>
@@ -89,10 +97,12 @@ export const ModalCreateRelationGroup = ({
           onClick={() =>
             handleSubmit({
               id: childId,
-              parentId: selectedEntity,
+              parentId: getParentId(),
               parentName: parentGroupName,
+              parentNif: nif,
               name: parentClient,
               documentNumber: nif,
+              nif: getChildNif(),
               characteristicRelation: selectedOption
             })
           }
