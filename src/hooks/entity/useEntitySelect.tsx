@@ -3,7 +3,7 @@ import { useFetchNotInGroupEntity } from "../notInGroupEntity/useFetchNotInGroup
 
 export interface EntitySelectOption {
   label: string;
-  value: string; // Combinando entityId e documentNumber para gerar uma chave única
+  value: string;
 }
 
 export const useEntitySelect = (): [

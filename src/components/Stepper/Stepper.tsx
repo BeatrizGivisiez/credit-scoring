@@ -125,9 +125,9 @@ export const Stepper = () => {
         entities: associatedEntities.map(
           (child: any): EconomicGroupRelationEntityDTO => ({
             parentId: child.parentId,
-            parentNif: child.parentNif,
+            parentNif: child.nif,
             childId: child.id,
-            childNif: child.nif,
+            childNif: child.parentNif,
             economicGroupTypeId: child.characteristicRelation
           })
         )
