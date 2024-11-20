@@ -14,7 +14,9 @@ export interface EconomicGroupRelationEntityDTO {
 
 export interface EconomicGroupRelationNewEntityDTO {
   economicGroupId: number;
-  parentId: number | undefined;
-  childId: number;
+  parentId: string | undefined;
+  parentNif: string;
+  childId: string;
+  childNif: string;
   economicGroupTypeId: number;
 }

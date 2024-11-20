@@ -37,6 +37,7 @@ export const ModalListGroupEdit = ({
   handleClose,
   groupName,
   parentClient,
+  parentId,
   id,
   nif,
   deletedAt = "",
@@ -133,14 +134,18 @@ export const ModalListGroupEdit = ({
   useEffect(() => setLocalRelations(economicGroupId), [economicGroupId]);
 
   const handleAddGroup = async (data: {
-    childId: number;
-    parentId: number;
+    childId: string;
+    childNif: string;
+    parentNif: string;
+    parentId: string;
     characteristicRelation: number;
   }) => {
     const body: EconomicGroupRelationNewEntityDTO = {
       economicGroupId: id ?? 0, // Id do grupo econômico
       parentId: data.parentId, // Id da entidade mãe
+      parentNif: data.parentNif,
       childId: data.childId, // ID da entidade filha
+      childNif: data.childNif,
       economicGroupTypeId: data.characteristicRelation // Tipo de relação
     };
     try {
@@ -268,12 +273,12 @@ export const ModalListGroupEdit = ({
           handleClose={() => setRelateEntityAddOpen(false)}
           handleSubmit={handleAddGroup}
           listEntities={[
-            { label: `${parentClient} - ${nif}`, value: nif ?? "0" },
+            { label: `${parentClient} - ${nif}`, value: `${parentId}-${nif}` },
             ...localRelations
               .filter((i) => i.status === true)
               .map((i) => ({
                 label: `${i.child.name} - ${i.child.documentNumber}`,
-                value: i.child.documentNumber
+                value: `${i.child.entityId}-${i.child.documentNumber}`
               }))
           ]}
         />

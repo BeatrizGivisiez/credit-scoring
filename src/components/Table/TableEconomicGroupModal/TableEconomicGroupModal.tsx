@@ -68,10 +68,10 @@ export const TableEconomicGroupModal = ({
             .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
             .map((relation: any, index: any) => (
               <TableRow key={index}>
-                <TableCell>{relation.child.name}</TableCell>
-                <TableCell>{relation.child.documentNumber}</TableCell>
+                <TableCell>{relation.child?.name}</TableCell>
+                <TableCell>{relation.child?.documentNumber}</TableCell>
                 <TableCell>{relation.economicGroupType.name}</TableCell>
-                <TableCell>{relation.parent.name}</TableCell>
+                <TableCell>{relation.parent?.name}</TableCell>
                 <TableCell>{relation.created}</TableCell>
                 <TableCell>{relation.deleted}</TableCell>
                 <TableCell>

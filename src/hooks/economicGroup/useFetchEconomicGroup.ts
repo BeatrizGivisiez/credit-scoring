@@ -22,6 +22,7 @@ export const useFetchEconomicGroup = () => {
       }
 
       const data: EconomicGroupDTO[] = await response.json();
+      console.log("data", data);
       setEconomicGroup(data);
     } catch (err: any) {
       setError(err.message);

@@ -54,6 +54,11 @@ export const ModalRelateEntityAdd = ({
     console.log("Relação selecionada mudou:", selectedOption);
   }, [selectedOption]);
 
+  const getChildId = () => selectedEntity.split("-")[0];
+  const getChildNif = () => selectedEntity.split("-")[1];
+  const getParentId = () => selectedParentEntity.split("-")[0];
+  const getParentNif = () => selectedParentEntity.split("-")[1];
+
   return (
     <Dialog onClose={handleClose} open={open} maxWidth="md" fullWidth>
       <DialogTitle>
@@ -115,8 +120,10 @@ export const ModalRelateEntityAdd = ({
           color="success"
           onClick={() => {
             handleSubmit({
-              childId: selectedEntity, // Entidade filha selecionada
-              parentId: selectedParentEntity, // Entidade mãe selecionada
+              childId: getChildId(), // Entidade filha selecionada (id <== , nif)
+              childNif: getChildNif(),
+              parentId: getParentId(), // Entidade mãe selecionada
+              parentNif: getParentNif(),
               characteristicRelation: selectedOption // Tipo de relação
             });
           }}

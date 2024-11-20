@@ -72,6 +72,7 @@ export const ConsultGREPage = ({
           <TableListGroup
             groups={filteredGroups.map((item) => ({
               id: item.economicGroupId,
+              entityId: item.entityId,
               groupName: item.name,
               createdAt: item.created,
               quantityRelation: item.relationsCount,
@@ -107,7 +108,7 @@ export const ConsultGREPage = ({
             id={selectedGroup.id}
             groupName={selectedGroup.groupName}
             parentClient={selectedGroup.parentClient}
-            parentId={selectedGroup.parentId}
+            parentId={selectedGroup.entityMotherId}
             nif={selectedGroup.nif}
             user="Admin"
             version="1.0"

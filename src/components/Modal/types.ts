@@ -1,5 +1,5 @@
 import { EconomicGroupId } from "@/app/dto/EconomicGroupIdDto";
-import { UserCreateDTO, UserDTO } from "@/app/dto/UserDto";
+import { UserCreateDTO } from "@/app/dto/UserDto";
 import { EntitySelectOption } from "@/hooks/entity/useEntitySelect";
 
 export interface ModalProps {
