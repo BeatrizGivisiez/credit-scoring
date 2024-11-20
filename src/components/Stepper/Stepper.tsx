@@ -73,7 +73,7 @@ export const Stepper = () => {
     const newArray = [...associatedEntities];
     newArray.push(child);
     setAssociatedEntities(newArray);
-    setAssociateEntitiesIds((prev) => [...prev, `${child.id.toString()}-${child.documentNumber}`]);
+    setAssociateEntitiesIds((prev) => [...prev, `${child.id}-${child.documentNumber}`]);
     setOpenModal(false);
     setSelectedEntityRelation(undefined);
   };
@@ -126,9 +126,9 @@ export const Stepper = () => {
         entities: associatedEntities.map(
           (child: any): EconomicGroupRelationEntityDTO => ({
             parentId: child.parentId,
-            parentNif: child.nif,
+            parentNif: child.parentNif,
             childId: child.id,
-            childNif: child.parentNif,
+            childNif: child.nif,
             economicGroupTypeId: child.characteristicRelation
           })
         )

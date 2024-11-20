@@ -41,7 +41,7 @@ export const ModalCreateRelationGroup = ({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedEntity]);
 
-  const getChildNif = () => {
+  const getParentNif = () => {
     return selectedEntity.split("-")[1];
   };
 
@@ -99,10 +99,10 @@ export const ModalCreateRelationGroup = ({
               id: childId,
               parentId: getParentId(),
               parentName: parentGroupName,
-              parentNif: nif,
+              parentNif: getParentNif(),
               name: parentClient,
               documentNumber: nif,
-              nif: getChildNif(),
+              nif: nif,
               characteristicRelation: selectedOption
             })
           }
