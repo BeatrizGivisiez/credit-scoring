@@ -2,7 +2,7 @@
 
 import { Box, Dialog, DialogTitle, Typography } from "@mui/material";
 import { FloppyDiskBack, X } from "@phosphor-icons/react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 import { ModalCreateUserProps } from "./types";
 import { optionperfil } from "@/app/_mocks/optiontypes";
@@ -44,6 +44,15 @@ export const ModalCreateUser = ({
     };
     onSave(newUser);
   };
+
+  useEffect(() => {
+    if (open) {
+      setSelectedPerfil("");
+      setInputEmail("");
+      setInputName("");
+      setInputPassword("");
+    }
+  }, [open]);
 
   return (
     <Dialog onClose={handleClose} open={open} maxWidth="md" fullWidth>
