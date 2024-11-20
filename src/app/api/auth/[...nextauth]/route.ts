@@ -6,16 +6,16 @@ const handler = NextAuth({
     CredentialsProvider({
       name: "Credentials",
       credentials: {
-        username: { label: "Username", type: "text", placeholder: "email@example.com" },
+        email: { label: "E-mail", type: "text", placeholder: "email@example.com" },
         password: { label: "Password", type: "password" }
       },
       async authorize(credentials) {
-        if (!credentials?.username || !credentials?.password) {
+        if (!credentials?.email || !credentials?.password) {
           return null;
         }
 
         const body = {
-          username: credentials.username,
+          email: credentials.email,
           password: credentials.password
         };
 

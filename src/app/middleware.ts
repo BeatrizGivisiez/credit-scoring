@@ -15,8 +15,6 @@ export async function middleware(req: any) {
       return NextResponse.redirect(new URL("/", req.url));
     }
   }
-
-  // Se o token existir ou a rota não for protegida, permite o acesso
   return NextResponse.next();
 }
 
