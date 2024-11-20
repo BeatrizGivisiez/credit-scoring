@@ -8,7 +8,6 @@ import { ModalCreateUserProps } from "./types";
 import { optionperfil } from "@/app/_mocks/optiontypes";
 import { Button, ButtonIcon, Divider, InputSelect, InputText } from "@/components";
 import PALETTE from "@/styles/_palette";
-import { useCreateUser } from "@/hooks/user/useCreateUser";
 
 export const ModalCreateUser = ({
   open,
@@ -17,10 +16,8 @@ export const ModalCreateUser = ({
 }: ModalCreateUserProps & { onSave: (user: any) => void }) => {
   const [selectedPerfil, setSelectedPerfil] = useState<string>("");
   const [inputName, setInputName] = useState<string>("");
-  const [inputEmail, setInputEmail] = useState<string>(""); // Email
-  const [inputPassword, setInputPassword] = useState<string>(""); // Senha
-
-  const { createUser, loading, error } = useCreateUser();
+  const [inputEmail, setInputEmail] = useState<string>("");
+  const [inputPassword, setInputPassword] = useState<string>("");
 
   const handleChangeSelect = (newValue: string) => {
     setSelectedPerfil(newValue);
@@ -45,15 +42,7 @@ export const ModalCreateUser = ({
       password: inputPassword,
       perfilId: Number(selectedPerfil)
     };
-    try {
-      const createdUser = await createUser(newUser); // Chama o hook para criar o usuário
-      if (createdUser) {
-        onSave(createdUser); // Passa o usuário criado para o componente pai
-        handleClose(); // Fecha o modal
-      }
-    } catch (err) {
-      console.error("Erro ao criar usuário:", err);
-    }
+    onSave(newUser);
   };
 
   return (

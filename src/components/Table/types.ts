@@ -36,6 +36,7 @@ export interface TableAssociatedEntitiesEGProps {
 export interface TableProps {
   userList: UserDTO[];
   pageSize?: number;
+  refetch?: () => void;
 }
 
 type RelationList = {

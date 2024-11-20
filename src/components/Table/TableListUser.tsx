@@ -12,7 +12,11 @@ import { ModalCreateUserEdit } from "../Modal/ModalCreateUserEdit";
 import { ButtonIcon } from "@/components";
 import { PerfilOptions } from "@/app/dto/UserDto";
 
-export const TableListUser = ({ userList, pageSize = 10 }: TableProps) => {
+export const TableListUser = ({
+  userList,
+  pageSize = 10,
+  refetch = async () => {}
+}: TableProps) => {
   const [createUserOpen, setCreateUserOpen] = useState<boolean>(false);
   const [selectedUser, setSelectedUser] = useState<(typeof userList)[number] | null>(null);
 
@@ -21,9 +25,10 @@ export const TableListUser = ({ userList, pageSize = 10 }: TableProps) => {
     setCreateUserOpen(true);
   };
 
-  const handleCloseModal = () => {
+  const handleCloseModal = async () => {
     setCreateUserOpen(false);
     setSelectedUser(null);
+    await refetch();
   };
 
   const columns: GridColDef<(typeof userList)[number]>[] = [

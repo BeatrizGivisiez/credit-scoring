@@ -22,7 +22,7 @@ import { UserCreateDTO, UserDTO } from "@/app/dto/UserDto";
 import { useCreateUser } from "@/hooks/user/useCreateUser";
 
 export const ManagerUserPage = () => {
-  const { user: fetchedUsers, loading, error } = useFetchUser();
+  const { user: fetchedUsers, loading, error, refetch } = useFetchUser();
   const { createUser } = useCreateUser();
   const [users, setUsers] = useState<UserDTO[]>([]);
   const [addUser, setAddUser] = useState<UserCreateDTO[]>([]);
@@ -52,7 +52,8 @@ export const ManagerUserPage = () => {
     } catch (error) {
       console.log("Erro ao criar o utillizador", error);
     } finally {
-      handleCloseModal(); // Fecha o modal
+      handleCloseModal();
+      await refetch();
     }
   };
 
@@ -72,7 +73,7 @@ export const ManagerUserPage = () => {
           ) : error ? (
             <Alert severity="error" label="Erro ao carregar usuários" icon={WarningCircle} />
           ) : (
-            <TableListUser pageSize={10} userList={users} />
+            <TableListUser pageSize={10} userList={users} refetch={refetch} />
           )}
         </Card>
       </Box>
