@@ -87,7 +87,7 @@ export const TableAssociateEntity = ({
             placement="top-end"
             title="Excluir"
             icon={Trash}
-            onClick={() => handleDeleteRow(params.id.toString())}
+            onClick={() => handleDeleteRow(`${params.id}-${params.row.nif}`)}
           />
         </Box>
       )

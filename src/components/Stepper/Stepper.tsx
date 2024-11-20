@@ -79,7 +79,7 @@ export const Stepper = () => {
   };
 
   const handleDeleteChild = (childId: string) => {
-    setAssociatedEntities((prev) => prev.filter((i) => i.id.toString() !== childId)); // Remove a entidade associada
+    setAssociatedEntities((prev) => prev.filter((i) => `${i.id}-${i.documentNumber}` !== childId)); // Remove a entidade associada
     setAssociateEntitiesIds((prev) => prev.filter((id) => id !== childId)); // Adiciona a entidade de volta às opções disponíveis
   };
 
