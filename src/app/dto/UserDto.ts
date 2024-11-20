@@ -1,10 +1,10 @@
 export interface UserDTO {
   id: number;
-  name: string;
+  username: string;
   email: string;
   password: string;
   status: boolean;
-  perfil: Perfil;
+  perfilId: number;
 }
 
 export type Perfil = "Administrador" | "Gestor" | "Visualizador";

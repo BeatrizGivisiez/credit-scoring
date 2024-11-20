@@ -1,8 +1,10 @@
 export const fetchCache = "force-no-store";
-import { UserDTO } from "@/app/dto/UserDto";
+import { AuthenticateDTO } from "@/app/dto/AuthenticateDto";
 import { NextResponse } from "next/server";
 
-export async function GET(): Promise<NextResponse> {
+export async function POST(request: Request): Promise<NextResponse> {
+  const body: AuthenticateDTO = await request.json();
+
   // Garantir que a variável de ambiente seja carregada corretamente
   const apiUrl: string | undefined = process.env.API_URL;
   if (!apiUrl) {
@@ -10,23 +12,26 @@ export async function GET(): Promise<NextResponse> {
   }
 
   // Construir a URL final para a rota correta
-  const url: string = `${apiUrl}Users/GetAll`; // Adicione o endpoint correto aqui
+  const url: string = `${apiUrl}Users/authenticate`; // Adicione o endpoint correto aqui
   const headers: HeadersInit = {
-    accept: "application/ld+json"
+    // accept: "*/*",
+    accept: "application/ld+json",
+    "Content-Type": "application/json"
   };
 
   try {
     const response = await fetch(url, {
       cache: "no-cache",
-      method: "GET",
-      headers: headers
+      method: "POST",
+      headers: headers,
+      body: JSON.stringify(body)
     });
 
     if (!response.ok) {
       throw new Error(`Error fetching data: ${response.statusText}`);
     }
 
-    const data: UserDTO[] = await response.json();
+    const data = await response.json();
     console.log("Dados recebidos UsersDto:", data); // Log para verificar a resposta
 
     return NextResponse.json(data); // Retorna os dados em formato JSON

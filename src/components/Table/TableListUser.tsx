@@ -27,10 +27,10 @@ export const TableListUser = ({ userList, pageSize = 10 }: TableProps) => {
 
   const columns: GridColDef<(typeof userList)[number]>[] = [
     { field: "id", headerName: "ID", width: 90, headerAlign: "center", align: "center" },
-    { field: "name", headerName: "Nome Utilizador", width: 550 },
+    { field: "username", headerName: "Nome Utilizador", width: 550 },
     { field: "email", headerName: "E-mail", width: 350 },
     {
-      field: "perfil",
+      field: "perfilId",
       headerName: "Perfil",
       width: 150
     },
@@ -116,10 +116,10 @@ export const TableListUser = ({ userList, pageSize = 10 }: TableProps) => {
         <ModalCreateUserEdit
           open={createUserOpen}
           handleClose={handleCloseModal}
-          userName={selectedUser.name}
+          userName={selectedUser.username}
           email={selectedUser.email}
           password={selectedUser.password}
-          perfil={`${selectedUser.perfil}`}
+          perfil={`${selectedUser.perfilId}`}
         />
       )}
     </>

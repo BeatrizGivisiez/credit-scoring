@@ -13,14 +13,16 @@ import { LockKey, User, WarningCircle } from "@phosphor-icons/react";
 import { login__box, login__card, login__input } from "./styles";
 
 export const Login = () => {
-  const [email, setEmail] = useState<string>("");
+  // const [email, setEmail] = useState<string>("");
+  const [username, setUsername] = useState<string>("");
+
   const [password, setPassword] = useState<string>("");
   const [error, setError] = useState<string | null>(null);
   const [alertOpen, setAlertOpen] = useState<boolean>(false);
   const router = useRouter();
 
   const handleEmail = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setEmail(event.target.value);
+    setUsername(event.target.value);
   };
 
   const handlePassword = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -37,7 +39,7 @@ export const Login = () => {
   const handleLogin = async () => {
     const result = await signIn("credentials", {
       redirect: false,
-      email,
+      username,
       password,
       callbackUrl: "/gre" // Redireciona para a rota protegida
     });
@@ -59,7 +61,7 @@ export const Login = () => {
             <InputText
               id="email"
               label="E-mail"
-              value={email}
+              value={username}
               onChange={handleEmail}
               type="email"
               required
