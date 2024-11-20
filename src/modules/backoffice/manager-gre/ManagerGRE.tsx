@@ -14,7 +14,7 @@ import {
 import { breadcrumbsBackofficeGRE } from "@/constants/breadcrumbs";
 import { useCreateCharacteristicRelation, useFetchCharacteristicRelation } from "@/hooks";
 import PALETTE from "@/styles/_palette";
-import { Box, CircularProgress, Stack, Typography } from "@mui/material";
+import { Box, Stack, Typography } from "@mui/material";
 import { Check, Plus } from "@phosphor-icons/react";
 
 import { backoffice__box, backoffice__manager } from "./styles";

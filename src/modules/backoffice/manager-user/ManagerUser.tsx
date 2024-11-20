@@ -18,13 +18,14 @@ import {
 import { breadcrumbsBackoffice } from "@/constants/breadcrumbs";
 import PALETTE from "@/styles/_palette";
 import { useFetchUser } from "@/hooks";
-import { UserDTO } from "@/app/dto/UserDto";
+import { UserCreateDTO, UserDTO } from "@/app/dto/UserDto";
 import { useCreateUser } from "@/hooks/user/useCreateUser";
 
 export const ManagerUserPage = () => {
   const { user: fetchedUsers, loading, error } = useFetchUser();
   const { createUser } = useCreateUser();
   const [users, setUsers] = useState<UserDTO[]>([]);
+  const [addUser, setAddUser] = useState<UserCreateDTO[]>([]);
   const [createUserOpen, setCreateUserOpen] = useState<boolean>(false);
 
   useEffect(() => {
@@ -44,14 +45,15 @@ export const ManagerUserPage = () => {
   };
 
   // Função para adicionar um novo usuário
-  const handleAddUser = (newUser: UserDTO) => {
-    const userWithStatus = {
-      ...newUser,
-      status: true // Define como ativo por padrão
-    };
-    createUser(userWithStatus);
-    setUsers((prevUsers) => [...prevUsers, userWithStatus]); // Adiciona o novo usuário
-    handleCloseModal(); // Fecha o modal após adicionar o usuário
+  const handleAddUser = async (newUser: UserCreateDTO) => {
+    try {
+      const createdUser = await createUser(newUser); // Salva no backend
+      setAddUser((prevUsers) => [...prevUsers, createdUser]); // Adiciona o novo usuário
+    } catch (error) {
+      console.log("Erro ao criar o utillizador", error);
+    } finally {
+      handleCloseModal(); // Fecha o modal
+    }
   };
 
   return (
@@ -79,7 +81,7 @@ export const ManagerUserPage = () => {
         open={createUserOpen}
         handleClose={handleCloseModal}
         onSave={handleAddUser}
-        users={users}
+        users={addUser}
       />
     </>
   );

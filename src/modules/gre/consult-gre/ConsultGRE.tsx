@@ -12,7 +12,7 @@ import {
   TableListGroup
 } from "@/components";
 import PALETTE from "@/styles/_palette";
-import { Box, CircularProgress, Stack, Typography } from "@mui/material";
+import { Stack, Typography } from "@mui/material";
 import { ArrowLeft, Check, MagnifyingGlass, Plus } from "@phosphor-icons/react";
 
 import { consultgre__breadcrumbs, consultgre__search, consultgre__table } from "./styles";

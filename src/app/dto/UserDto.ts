@@ -1,18 +1,16 @@
 export interface UserDTO {
-  id: number;
-  username: string;
+  id?: number;
+  status?: boolean;
+  nome: string;
   email: string;
   password: string;
-  status: boolean;
   perfilId: number;
 }
 
 export interface UserCreateDTO {
-  id: number;
-  username: string;
+  nome: string;
   email: string;
   password: string;
-  status: boolean;
   perfilId: number;
 }
 

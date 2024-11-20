@@ -10,6 +10,7 @@ import { TableProps } from "./types";
 import { ModalCreateUserEdit } from "../Modal/ModalCreateUserEdit";
 
 import { ButtonIcon } from "@/components";
+import { PerfilOptions } from "@/app/dto/UserDto";
 
 export const TableListUser = ({ userList, pageSize = 10 }: TableProps) => {
   const [createUserOpen, setCreateUserOpen] = useState<boolean>(false);
@@ -27,12 +28,29 @@ export const TableListUser = ({ userList, pageSize = 10 }: TableProps) => {
 
   const columns: GridColDef<(typeof userList)[number]>[] = [
     { field: "id", headerName: "ID", width: 90, headerAlign: "center", align: "center" },
-    { field: "username", headerName: "Nome Utilizador", width: 550 },
+    { field: "nome", headerName: "Nome Utilizador", width: 550 },
     { field: "email", headerName: "E-mail", width: 350 },
     {
       field: "perfilId",
       headerName: "Perfil",
-      width: 150
+      width: 150,
+      renderCell: (params) => {
+        const perfil =
+          PerfilOptions.find((option) => option.value === params.value)?.label || "Desconhecido";
+        return (
+          <Box
+            sx={{
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "flex-start",
+              width: "100%",
+              height: "100%"
+            }}
+          >
+            <Typography variant="body2">{perfil}</Typography>
+          </Box>
+        );
+      }
     },
     {
       field: "status",
@@ -116,7 +134,7 @@ export const TableListUser = ({ userList, pageSize = 10 }: TableProps) => {
         <ModalCreateUserEdit
           open={createUserOpen}
           handleClose={handleCloseModal}
-          userName={selectedUser.username}
+          nome={selectedUser.nome}
           email={selectedUser.email}
           password={selectedUser.password}
           perfil={`${selectedUser.perfilId}`}

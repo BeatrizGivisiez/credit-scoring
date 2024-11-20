@@ -39,7 +39,7 @@ const handler = NextAuth({
         if (user && response.status) {
           return {
             id: user.id,
-            username: user.username,
+            nome: user.nome,
             email: user.email,
             perfilId: user.perfilId,
             status: user.status

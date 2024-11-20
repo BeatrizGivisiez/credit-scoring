@@ -37,14 +37,11 @@ export const ModalCreateUser = ({
   };
 
   const handleSave = () => {
-    const lastUserId = Math.max(...users.map((user) => Number(user.id))); // Calcula o maior ID atual
     const newUser = {
-      id: (lastUserId + 1).toString(), // Incrementa o ID
-      userName: inputName,
+      nome: inputName,
       email: inputEmail,
       password: inputPassword,
-      perfil: selectedPerfil,
-      status: true
+      perfilId: selectedPerfil
     };
     onSave(newUser); // Salva o novo usuário
   };

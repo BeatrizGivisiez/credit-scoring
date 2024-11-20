@@ -22,7 +22,7 @@ import PALETTE from "@/styles/_palette";
 export const ModalCreateUserEdit = ({
   open,
   handleClose,
-  userName,
+  nome,
   email,
   password,
   perfil
@@ -34,7 +34,7 @@ export const ModalCreateUserEdit = ({
   const [alertSeverity, setAlertSeverity] = useState<"success" | "error">("success"); // Tipo de alerta
 
   const [selectedPerfil, setSelectedPerfil] = useState<string>(perfil || ""); // Garante que seja string
-  const [inputUserName, setInputUserName] = useState<string>(userName || ""); // Nome
+  const [inputUserName, setInputUserName] = useState<string>(nome || ""); // Nome
   const [inputEmail, setInputEmail] = useState<string>(email || ""); // E-mail
   const [inputPassword, setInputPassword] = useState<string>(password || ""); // Senha
 
@@ -83,7 +83,7 @@ export const ModalCreateUserEdit = ({
     <Dialog onClose={handleClose} open={open} maxWidth="md" fullWidth>
       <DialogTitle>
         <Typography variant="h6" color={PALETTE.PRIMARY_MAIN}>
-          Editar - {userName}
+          Editar - {nome}
         </Typography>
         <ButtonIcon
           placement="top-start"

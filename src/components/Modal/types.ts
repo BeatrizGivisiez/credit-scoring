@@ -1,5 +1,5 @@
 import { EconomicGroupId } from "@/app/dto/EconomicGroupIdDto";
-import { UserDTO } from "@/app/dto/UserDto";
+import { UserCreateDTO, UserDTO } from "@/app/dto/UserDto";
 import { EntitySelectOption } from "@/hooks/entity/useEntitySelect";
 
 export interface ModalProps {
@@ -79,7 +79,7 @@ export interface ModalListUserProps {
   open: boolean;
   handleClose: () => void;
   id?: number;
-  userName?: string;
+  nome?: string;
   email?: string;
   password?: string;
   perfil?: any;
@@ -88,13 +88,13 @@ export interface ModalListUserProps {
 export interface ModalCreateUserProps {
   open: boolean;
   handleClose: () => void;
-  users: UserDTO[];
+  users: UserCreateDTO[];
 }
 
 export interface ModalCreateUserEditProps {
   open: boolean;
   handleClose: () => void;
   id?: number;
-  userName?: string;
+  nome?: string;
   password?: string;
 }
