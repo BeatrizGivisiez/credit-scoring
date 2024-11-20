@@ -7,6 +7,15 @@ export interface UserDTO {
   perfilId: number;
 }
 
+export interface UserCreateDTO {
+  id: number;
+  username: string;
+  email: string;
+  password: string;
+  status: boolean;
+  perfilId: number;
+}
+
 export type Perfil = "Administrador" | "Gestor" | "Visualizador";
 
 export const PerfilOptions: { value: number; label: Perfil }[] = [
