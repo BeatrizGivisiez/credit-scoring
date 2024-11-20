@@ -14,7 +14,6 @@ export async function POST(request: Request): Promise<NextResponse> {
   // Construir a URL final para a rota correta
   const url: string = `${apiUrl}Users/authenticate`; // Adicione o endpoint correto aqui
   const headers: HeadersInit = {
-    // accept: "*/*",
     accept: "application/ld+json",
     "Content-Type": "application/json"
   };
