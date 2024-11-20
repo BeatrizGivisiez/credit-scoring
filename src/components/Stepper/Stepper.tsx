@@ -69,10 +69,11 @@ export const Stepper = () => {
   }, [entityNotInGroup, selectedEntityRelation]);
 
   const handleAddChild = (child: any) => {
+    console.log("child", child);
     const newArray = [...associatedEntities];
     newArray.push(child);
     setAssociatedEntities(newArray);
-    setAssociateEntitiesIds((prev) => [...prev, child.id.toString()]);
+    setAssociateEntitiesIds((prev) => [...prev, `${child.id.toString()}-${child.documentNumber}`]);
     setOpenModal(false);
     setSelectedEntityRelation(undefined);
   };
