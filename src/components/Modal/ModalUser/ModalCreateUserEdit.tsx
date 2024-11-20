@@ -18,7 +18,8 @@ import { Check, FloppyDiskBack, X } from "@phosphor-icons/react";
 
 import { modalcreateuseredit__inputs, modalcreateuseredit__password } from "./styles";
 import { ModalListUserProps } from "./types";
-import { optionperfil } from "@/app/dto/UserDto";
+import { optionperfil, UserCreateDTO, UserDTO } from "@/app/dto/UserDto";
+import { useEditUser } from "@/hooks/user/useEditUser";
 
 export const ModalCreateUserEdit = ({
   open,
@@ -26,7 +27,8 @@ export const ModalCreateUserEdit = ({
   nome,
   email,
   password,
-  perfil
+  perfil,
+  id = 0
 }: ModalListUserProps) => {
   const [isUserActive, setUserActive] = useState(true); // Estado para controlar o estado do usuário
 
@@ -38,6 +40,8 @@ export const ModalCreateUserEdit = ({
   const [inputUserName, setInputUserName] = useState<string>(nome || ""); // Nome
   const [inputEmail, setInputEmail] = useState<string>(email || ""); // E-mail
   const [inputPassword, setInputPassword] = useState<string>(password || ""); // Senha
+
+  const { editUser, loading, error } = useEditUser();
 
   useEffect(() => {
     // Mapear o nome do perfil para o valor correto
@@ -78,6 +82,17 @@ export const ModalCreateUserEdit = ({
       setAlertSeverity("error");
     }
     setAlertOpen(true); // Abre o alerta
+  };
+
+  const handleEditUser = async () => {
+    const userData: UserCreateDTO = {
+      nome: inputUserName,
+      email: inputEmail,
+      password: inputPassword,
+      perfilId: Number.parseInt(selectedPerfil)
+    };
+    await editUser(userData, id);
+    handleClose();
   };
 
   return (
@@ -144,7 +159,7 @@ export const ModalCreateUserEdit = ({
 
       <Box sx={{ display: "flex", justifyContent: "space-between", p: 2, gap: 2 }}>
         <Button label="Cancelar" color="success" onClick={handleClose} iconEnd={X} />
-        <Button label="Gravar" color="success" onClick={() => {}} iconEnd={FloppyDiskBack} />
+        <Button label="Gravar" color="success" onClick={handleEditUser} iconEnd={FloppyDiskBack} />
       </Box>
 
       <Dialog open={alertOpen} onClose={() => setAlertOpen(false)}>

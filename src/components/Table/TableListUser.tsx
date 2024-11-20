@@ -138,6 +138,7 @@ export const TableListUser = ({
       </Box>
       {selectedUser && (
         <ModalCreateUserEdit
+          id={selectedUser.id}
           open={createUserOpen}
           handleClose={handleCloseModal}
           nome={selectedUser.nome}
