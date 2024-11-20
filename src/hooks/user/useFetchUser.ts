@@ -1,5 +1,6 @@
 "use client";
 import { useEffect, useState } from "react";
+
 import { UserDTO } from "@/app/dto/UserDto";
 
 export const useFetchUser = () => {

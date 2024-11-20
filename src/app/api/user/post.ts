@@ -3,14 +3,15 @@ import { NextResponse } from "next/server";
 
 export async function POST(request: Request): Promise<NextResponse> {
   const body: UserCreateDTO = await request.json();
-
+  console.log("entrouuuuuuuuuu....");
   // Garantir que a variável de ambiente seja carregada corretamente
   const apiUrl: string | undefined = process.env.API_URL;
   if (!apiUrl) {
     return NextResponse.json({ error: "API_URL não está definida" }, { status: 500 });
   }
 
-  const url: string = `${apiUrl}Users`;
+  const url: string = `${apiUrl}Users/Insert`;
+  console.log("=====>", url);
   const headers: HeadersInit = {
     accept: "application/ld+json",
     "Content-Type": "application/ld+json"
@@ -27,6 +28,8 @@ export async function POST(request: Request): Promise<NextResponse> {
     const contentType = response.headers.get("content-type");
     if (contentType && contentType.includes("application/json")) {
       const data = await response.json(); // Processa o JSON normalmente
+      console.log("Dados recebidos:", data); // Log para verificar a resposta
+
       return NextResponse.json(data);
     } else if (response.ok) {
       // Se a resposta for 2xx, mas não tiver JSON, retorna sucesso com uma mensagem genérica
