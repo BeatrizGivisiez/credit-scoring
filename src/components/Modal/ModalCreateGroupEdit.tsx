@@ -46,15 +46,14 @@ export const ModalCreateGroupEdit = ({
   }, [selectedEntity]);
 
   const groupId = useMemo(() => {
-    return (
+    const entity =
       associatedEntities.find((i: any) => i.documentNumber == nif) ??
-      ({} as IAssocietedEntitiesContext)
-    ).id;
+      ({} as IAssocietedEntitiesContext);
+    return entity.id;
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [nif]);
 
   useEffect(() => {
-    console.log("parentClient", parentClient);
     setSelectedEntity(parentClient);
   }, [parentClient]);
 
@@ -88,7 +87,7 @@ export const ModalCreateGroupEdit = ({
         </Typography>
         <InputSelect
           fullWidth
-          options={optionsModal.filter((i: any) => i.value != groupId)}
+          options={optionsModal.filter((i: any) => i.value != `${groupId}-${nif}`)}
           value={selectedEntity} // Estado para controlar a entidade selecionada
           onChange={handleChangeSelect}
           label="Entidade-Mãe relacionada"
