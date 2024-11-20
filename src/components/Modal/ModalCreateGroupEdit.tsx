@@ -54,8 +54,17 @@ export const ModalCreateGroupEdit = ({
   }, [nif]);
 
   useEffect(() => {
-    setSelectedEntity(Number.parseInt(parentClient ?? "0"));
+    console.log("parentClient", parentClient);
+    setSelectedEntity(parentClient);
   }, [parentClient]);
+
+  const getParentNif = () => {
+    return selectedEntity.split("-")[1];
+  };
+
+  const getParentId = () => {
+    return selectedEntity.split("-")[0];
+  };
 
   return (
     <Dialog onClose={handleClose} open={open} maxWidth="md" fullWidth>
@@ -105,9 +114,11 @@ export const ModalCreateGroupEdit = ({
           onClick={() =>
             handleSubmit({
               id: groupId,
-              name: groupName,
-              parentId: Number.parseInt(parentClient ?? "0"),
               documentNumber: nif,
+              name: groupName,
+              nif: nif,
+              parentId: getParentId(),
+              parentNif: getParentNif(),
               parentName: parentGroupName,
               characteristicRelation: selectedOption
             })
