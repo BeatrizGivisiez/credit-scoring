@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 
 import { Button, ButtonIcon, Divider, InputSelect, InputText } from "@/components";
 import PALETTE from "@/styles/_palette";
@@ -18,7 +18,7 @@ import { Check, FloppyDiskBack, X } from "@phosphor-icons/react";
 
 import { modalcreateuseredit__inputs, modalcreateuseredit__password } from "./styles";
 import { ModalListUserProps } from "./types";
-import { optionperfil, UserCreateDTO, UserDTO } from "@/app/dto/UserDto";
+import { optionperfil, UserCreateDTO } from "@/app/dto/UserDto";
 import { useEditUser } from "@/hooks/user/useEditUser";
 
 export const ModalCreateUserEdit = ({
@@ -41,7 +41,16 @@ export const ModalCreateUserEdit = ({
   const [inputEmail, setInputEmail] = useState<string>(email || ""); // E-mail
   const [inputPassword, setInputPassword] = useState<string>(password || ""); // Senha
 
-  const { editUser, loading, error } = useEditUser();
+  const [isUpdated, setIsUpdated] = useState<boolean>(false);
+
+  const buttonDisabled = useMemo<boolean>(() => {
+    const result =
+      !!inputUserName && !!inputEmail && !!inputPassword && !!selectedPerfil && isUpdated;
+
+    return !result;
+  }, [inputUserName, inputEmail, inputPassword, selectedPerfil, isUpdated]);
+
+  const { editUser } = useEditUser();
 
   useEffect(() => {
     // Mapear o nome do perfil para o valor correto
@@ -56,18 +65,22 @@ export const ModalCreateUserEdit = ({
 
   const handleChangeSelect = (newValue: string) => {
     setSelectedPerfil(newValue);
+    setIsUpdated(true);
   };
 
   const handleInputUserName = (event: React.ChangeEvent<HTMLInputElement>) => {
     setInputUserName(event.target.value);
+    setIsUpdated(true);
   };
 
   const handleInputEmail = (event: React.ChangeEvent<HTMLInputElement>) => {
     setInputEmail(event.target.value);
+    setIsUpdated(true);
   };
 
   const handleInputPassword = (event: React.ChangeEvent<HTMLInputElement>) => {
     setInputPassword(event.target.value);
+    setIsUpdated(true);
   };
 
   // Função para alterar o estado do grupo e exibir a mensagem de alerta
@@ -159,7 +172,13 @@ export const ModalCreateUserEdit = ({
 
       <Box sx={{ display: "flex", justifyContent: "space-between", p: 2, gap: 2 }}>
         <Button label="Cancelar" color="success" onClick={handleClose} iconEnd={X} />
-        <Button label="Gravar" color="success" onClick={handleEditUser} iconEnd={FloppyDiskBack} />
+        <Button
+          label="Gravar"
+          color="success"
+          onClick={handleEditUser}
+          iconEnd={FloppyDiskBack}
+          disabled={buttonDisabled}
+        />
       </Box>
 
       <Dialog open={alertOpen} onClose={() => setAlertOpen(false)}>
