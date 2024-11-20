@@ -30,10 +30,17 @@ export async function POST(request: Request): Promise<NextResponse> {
       throw new Error(`Error fetching data: ${response.statusText}`);
     }
 
-    const data = await response.json();
-    console.log("Dados recebidos UsersDto:", data); // Log para verificar a resposta
-
-    return NextResponse.json(data); // Retorna os dados em formato JSON
+    const contentType = response.headers.get("content-type");
+    if (contentType && contentType.includes("application/json")) {
+      const data = await response.json(); // Processa o JSON normalmente
+      return NextResponse.json(data);
+    } else if (response.ok) {
+      // Se a resposta for 2xx, mas não tiver JSON, retorna sucesso com uma mensagem genérica
+      return NextResponse.json({ message: "Sucesso, mas sem conteúdo na resposta" });
+    } else {
+      // Lança erro para respostas com status não OK
+      throw new Error(`Error: ${response.status} - ${response.statusText}`);
+    } // Retorna os dados recebidos da API
   } catch (error: any) {
     return NextResponse.json({ error: error.message }, { status: 500 });
   }
