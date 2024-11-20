@@ -5,9 +5,9 @@ import { FloppyDiskBack, X } from "@phosphor-icons/react";
 import { useState, useEffect } from "react";
 
 import { ModalCreateUserProps } from "./types";
-import { optionperfil } from "@/app/_mocks/optiontypes";
 import { Button, ButtonIcon, Divider, InputSelect, InputText } from "@/components";
 import PALETTE from "@/styles/_palette";
+import { optionperfil } from "@/app/dto/UserDto";
 
 export const ModalCreateUser = ({
   open,

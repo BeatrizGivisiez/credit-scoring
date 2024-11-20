@@ -82,7 +82,7 @@ export const ManagerUserPage = () => {
         open={createUserOpen}
         handleClose={handleCloseModal}
         onSave={handleAddUser}
-        users={[]}
+        users={addUser}
       />
     </>
   );

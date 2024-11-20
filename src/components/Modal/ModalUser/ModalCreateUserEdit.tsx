@@ -1,5 +1,9 @@
 "use client";
 
+import { useEffect, useState } from "react";
+
+import { Button, ButtonIcon, Divider, InputSelect, InputText } from "@/components";
+import PALETTE from "@/styles/_palette";
 import {
   Alert,
   Box,
@@ -11,13 +15,10 @@ import {
   Typography
 } from "@mui/material";
 import { Check, FloppyDiskBack, X } from "@phosphor-icons/react";
-import { useEffect, useState } from "react";
 
+import { modalcreateuseredit__inputs, modalcreateuseredit__password } from "./styles";
 import { ModalListUserProps } from "./types";
-
-import { optionperfil } from "@/app/_mocks/optiontypes";
-import { Button, ButtonIcon, Divider, InputSelect, InputText } from "@/components";
-import PALETTE from "@/styles/_palette";
+import { optionperfil } from "@/app/dto/UserDto";
 
 export const ModalCreateUserEdit = ({
   open,
@@ -40,7 +41,7 @@ export const ModalCreateUserEdit = ({
 
   useEffect(() => {
     // Mapear o nome do perfil para o valor correto
-    const perfilValue = optionperfil.find((opt) => opt.label === perfil)?.value || "";
+    const perfilValue = optionperfil.find((opt) => opt.value === perfil)?.value || "";
     setSelectedPerfil(perfilValue.toString()); // Agora, selectedPerfil terá o valor '1', '2' ou '3'
 
     // Definir a senha
@@ -83,7 +84,7 @@ export const ModalCreateUserEdit = ({
     <Dialog onClose={handleClose} open={open} maxWidth="md" fullWidth>
       <DialogTitle>
         <Typography variant="h6" color={PALETTE.PRIMARY_MAIN}>
-          Editar - {nome}
+          Editar Utilizador - {nome}
         </Typography>
         <ButtonIcon
           placement="top-start"
@@ -97,17 +98,7 @@ export const ModalCreateUserEdit = ({
 
       <Divider />
 
-      <Box
-        sx={{
-          display: "flex",
-          justifyContent: "space-between",
-          paddingTop: 8,
-          paddingLeft: 5,
-          paddingRight: 5,
-          paddingBottom: 5,
-          gap: 4
-        }}
-      >
+      <Box sx={modalcreateuseredit__inputs}>
         <InputText
           id="nome"
           label="Nome"
@@ -131,16 +122,7 @@ export const ModalCreateUserEdit = ({
           />
         </FormGroup>
       </Box>
-      <Box
-        sx={{
-          display: "flex",
-          flexDirection: "row",
-          paddingLeft: 5,
-          paddingRight: 5,
-          paddingBottom: 8,
-          gap: 4
-        }}
-      >
+      <Box sx={modalcreateuseredit__password}>
         <InputSelect
           fullWidth
           options={optionperfil}

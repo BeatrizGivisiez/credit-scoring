@@ -7,7 +7,7 @@ import { useState } from "react";
 
 import { gridcoldef } from "./styles";
 import { TableProps } from "./types";
-import { ModalCreateUserEdit } from "../Modal/ModalCreateUserEdit";
+import { ModalCreateUserEdit } from "../Modal/ModalUser/ModalCreateUserEdit";
 
 import { ButtonIcon } from "@/components";
 import { PerfilOptions } from "@/app/dto/UserDto";
@@ -41,7 +41,8 @@ export const TableListUser = ({
       width: 150,
       renderCell: (params) => {
         const perfil =
-          PerfilOptions.find((option) => option.value === params.value)?.label || "Desconhecido";
+          PerfilOptions.find((option) => option.value === `${params.value}`)?.label ||
+          "Desconhecido";
         return (
           <Box
             sx={{

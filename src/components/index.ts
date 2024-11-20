@@ -27,7 +27,7 @@ export { MenuItem } from "./Menu/MenuItem";
 export { ModalCreateGroupEdit } from "./Modal/ModalCreateGroupEdit";
 export { ModalCreateRelationGroup } from "./Modal/ModalCreateRelationGroup";
 export { ModalCreateUser } from "./Modal/ModalCreateUser";
-export { ModalCreateUserEdit } from "./Modal/ModalCreateUserEdit";
+export { ModalCreateUserEdit } from "./Modal/ModalUser/ModalCreateUserEdit";
 export { ModalListGroupEdit } from "./Modal/ModalListGroupEdit";
 export { ModalListGroupView } from "./Modal/ModalListGroupView";
 export { ModalRelateEntityAdd } from "./Modal/ModalRelateEntityAdd";
