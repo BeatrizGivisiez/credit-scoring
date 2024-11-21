@@ -21,7 +21,7 @@ export default async function BackOffice() {
   }
 
   return (
-    <LayoutDefault>
+    <LayoutDefault session={session}>
       <BackOfficePage />
     </LayoutDefault>
   );
