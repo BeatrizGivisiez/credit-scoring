@@ -22,7 +22,7 @@ export default async function EconomicGroups() {
     redirect("/");
   }
   return (
-    <LayoutDefault>
+    <LayoutDefault session={session}>
       <CharacteristicRelationProvider>
         <EconomicGroupProvider>
           <StepperContextProvider>

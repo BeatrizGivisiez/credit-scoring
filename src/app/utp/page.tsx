@@ -18,7 +18,7 @@ export default async function Scoring() {
   }
 
   return (
-    <LayoutDefault>
+    <LayoutDefault session={session}>
       <ScoringPage />
     </LayoutDefault>
   );
