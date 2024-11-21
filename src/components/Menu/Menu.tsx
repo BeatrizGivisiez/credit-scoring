@@ -19,7 +19,7 @@ export const Menu = () => {
   const [selected, setSelected] = useState("");
   const router = useRouter();
 
-  const { data, status } = useSession();
+  const { data } = useSession();
 
   useEffect(() => {
     setSelected(window.location.pathname || "/gre"); // Define a rota atual ao carregar, default para "/"
