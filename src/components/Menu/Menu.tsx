@@ -12,11 +12,14 @@ import { Box, IconButton, Typography } from "@mui/material";
 import { Graph, List, UserGear } from "@phosphor-icons/react";
 
 import { itemmenu, menu, menu__logo } from "./styles";
+import { useSession } from "next-auth/react";
 
 export const Menu = () => {
   const [isCollapsed, setIsCollapsed] = useState(true);
   const [selected, setSelected] = useState("");
   const router = useRouter();
+
+  const { data, status } = useSession();
 
   useEffect(() => {
     setSelected(window.location.pathname || "/gre"); // Define a rota atual ao carregar, default para "/"
@@ -39,7 +42,7 @@ export const Menu = () => {
                   color={PALETTE.PRIMARY_MAIN}
                   sx={{ "&:hover": { backgroundColor: "transparent" } }}
                 >
-                  Admin
+                  {data?.user?.name}
                 </Typography>
                 <IconButton onClick={() => setIsCollapsed(!isCollapsed)}>
                   <List size={24} color={PALETTE.PRIMARY_MAIN} weight="bold" />

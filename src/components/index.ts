@@ -23,6 +23,7 @@ export { Login } from "./Login/Login";
 export { Loading } from "./Loading/Loading";
 
 export { Menu } from "./Menu/Menu";
+export { MenuWrapper } from "./MenuWrapper/MenuWrapper";
 export { MenuItem } from "./Menu/MenuItem";
 export { ModalCreateGroupEdit } from "./Modal/ModalCreateGroupEdit";
 export { ModalCreateRelationGroup } from "./Modal/ModalCreateRelationGroup";

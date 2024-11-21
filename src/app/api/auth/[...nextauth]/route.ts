@@ -40,6 +40,7 @@ const handler = NextAuth({
           return {
             id: user.id,
             nome: user.nome,
+            name: user.nome,
             email: user.email,
             perfilId: user.perfilId,
             status: user.status
