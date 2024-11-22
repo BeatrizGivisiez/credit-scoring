@@ -1,36 +1,118 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# FrontEnd Next.js
 
-## Getting Started
+Projeto frontend construído com [Next.js](https://nextjs.org/) e estilizado utilizando [Material UI](https://mui.com/). Ele é integrado com autenticação utilizando [NextAuth](https://next-auth.js.org/) e fornece visualizações de dados usando bibliotecas como Nivo Charts.
 
-First, run the development server:
+## Índice
 
+- [Requisitos](#requisitos)
+- [Instalação](#instalação)
+- [Configuração](#configuração)
+- [Scripts Disponíveis](#scripts-disponíveis)
+- [Tecnologias Utilizadas](#tecnologias-utilizadas)
+- [Estrutura de Pastas](#estrutura-de-pastas)
+- [Deploy](#deploy)
+---
+
+## Requisitos
+
+Antes de começar, certifique-se de ter as seguintes ferramentas instaladas:
+
+- [Node.js](https://nodejs.org/) (versão recomendada: 18.x ou superior)
+- [npm](https://www.npmjs.com/) ou [yarn](https://yarnpkg.com/) para gerenciar pacotes.
+---
+## Instalação
+1. Clone o repositório:
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+git clone https://github.com/seu-usuario/score-nextjs.git
+cd score-nextjs
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+2. Instale as dependências:
+```bash
+yarn install
+```
+---
+## Configuração
+Crie um arquivo .env na raiz do projeto com as seguintes variáveis de ambiente:
+```bash
+# NextAuth Token
+NEXTAUTH_SECRET=
+# URL Autenticações
+NEXT_API_HOST=
+# URL da API Backend
+API_URL=
+```
+---
+## Scripts Disponíveis
+No arquivo package.json, os seguintes scripts estão disponíveis:
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+- dev: Inicia o servidor de desenvolvimento.
+    ```bash
+    yarn run dev
+    ```
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+- build: Cria uma versão otimizada do aplicativo para produção.
+    ```bash
+    yarn run build
+    ```
 
-## Learn More
+- start: Inicia o servidor em modo de produção (após build).
+    ```bash
+    yarn run start
+    ```
 
-To learn more about Next.js, take a look at the following resources:
+- lint: Executa a verificação do lint para manter o código limpo.
+    ```bash
+    yarn run lint
+    ```
+---
+## Tecnologias Utilizadas
+Essas tecnologias foram escolhidas para garantir escalabilidade, produtividade e uma experiência de desenvolvimento moderna e eficiente.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+#### Principais Dependências
+- **Framework**: [Next.js](https://nextjs.org/) 14.2.5
+- **UI e Estilização**:
+  - [Material UI](https://mui.com/) 5.16.6
+  - [Emotion](https://emotion.sh/docs/introduction)
+- **Gráficos**: [Nivo Charts](https://nivo.rocks/)
+- **Autenticação**: [NextAuth](https://next-auth.js.org/)
+- **Manipulação de datas**: [Day.js](https://day.js.org/)
+- **Ícones**: [Phosphor Icons](https://phosphoricons.com/)
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+#### Dependências de Desenvolvimento
+- **[TypeScript](https://www.typescriptlang.org/):** Superset do JavaScript que adiciona tipagem estática ao código.
+- **[ESLint](https://eslint.org/):** Ferramenta para identificar e corrigir problemas no código JavaScript/TypeScript.
+- **[Prettier](https://prettier.io/):** Ferramenta de formatação de código para garantir consistência.
+- **[@typescript-eslint](https://typescript-eslint.io/):** Integração do TypeScript com o ESLint para validação de código.
+---
 
-## Deploy on Vercel
+## Estrutura de Pastas
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+```plaintext
+├── README.md                # Documentação principal do projeto
+├── public                   # Arquivos públicos acessíveis diretamente
+│   └── assets               # Recursos estáticos como imagens, ícones, etc.
+├── src                      # Código-fonte principal
+│   ├── app                  # Configurações e estrutura principal do Next.js (App Router)
+│   ├── components           # Componentes reutilizáveis
+│   ├── constants            # Variáveis e configurações constantes
+│   ├── hooks                # Hooks customizados
+│   ├── modules              # Módulos específicos de páginas da aplicação
+│   ├── styles               # Estilos globais e temas
+│   ├── types                # Definições de tipos TypeScript
+│   └── utils                # Funções utilitárias e helpers
+├── messages                 # Mensagens e traduções
+├── next-env.d.ts            # Arquivo de configuração do Next.js para TypeScript
+├── next.config.mjs          # Configurações do Next.js
+├── node_modules             # Dependências do projeto (gerenciado pelo Yarn)
+├── package.json             # Configurações e dependências do projeto
+├── tsconfig.json            # Configurações do TypeScript
+├── vercel.json              # Configurações de deploy no Vercel
+└── yarn.lock                # Arquivo de bloqueio de dependências para Yarn
+```
+---
+## Deploy
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+Este projeto utiliza o [Vercel](https://vercel.com/) para deploy contínuo. Qualquer atualização na branch `main` dispara automaticamente um novo deploy. 
+
+- **URL de produção:** [https://pkf-dev.vercel.app/](https://pkf-dev.vercel.app/)
