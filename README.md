@@ -23,8 +23,8 @@ Antes de começar, certifique-se de ter as seguintes ferramentas instaladas:
 ## Instalação
 1. Clone o repositório:
 ```bash
-git clone https://github.com/seu-usuario/score-nextjs.git
-cd score-nextjs
+git clone https://github.com/pkf2p/web-utp-frontend.git
+cd web-utp-frontend
 ```
 
 2. Instale as dependências:
