@@ -1,4 +1,4 @@
-# FrontEnd Next.js
+# Gestão de Grupos Econômicos e Clientes Vinculados
 
 Projeto frontend construído com [Next.js](https://nextjs.org/) e estilizado utilizando [Material UI](https://mui.com/). Ele é integrado com autenticação utilizando [NextAuth](https://next-auth.js.org/) e fornece visualizações de dados usando bibliotecas como Nivo Charts.
 
