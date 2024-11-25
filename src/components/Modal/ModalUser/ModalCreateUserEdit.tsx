@@ -19,7 +19,7 @@ import { Check, FloppyDiskBack, X } from "@phosphor-icons/react";
 import { modalcreateuseredit__inputs, modalcreateuseredit__password } from "./styles";
 import { ModalListUserProps } from "./types";
 import { optionperfil, UserCreateDTO } from "@/app/dto/UserDto";
-import { useEditUser } from "@/hooks/user/useEditUser";
+import { useEditUser, useDisabledUser } from "@/hooks";
 
 export const ModalCreateUserEdit = ({
   open,
@@ -42,6 +42,8 @@ export const ModalCreateUserEdit = ({
   const [inputPassword, setInputPassword] = useState<string>(password || ""); // Senha
 
   const [isUpdated, setIsUpdated] = useState<boolean>(false);
+
+  const { disabledUser, loading, error } = useDisabledUser();
 
   const buttonDisabled = useMemo<boolean>(() => {
     const result =
@@ -84,17 +86,30 @@ export const ModalCreateUserEdit = ({
   };
 
   // Função para alterar o estado do grupo e exibir a mensagem de alerta
-  const handleSwitchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleSwitchChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
     const isActive = event.target.checked;
     setUserActive(isActive);
-    if (isActive) {
-      setAlertMessage("O utilizador foi ativado com sucesso.");
-      setAlertSeverity("success");
-    } else {
-      setAlertMessage("O utilizador foi desativado com sucesso.");
+
+    try {
+      if (!id) {
+        throw new Error("ID do usuário não está definido.");
+      }
+
+      await disabledUser(id); // Passa o ID aqui
+
+      if (isActive) {
+        setAlertMessage("O utilizador foi ativado com sucesso.");
+        setAlertSeverity("success");
+      } else {
+        setAlertMessage("O utilizador foi desativado com sucesso.");
+        setAlertSeverity("error");
+      }
+    } catch (err) {
+      console.error("Erro ao alterar o estado do utilizador:", err);
+      setAlertMessage("Erro ao alterar o estado do utilizador. Tente novamente.");
       setAlertSeverity("error");
     }
-    setAlertOpen(true); // Abre o alerta
+    setAlertOpen(true);
   };
 
   const handleEditUser = async () => {
@@ -146,7 +161,9 @@ export const ModalCreateUserEdit = ({
         <FormGroup>
           <FormControlLabel
             label={isUserActive ? "Utilizador Ativo" : "Utilizador Inativo"}
-            control={<Switch checked={isUserActive} onChange={handleSwitchChange} />}
+            control={
+              <Switch checked={isUserActive} onChange={handleSwitchChange} disabled={loading} />
+            }
           />
         </FormGroup>
       </Box>
