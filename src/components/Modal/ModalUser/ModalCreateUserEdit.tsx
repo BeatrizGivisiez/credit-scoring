@@ -43,7 +43,7 @@ export const ModalCreateUserEdit = ({
 
   const [isUpdated, setIsUpdated] = useState<boolean>(false);
 
-  const { disabledUser, loading, error } = useDisabledUser();
+  const { disabledUser, loading } = useDisabledUser();
 
   const buttonDisabled = useMemo<boolean>(() => {
     const result =
