@@ -10,7 +10,7 @@ const nextConfig = {
       },
       {
         protocol: "https",
-        hostname: "credit-score-dbgfaceagwhphsb2.canadacentral-01.azurewebsites.net",
+        hostname: "192.168.30.50:8080",
         port: "",
         pathname: "/swagger/**"
       },
