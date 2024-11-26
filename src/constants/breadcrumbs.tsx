@@ -1,4 +1,6 @@
-import { Graph, UserGear } from "@phosphor-icons/react";
+"use client";
+
+import { Graph, UserGear, Users, FileText } from "@phosphor-icons/react";
 
 import PALETTE from "@/styles/_palette";
 
@@ -49,4 +51,24 @@ export const breadcrumbsUTP = [
     icon: <UserGear size={24} color={PALETTE.PRIMARY_MAIN} />
   },
   { key: "2", label: "Gestão da Característica Relação", href: "/backoffice" }
+];
+
+export const breadcrumbsUTPClients = [
+  {
+    key: "1",
+    label: "Scoring",
+    href: "/utp",
+    icon: <Users size={24} color={PALETTE.PRIMARY_MAIN} />
+  },
+  { key: "2", label: "Clientes", href: "/" }
+];
+
+export const breadcrumbsUTPContracts = [
+  {
+    key: "1",
+    label: "Scoring",
+    href: "/utp",
+    icon: <FileText size={24} color={PALETTE.PRIMARY_MAIN} />
+  },
+  { key: "2", label: "Contratos", href: "/" }
 ];

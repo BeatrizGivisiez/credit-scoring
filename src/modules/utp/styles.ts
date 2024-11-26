@@ -6,3 +6,11 @@ export const scoring__box: SxProps = {
   gap: 2,
   width: "1400px"
 };
+
+export const scoring__search: SxProps = {
+  display: "flex",
+  flexDirection: "row",
+  alignItems: "center",
+  justifyContent: "space-between",
+  width: "100%"
+};

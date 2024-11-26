@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
 import { Button, ButtonIcon, Divider, InputRadio, InputSelect } from "@/components";
 import { useEntitySelect, useRelationOption } from "@/hooks";
@@ -42,17 +42,17 @@ export const ModalRelateEntityAdd = ({
   // Verifica se todos os campos foram preenchidos (entidade mãe, filha e relação)
   const isSubmitDisabled = !selectedEntity || !selectedParentEntity || selectedOption === 0;
 
-  useEffect(() => {
-    console.log("Entidade filha selecionada mudou:", selectedEntity);
-  }, [selectedEntity]);
+  // useEffect(() => {
+  //   console.log("Entidade filha selecionada mudou:", selectedEntity);
+  // }, [selectedEntity]);
 
-  useEffect(() => {
-    console.log("Entidade mãe selecionada mudou:", selectedParentEntity);
-  }, [selectedParentEntity]);
+  // useEffect(() => {
+  //   console.log("Entidade mãe selecionada mudou:", selectedParentEntity);
+  // }, [selectedParentEntity]);
 
-  useEffect(() => {
-    console.log("Relação selecionada mudou:", selectedOption);
-  }, [selectedOption]);
+  // useEffect(() => {
+  //   console.log("Relação selecionada mudou:", selectedOption);
+  // }, [selectedOption]);
 
   const getChildId = () => selectedEntity.split("-")[0];
   const getChildNif = () => selectedEntity.split("-")[1];
