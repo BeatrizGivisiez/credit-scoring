@@ -7,13 +7,6 @@ export const contractsutp__box: SxProps = {
   width: "1400px"
 };
 
-export const contractsutp__stack: SxProps = {
-  display: "flex",
-  flexDirection: "row",
-  justifyContent: "space-between",
-  alignItems: "center"
-};
-
 export const contractsutp__card: SxProps = {
   display: "flex",
   width: "100%",

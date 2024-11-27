@@ -7,7 +7,7 @@ import { gridcoldef, table__datagrid } from "./styles";
 import { ButtonIcon } from "@/components/Button/ButtonIcon";
 import { Eye } from "@phosphor-icons/react";
 
-export const TableListEntity = ({ entityList, pageSize = 10 }: TableListEntityProps) => {
+export const TableListEntity = ({ openModal, pageSize = 10, entityList }: TableListEntityProps) => {
   const columns: GridColDef<(typeof entityList)[number]>[] = [
     { field: "id", headerName: "ID", width: 50, headerAlign: "center", align: "center" },
     { field: "name", headerName: "Nome", width: 400 },
@@ -34,7 +34,7 @@ export const TableListEntity = ({ entityList, pageSize = 10 }: TableListEntityPr
       renderCell: () => {
         return (
           <Box sx={gridcoldef}>
-            <ButtonIcon placement="top-start" title="Visualizar" icon={Eye} onClick={() => {}} />
+            <ButtonIcon placement="top-start" title="Visualizar" icon={Eye} onClick={openModal} />
           </Box>
         );
       }
@@ -63,17 +63,6 @@ export const TableListEntity = ({ entityList, pageSize = 10 }: TableListEntityPr
           sx={table__datagrid}
         />
       </Box>
-
-      {/* <Dialog open={alertOpen} onClose={() => setAlertOpen(false)}>
-        <Alert
-          icon={<Check />}
-          severity={alertSeverity}
-          onClose={() => setAlertOpen(false)}
-          sx={{ padding: 2 }}
-        >
-          {alertMessage}
-        </Alert>
-      </Dialog> */}
     </>
   );
 };

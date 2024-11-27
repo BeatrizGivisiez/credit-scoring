@@ -1,40 +1,62 @@
 "use client";
 
-import { Breadcrumbs, Button, InputSearch, TableListContracts } from "@/components";
-import { breadcrumbsUTPContracts } from "@/constants/breadcrumbs";
-import { Box, Card, Stack, Typography } from "@mui/material";
-import { CaretLeft } from "@phosphor-icons/react";
-import { contractsutp__box, contractsutp__stack, contractsutp__card } from "./styles";
+import { InputSearch, TableListContracts } from "@/components";
+import { Box, Card, Typography } from "@mui/material";
+import { contractsutp__box, contractsutp__card } from "./styles";
 import PALETTE from "@/styles/_palette";
 import { TABLECONTRACTS } from "@/app/_mocks/tablecontracts";
+import { useState } from "react";
+import { ModalContract } from "@/components/Modal/ModalContract/ModalContract";
 
 export const ContractUTP = () => {
+  const [openModal, setOpenModal] = useState<boolean>(false);
+
+  const handleCloseModal = () => {
+    setOpenModal(false);
+  };
+
+  const handleOpenModal = () => {
+    setOpenModal(true);
+  };
   return (
-    <Box sx={contractsutp__box}>
-      <Stack sx={contractsutp__stack}>
-        <Breadcrumbs breadcrumbs={breadcrumbsUTPContracts} />
-        <Button iconStart={CaretLeft} label={"Voltar"} onClick={() => {}} />
-      </Stack>
+    <>
+      <Box sx={contractsutp__box}>
+        <InputSearch width={"500px"} placeholder="Número do Contrato" onSearch={() => {}} />
 
-      <InputSearch width={"500px"} placeholder="Nome Cliente ou NIF" onSearch={() => {}} />
+        <Card sx={contractsutp__card}>
+          <Typography variant="h6" color={PALETTE.PRIMARY_MAIN}>
+            Lista de Contratos
+          </Typography>
 
-      <Card sx={contractsutp__card}>
-        <Typography variant="h6" color={PALETTE.PRIMARY_MAIN}>
-          Lista de Contratos
-        </Typography>
-
-        <TableListContracts
-          pageSize={10}
-          contractsList={TABLECONTRACTS.map((item) => ({
-            id: item.id,
-            name: item.name,
-            nif: item.nif,
-            email: item.email,
-            phone: item.phone,
-            address: item.address
-          }))}
-        />
-      </Card>
-    </Box>
+          <TableListContracts
+            pageSize={10}
+            contractsList={TABLECONTRACTS.map((item) => ({
+              id: item.id,
+              name: item.name,
+              nif: item.nif,
+              email: item.email,
+              phone: item.phone,
+              address: item.address
+            }))}
+            openModal={handleOpenModal}
+          />
+        </Card>
+      </Box>
+      <ModalContract
+        open={openModal}
+        handleClose={handleCloseModal}
+        contractData={{
+          id: "123",
+          nif: "123456789",
+          documentType: "Passaporte",
+          clientSegment: "Premium",
+          location: "Lisboa",
+          socialDebt: "Sim",
+          financialDifficulty: "Alta",
+          comments: "Nenhum comentário",
+          lastUpdate: "2024-11-27"
+        }}
+      />
+    </>
   );
 };

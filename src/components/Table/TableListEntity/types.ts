@@ -10,4 +10,5 @@ export type EntitytList = {
 export interface TableListEntityProps {
   entityList: EntitytList[];
   pageSize?: number;
+  openModal: () => void;
 }

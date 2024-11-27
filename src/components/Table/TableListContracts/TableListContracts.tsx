@@ -5,9 +5,13 @@ import { TableListContractsProps } from "./types";
 import { Box } from "@mui/material";
 import { gridcoldef, table__datagrid } from "./styles";
 import { ButtonIcon } from "@/components/Button/ButtonIcon";
-import { Eye } from "@phosphor-icons/react";
+import { Pencil } from "@phosphor-icons/react";
 
-export const TableListContracts = ({ contractsList, pageSize = 10 }: TableListContractsProps) => {
+export const TableListContracts = ({
+  openModal,
+  pageSize = 10,
+  contractsList
+}: TableListContractsProps) => {
   const columns: GridColDef<(typeof contractsList)[number]>[] = [
     { field: "id", headerName: "ID", width: 50, headerAlign: "center", align: "center" },
     { field: "name", headerName: "Nome", width: 400 },
@@ -34,7 +38,7 @@ export const TableListContracts = ({ contractsList, pageSize = 10 }: TableListCo
       renderCell: () => {
         return (
           <Box sx={gridcoldef}>
-            <ButtonIcon placement="top-start" title="Visualizar" icon={Eye} onClick={() => {}} />
+            <ButtonIcon placement="top-start" title="Editar" icon={Pencil} onClick={openModal} />
           </Box>
         );
       }
@@ -63,17 +67,6 @@ export const TableListContracts = ({ contractsList, pageSize = 10 }: TableListCo
           sx={table__datagrid}
         />
       </Box>
-
-      {/* <Dialog open={alertOpen} onClose={() => setAlertOpen(false)}>
-        <Alert
-          icon={<Check />}
-          severity={alertSeverity}
-          onClose={() => setAlertOpen(false)}
-          sx={{ padding: 2 }}
-        >
-          {alertMessage}
-        </Alert>
-      </Dialog> */}
     </>
   );
 };

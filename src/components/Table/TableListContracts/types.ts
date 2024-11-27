@@ -10,4 +10,5 @@ export type ContractsList = {
 export interface TableListContractsProps {
   contractsList: ContractsList[];
   pageSize?: number;
+  openModal: () => void;
 }
