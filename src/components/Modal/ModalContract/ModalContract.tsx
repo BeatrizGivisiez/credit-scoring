@@ -1,6 +1,6 @@
 "use client";
 
-import { ButtonIcon, Divider } from "@/components";
+import { ButtonIcon, Divider, Button } from "@/components";
 import {
   Box,
   Checkbox,
@@ -8,45 +8,34 @@ import {
   DialogTitle,
   FormControlLabel,
   FormGroup,
-  Grid,
+  TextField,
   Typography
 } from "@mui/material";
-import { X } from "@phosphor-icons/react";
+import { FloppyDiskBack, X } from "@phosphor-icons/react";
 import { ModalContractProps } from "./types";
 import PALETTE from "@/styles/_palette";
 
-export const ModalContract = ({ open, handleClose, contractData }: ModalContractProps) => {
+export const ModalContract = ({ open, handleClose, handleSubmit }: ModalContractProps) => {
   const options = [
-    "Falha da principal fonte de receita",
-    "Dúvidas de capacidade de pagamento",
-    "Alavancagem Excessiva",
-    "Quebra de convênios",
-    "Execução de garantia",
-    "Quebra de contrato (Particulares e ENIS)",
-    "Quebra de contrato (Empresas)",
-    "Situação financeira",
-    "Fraude",
-    "Interveniente em processo judicial",
-    "Instituição pública",
-    "ER",
-    "Garantia usada para pagamento de dívida",
-    "Mercado em Crise",
-    "Situação de dificuldades financeiras"
+    "Reestruturado por dificuldades financeiras",
+    "Reestruturado SEM dificuldades financeiras",
+    "Default Técnico",
+    "Write off",
+    "Charge off",
+    "Quebra de contrato",
+    "Em negociação",
+    "Reestruturado",
+    "Pari",
+    "Persi",
+    "Per",
+    "Tribunal"
   ];
-
-  const GridItem = ({ label, value }: { label: string; value: string }) => (
-    <Grid item xs={6} marginBottom={2}>
-      <Typography variant="body1">
-        <strong>{label}</strong>: {value}
-      </Typography>
-    </Grid>
-  );
 
   return (
     <Dialog onClose={handleClose} open={open} maxWidth="md" fullWidth>
       <DialogTitle>
         <Typography variant="h6" color={PALETTE.PRIMARY_MAIN}>
-          Visualizar Informações da Entidade
+          Editar Informações do Contrato
         </Typography>
         <ButtonIcon
           placement="top-start"
@@ -61,21 +50,46 @@ export const ModalContract = ({ open, handleClose, contractData }: ModalContract
       <Divider />
 
       <Box sx={{ display: "flex", flexDirection: "row" }}>
-        <Box sx={{ width: "50%", margin: 5 }}>
-          <Grid item>
-            <GridItem label="ID Entidade" value={contractData?.id} />
-            <GridItem label="NIF" value={contractData?.nif} />
-            <GridItem label="Tipo de documento" value={contractData?.documentType} />
-            <GridItem label="Segmento de cliente" value={contractData?.clientSegment} />
-            <GridItem label="Localidade" value={contractData?.location} />
-            <GridItem label="Dívidas à Segurança Social" value={contractData?.socialDebt} />
-            <GridItem
-              label="Tipo de Dificuldades Financeiras"
-              value={contractData?.financialDifficulty}
-            />
-            <GridItem label="Comentários" value={contractData?.comments} />
-            <GridItem label="Última data de edição" value={contractData?.lastUpdate} />
-          </Grid>
+        <Box
+          component="form"
+          sx={{
+            display: "flex",
+            flexDirection: "column",
+            gap: 5,
+            margin: "40px",
+            width: "400px"
+          }}
+        >
+          <TextField label="ID_Contrato" variant="outlined" defaultValue="1010" fullWidth />
+          <TextField
+            label="Data de suspensão pelo tribunal, da contagem do prazo"
+            variant="outlined"
+            type="datetime-local"
+            InputLabelProps={{ shrink: true }}
+            fullWidth
+          />
+          <TextField
+            label="Data da suspensão do recurso de tribunal"
+            variant="outlined"
+            type="datetime-local"
+            InputLabelProps={{ shrink: true }}
+            fullWidth
+          />
+          <TextField
+            label="Data de reestruturação"
+            variant="outlined"
+            type="datetime-local"
+            InputLabelProps={{ shrink: true }}
+            fullWidth
+          />
+          <TextField
+            label="Última data de edição"
+            variant="outlined"
+            type="datetime-local"
+            InputLabelProps={{ shrink: true }}
+            defaultValue="0001-01-01T00:00"
+            fullWidth
+          />
         </Box>
         <Divider />
         <Box sx={{ width: "50%", margin: "24px 40px 40px 40px" }}>
@@ -85,6 +99,11 @@ export const ModalContract = ({ open, handleClose, contractData }: ModalContract
             ))}
           </FormGroup>
         </Box>
+      </Box>
+      <Divider />
+      <Box sx={{ display: "flex", justifyContent: "space-between", p: 2, gap: 2 }}>
+        <Button label="Cancelar" color="success" onClick={handleClose} iconEnd={X} />
+        <Button label="Gravar" color="success" onClick={handleSubmit} iconEnd={FloppyDiskBack} />
       </Box>
     </Dialog>
   );

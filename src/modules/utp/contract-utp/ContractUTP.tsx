@@ -42,21 +42,7 @@ export const ContractUTP = () => {
           />
         </Card>
       </Box>
-      <ModalContract
-        open={openModal}
-        handleClose={handleCloseModal}
-        contractData={{
-          id: "123",
-          nif: "123456789",
-          documentType: "Passaporte",
-          clientSegment: "Premium",
-          location: "Lisboa",
-          socialDebt: "Sim",
-          financialDifficulty: "Alta",
-          comments: "Nenhum comentário",
-          lastUpdate: "2024-11-27"
-        }}
-      />
+      <ModalContract open={openModal} handleClose={handleCloseModal} handleSubmit={() => {}} />
     </>
   );
 };
