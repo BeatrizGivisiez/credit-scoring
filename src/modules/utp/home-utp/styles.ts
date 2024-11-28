@@ -10,6 +10,7 @@ export const homeutp__box: SxProps = {
 export const homeutp__card: SxProps = {
   display: "flex",
   width: "100%",
+  height: "700px",
   flexDirection: "column",
   gap: 2,
   padding: 3
