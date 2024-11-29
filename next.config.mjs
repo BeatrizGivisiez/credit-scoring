@@ -10,7 +10,7 @@ const nextConfig = {
       },
       {
         protocol: "https",
-        hostname: "192.168.30.50:8080",
+        hostname: "localhost:8080",
         port: "",
         pathname: "/swagger/**"
       },
