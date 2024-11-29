@@ -42,3 +42,5 @@ export { TableAssociateEntity } from "./Table/TableAssociateEntity/TableAssociat
 export { TableListGroup } from "./Table/TableListGroup";
 export { TableListRelation } from "./Table/TableListRelation/TableListRelation";
 export { TableListUser } from "./Table/TableListUser";
+export { TableListEntity } from "./Table/TableListEntity/TableListEntity";
+export { TableListContracts } from "./Table/TableListContracts/TableListContracts";

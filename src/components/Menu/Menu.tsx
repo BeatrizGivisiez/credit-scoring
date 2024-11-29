@@ -9,7 +9,7 @@ import { MenuItem } from "@/components";
 import { IMAGE_LOGO_BIG, IMAGE_LOGO_SMALL } from "@/constants/images";
 import PALETTE from "@/styles/_palette";
 import { Box, IconButton, Typography } from "@mui/material";
-import { Graph, List, UserGear } from "@phosphor-icons/react";
+import { ChartLine, Graph, List, UserGear } from "@phosphor-icons/react";
 
 import { itemmenu, menu, menu__logo } from "./styles";
 import { useSession } from "next-auth/react";
@@ -70,14 +70,14 @@ export const Menu = () => {
             setSelected={setSelected} // Passa a função setSelected corretamente
             onClick={() => handleNavigation("/gre")} // Navega
           />
-          {/* <MenuItem
+          <MenuItem
             title="Scoring"
             to="/utp"
             icon={<ChartLine size={28} color={PALETTE.PRIMARY_MAIN} />}
             selected={selected === "/utp"} // Verifica a rota atual é "/"
             setSelected={setSelected} // Passa a função setSelected corretamente
             onClick={() => handleNavigation("/utp")} // Navega
-          />*/}
+          />
           <MenuItem
             title="BackOffice"
             to="/backoffice"

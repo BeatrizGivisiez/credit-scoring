@@ -17,7 +17,7 @@ export const TableAssociateEntity = ({
   handleDeleteRow = () => {}
 }: TableAssociateEntityProps) => {
   const { characteristicRelationActive } = useCharacteristicRelation();
-  const { associatedEntities, setAssociatedEntities } = useStepperContext();
+  const { setAssociatedEntities } = useStepperContext();
 
   const [createGroupEditOpen, setCreateGroupEditOpen] = useState<boolean>(false);
   const [createGroupEditData, setCreateGroupEditData] = useState<any>(null); // Aqui você vai armazenar os dados do grupo
@@ -34,7 +34,7 @@ export const TableAssociateEntity = ({
   };
 
   const handleEditChild = (child: any) => {
-    console.log(">>>", child, associatedEntities);
+    // console.log(">>>", child, associatedEntities);
 
     setAssociatedEntities((prev: any) => {
       const index = prev.findIndex((entity: any) => entity.documentNumber === child.documentNumber); // Encontrar o índice da entidade

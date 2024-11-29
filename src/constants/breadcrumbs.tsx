@@ -1,3 +1,5 @@
+"use client";
+
 import { Graph, UserGear } from "@phosphor-icons/react";
 
 import PALETTE from "@/styles/_palette";

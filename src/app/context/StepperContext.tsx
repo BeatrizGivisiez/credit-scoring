@@ -77,9 +77,9 @@ export const StepperContextProvider = ({ children }: { children: ReactNode }) =>
   };
 
   const optionsModal = useMemo(() => {
-    console.log("ParentGroup", parentGroup);
-    console.log("associateEntitiesIds", associateEntitiesIds);
-    console.log("entitySelect", entitySelect);
+    //console.log("ParentGroup", parentGroup);
+    //console.log("associateEntitiesIds", associateEntitiesIds);
+    //console.log("entitySelect", entitySelect);
     return entitySelect.filter((e: EntitySelectOption) => {
       return e.value === parentGroup || associateEntitiesIds.includes(e.value);
     });
