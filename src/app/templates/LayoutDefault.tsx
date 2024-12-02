@@ -3,8 +3,8 @@ import { Box } from "@mui/material";
 
 import { breadcrumb__children, breadcrumb__main, layoutdefault__box } from "./styles";
 
-import type { Metadata } from "next";
 import { Header, MenuWrapper } from "@/components";
+import type { Metadata } from "next";
 import { SessionProvider } from "next-auth/react";
 
 interface LayoutDefaultProps {
