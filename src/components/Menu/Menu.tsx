@@ -19,7 +19,7 @@ export const Menu = () => {
   const [selected, setSelected] = useState("");
   const router = useRouter();
 
-  const { data } = useSession();
+  const { data: session } = useSession();
 
   useEffect(() => {
     setSelected(window.location.pathname || "/gre"); // Define a rota atual ao carregar, default para "/"
@@ -42,7 +42,7 @@ export const Menu = () => {
                   color={PALETTE.PRIMARY_MAIN}
                   sx={{ "&:hover": { backgroundColor: "transparent" } }}
                 >
-                  {data?.user?.name}
+                  {session?.user?.name}
                 </Typography>
                 <IconButton onClick={() => setIsCollapsed(!isCollapsed)}>
                   <List size={24} color={PALETTE.PRIMARY_MAIN} weight="bold" />

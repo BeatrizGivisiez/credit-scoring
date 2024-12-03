@@ -1,5 +1,26 @@
 import NextAuth from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
+declare module "next-auth" {
+  interface User {
+    perfilId: string;
+    status: string;
+  }
+
+  interface Session {
+    user: {
+      id: string;
+      name: string;
+      email: string;
+      perfilId: string;
+      status: string;
+    };
+  }
+
+  interface JWT {
+    perfilId: string;
+    status: string;
+  }
+}
 
 const handler = NextAuth({
   providers: [
@@ -36,7 +57,11 @@ const handler = NextAuth({
 
         const user = await response.json();
 
-        if (user && response.status) {
+        if (user && response.status === 200) {
+          if (!user.perfilId) {
+            console.error("Perfil não definido para o usuário.");
+            return null;
+          }
           return {
             id: user.id,
             nome: user.nome,
@@ -52,6 +77,27 @@ const handler = NextAuth({
   ],
   session: {
     strategy: "jwt" // Usar JWT para autenticação de sessão
+  },
+  callbacks: {
+    async jwt({ token, user }) {
+      if (user) {
+        if (typeof user.perfilId === "string" && typeof user.status === "string") {
+          token.perfilId = user.perfilId;
+          token.status = user.status;
+        }
+      }
+      return token;
+    },
+    async session({ session, token }) {
+      if (token) {
+        session.user = {
+          ...session.user,
+          perfilId: typeof token.perfilId === "string" ? token.perfilId : "",
+          status: typeof token.status === "string" ? token.status : ""
+        };
+      }
+      return session;
+    }
   },
   secret: process.env.NEXTAUTH_SECRET // Defina o segredo no seu arquivo .env
 });

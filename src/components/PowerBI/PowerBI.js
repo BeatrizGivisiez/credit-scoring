@@ -16,7 +16,7 @@ export const PowerBI = () => {
         settings: {
           panes: {
             filters: {
-              expanded: false,
+              expanded: true,
               visible: true
             }
           }
