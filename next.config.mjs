@@ -10,7 +10,8 @@ const nextConfig = {
       },
       {
         protocol: "https",
-        hostname: "localhost:8080",
+        // hostname: "localhost:8080",
+        hostname: "credit-score-dbgfaceagwhphsb2.canadacentral-01.azurewebsites.net",
         port: "",
         pathname: "/swagger/**"
       },
