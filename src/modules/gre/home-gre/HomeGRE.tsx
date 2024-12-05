@@ -12,7 +12,7 @@ import { useFetchTotalEntity } from "@/hooks";
 export const HomeGREPage = ({ isConsult, setIsConsult }: HomeGREPageProps) => {
   const { totalEntity } = useFetchTotalEntity();
   const handleToggleConsult = () => setIsConsult(!isConsult);
-
+  console.log("Passou", totalEntity);
   return (
     <>
       <Stack sx={homegre__box}>
