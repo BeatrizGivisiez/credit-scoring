@@ -25,3 +25,5 @@ export { useCreateUser } from "./user/useCreateUser";
 export { useDisabledUser } from "./user/useDisabledUser";
 export { useEditUser } from "./user/useEditUser";
 export { useFetchUser } from "./user/useFetchUser";
+
+export { useFetchTotalEntity } from "./dashboardGRE/useFetchTotalEntity";

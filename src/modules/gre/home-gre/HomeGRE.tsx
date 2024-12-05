@@ -3,12 +3,14 @@
 import { Button, CardInfo, ChartBarCreation, ChartBarRelation } from "@/components";
 import PALETTE from "@/styles/_palette";
 import { Box, Stack, Typography } from "@mui/material";
-import { ArrowLeft, Graph, MagnifyingGlass, UsersThree, Warning } from "@phosphor-icons/react";
+import { ArrowLeft, Graph, MagnifyingGlass, UsersThree } from "@phosphor-icons/react";
 
-import { homegre__box } from "./styles";
+import { homegre__box, homegre__graphs } from "./styles";
 import { HomeGREPageProps } from "./types";
+import { useFetchTotalEntity } from "@/hooks";
 
 export const HomeGREPage = ({ isConsult, setIsConsult }: HomeGREPageProps) => {
+  const { totalEntity } = useFetchTotalEntity();
   const handleToggleConsult = () => setIsConsult(!isConsult);
 
   return (
@@ -25,19 +27,11 @@ export const HomeGREPage = ({ isConsult, setIsConsult }: HomeGREPageProps) => {
         />
       </Stack>
       <Box sx={{ display: "flex", gap: 3, justifyContent: "center" }}>
-        <CardInfo icon={UsersThree} title="90" subTitle="Clientes" />
+        <CardInfo icon={UsersThree} title={totalEntity} subTitle="Clientes" />
         <CardInfo icon={Graph} title="15" subTitle="Grupos Económicos" />
-        <CardInfo icon={Warning} title="10" subTitle="Grupos em Risco" />
       </Box>
 
-      <Box
-        sx={{
-          display: "flex",
-          flexDirection: "row",
-          gap: 3,
-          justifyContent: "center"
-        }}
-      >
+      <Box sx={homegre__graphs}>
         <ChartBarRelation title="Top 5 maiores Grupos Económicos" height={450} width={645} />
         <ChartBarCreation title="Grupos Económicos criado por trimestre" height={450} width={645} />
       </Box>

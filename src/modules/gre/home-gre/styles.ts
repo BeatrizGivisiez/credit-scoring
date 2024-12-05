@@ -7,3 +7,10 @@ export const homegre__box: SxProps = {
   alignItems: "center",
   margin: "0px"
 };
+
+export const homegre__graphs: SxProps = {
+  display: "flex",
+  flexDirection: "row",
+  gap: 3,
+  justifyContent: "center"
+};
