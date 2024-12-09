@@ -13,6 +13,19 @@ const nextConfig = {
         hostname: "pkf-dev.vercel.app",
         port: "",
         pathname: "/**"
+      },
+      // Adiciona os domínios do Power BI
+      {
+        protocol: "https",
+        hostname: "app.powerbi.com",
+        port: "",
+        pathname: "/**"
+      },
+      {
+        protocol: "https",
+        hostname: "api.powerbi.com",
+        port: "",
+        pathname: "/**"
       }
     ]
   }
