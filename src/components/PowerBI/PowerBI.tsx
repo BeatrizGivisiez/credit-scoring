@@ -1,6 +1,12 @@
 "use client";
+
+import dynamic from "next/dynamic";
 import { models } from "powerbi-client";
-import { PowerBIEmbed } from "powerbi-client-react";
+
+// Desativa SSR para o componente PowerBI
+const PowerBIEmbed = dynamic(() => import("powerbi-client-react").then((mod) => mod.PowerBIEmbed), {
+  ssr: false
+});
 
 export const PowerBI = () => {
   return (
@@ -39,7 +45,11 @@ export const PowerBI = () => {
           [
             "error",
             function (event) {
-              console.log(event.detail);
+              if (event) {
+                console.log(event.detail);
+              } else {
+                console.log("Event is undefined");
+              }
             }
           ]
         ])

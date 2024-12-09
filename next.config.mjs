@@ -4,12 +4,6 @@ const nextConfig = {
     remotePatterns: [
       {
         protocol: "https",
-        hostname: "credit-score-dev.up.railway.app",
-        port: "",
-        pathname: "/**"
-      },
-      {
-        protocol: "https",
         hostname: "credit-score-dbgfaceagwhphsb2.canadacentral-01.azurewebsites.net",
         port: "",
         pathname: "/swagger/**"
@@ -17,19 +11,6 @@ const nextConfig = {
       {
         protocol: "https",
         hostname: "pkf-dev.vercel.app",
-        port: "",
-        pathname: "/**"
-      },
-      // Adiciona os domínios do Power BI
-      {
-        protocol: "https",
-        hostname: "app.powerbi.com",
-        port: "",
-        pathname: "/**"
-      },
-      {
-        protocol: "https",
-        hostname: "api.powerbi.com",
         port: "",
         pathname: "/**"
       }
