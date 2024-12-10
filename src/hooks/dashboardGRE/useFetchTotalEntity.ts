@@ -8,6 +8,15 @@ export const useFetchTotalEntity = () => {
 
   useEffect(() => {
     const fetchTotalEntity = async () => {
+      const cacheKey = "totalEntityCache";
+      const cachedData = localStorage.getItem(cacheKey);
+
+      if (cachedData) {
+        setTotalEntity(cachedData);
+        setLoading(false);
+        return;
+      }
+
       try {
         const response = await fetch(`/api/totalEntity`, {
           method: "GET",
@@ -20,9 +29,12 @@ export const useFetchTotalEntity = () => {
           throw new Error(`Error fetching data: ${response.statusText}`);
         }
 
-        const data: string = await response.json(); // API retorna um array
-        setTotalEntity(data); // Atualiza o estado com as entidades recebidas
-        console.log("Dados recebidos setTotalEntity:", data); // Log para verificar a resposta
+        const data = await response.json();
+        setTotalEntity(data);
+
+        localStorage.setItem(cacheKey, data);
+
+        console.log("Dados recebidos setTotalEntity:", data);
       } catch (err: any) {
         setError(err.message);
       } finally {

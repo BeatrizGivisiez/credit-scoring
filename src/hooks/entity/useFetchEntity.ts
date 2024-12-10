@@ -1,4 +1,3 @@
-//src/hooks/entity/useFetchEntity.ts
 "use client";
 import { useEffect, useState } from "react";
 
@@ -23,9 +22,8 @@ export const useFetchEntity = () => {
           throw new Error(`Error fetching data: ${response.statusText}`);
         }
 
-        const data: EntityDTO[] = await response.json(); // API retorna um array
-        setEntity(data); // Atualiza o estado com as entidades recebidas
-        // console.log("Dados recebidos setEntity:", data); // Log para verificar a resposta
+        const data: EntityDTO[] = await response.json();
+        setEntity(data);
       } catch (err: any) {
         setError(err.message);
       } finally {
