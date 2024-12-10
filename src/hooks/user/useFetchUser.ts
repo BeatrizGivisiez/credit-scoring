@@ -24,7 +24,6 @@ export const useFetchUser = () => {
 
       const data: UserDTO[] = await response.json();
       setUser(data);
-      console.log("Dados recebidos setUser:", data);
     } catch (err: any) {
       setError(err.message);
     } finally {

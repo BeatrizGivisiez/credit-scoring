@@ -9,7 +9,7 @@ export async function GET(): Promise<NextResponse> {
   }
 
   // Construir a URL final para a rota correta
-  const url: string = `${apiUrl}api/Home/GetTotalEntidades`; // Adicione o endpoint correto aqui
+  const url: string = `${apiUrl}Home/GetTotalEntidades`; // Adicione o endpoint correto aqui
   const headers: HeadersInit = {
     accept: "application/ld+json"
   };

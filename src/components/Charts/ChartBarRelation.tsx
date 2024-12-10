@@ -18,7 +18,6 @@ export const ChartBarRelation = ({
   colors = ["#90CAF9", "#FFAB91", "#A5D6A7", "#FFCC80", "#CE93D8"]
 }: ChartBarProps) => {
   const { topEconomicGroup } = useFetchTopEconomicGroup();
-  console.log("topEconomicGroup", topEconomicGroup);
 
   const formattedData = topEconomicGroup.map((group) => ({
     name: group.name,

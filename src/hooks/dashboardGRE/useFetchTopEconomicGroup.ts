@@ -24,7 +24,6 @@ export const useFetchTopEconomicGroup = () => {
         const data: TopEconomicGroupDTO[] = await response.json(); // API retorna um array
         const sortedData = data.sort((a, b) => a.relationsCount - b.relationsCount);
         setTopEconomicGroup(sortedData); // Atualiza o estado com as entidades recebidas
-        console.log("Dados recebidos setTop5EconomicGroup:", data); // Log para verificar a resposta
       } catch (err: any) {
         setError(err.message);
       } finally {
