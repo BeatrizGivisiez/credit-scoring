@@ -17,7 +17,7 @@ import { useFetchTotalEconomicGroup, useFetchTotalEntity } from "@/hooks";
 
 export const HomeGREPage = ({ isConsult, setIsConsult }: HomeGREPageProps) => {
   const { totalEntity, loading, error } = useFetchTotalEntity();
-  const { totalEconomicGroup } = useFetchTotalEconomicGroup();
+  const { totalEconomicGroup, loading: loadingEG, error: errorEG } = useFetchTotalEconomicGroup();
   const handleToggleConsult = () => setIsConsult(!isConsult);
   return (
     <>
@@ -41,7 +41,13 @@ export const HomeGREPage = ({ isConsult, setIsConsult }: HomeGREPageProps) => {
           <CardInfo icon={BuildingOffice} title={totalEntity} subTitle="Total de Entidades" />
         )}
 
-        <CardInfo icon={Graph} title={totalEconomicGroup} subTitle="Todal de Grupos Económico" />
+        {loadingEG ? (
+          <Loading />
+        ) : errorEG ? (
+          <Alert severity="error" label="Erro ao carregar entidades" icon={WarningCircle} />
+        ) : (
+          <CardInfo icon={Graph} title={totalEconomicGroup} subTitle="Todal de Grupos Económico" />
+        )}
       </Box>
 
       <Box sx={homegre__graphs}>
