@@ -51,8 +51,8 @@ export const HomeGREPage = ({ isConsult, setIsConsult }: HomeGREPageProps) => {
       </Box>
 
       <Box sx={homegre__graphs}>
-        <ChartBarRelation title="Top 5 maiores Grupos Económicos" height={450} width={645} />
-        <ChartBarCreation title="Grupos Económicos criado por trimestre" height={450} width={645} />
+        <ChartBarRelation title="Top 5 maiores Grupos Económicos" height={580} width={645} />
+        <ChartBarCreation title="Grupos Económicos criado por trimestre" height={580} width={645} />
       </Box>
     </>
   );
