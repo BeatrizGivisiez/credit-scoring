@@ -9,14 +9,15 @@ import { ModalEntity } from "@/components/Modal/ModalEntity/ModalEntity";
 import { useState } from "react";
 
 export const EntityUTP = () => {
-  const [openModal, setOpenModal] = useState<boolean>(false);
-
-  const handleCloseModal = () => {
-    setOpenModal(false);
+  const [modalMode, setModalMode] = useState<"view" | "edit" | null>(null);
+  // Função para abrir o modal com a entidade selecionada
+  const handleOpenModal = (mode: "view" | "edit") => {
+    setModalMode(mode);
   };
 
-  const handleOpenModal = () => {
-    setOpenModal(true);
+  // Função para fechar o modal
+  const handleCloseModal = () => {
+    setModalMode(null);
   };
 
   return (
@@ -39,12 +40,14 @@ export const EntityUTP = () => {
               phone: item.phone,
               address: item.address
             }))}
-            openModal={handleOpenModal}
+            onViewModal={() => handleOpenModal("view")}
+            onEditModal={() => handleOpenModal("edit")}
           />
         </Card>
       </Box>
+
       <ModalEntity
-        open={openModal}
+        open={modalMode !== null}
         handleClose={handleCloseModal}
         entityData={{
           id: "123",

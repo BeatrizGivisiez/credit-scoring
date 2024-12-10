@@ -1,4 +1,4 @@
-export type EntitytList = {
+export type EntityList = {
   id: number;
   name: string;
   nif: string;
@@ -8,7 +8,8 @@ export type EntitytList = {
 };
 
 export interface TableListEntityProps {
-  entityList: EntitytList[];
+  entityList: EntityList[];
   pageSize?: number;
-  openModal: () => void;
+  onViewModal: () => void;
+  onEditModal: () => void;
 }
