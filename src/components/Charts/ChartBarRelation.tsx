@@ -1,7 +1,6 @@
 "use client";
 import React from "react";
 
-import { DATACHARTBAR } from "@/app/_mocks/datachartbar";
 import PALETTE from "@/styles/_palette";
 import { Box, Typography } from "@mui/material";
 import { ResponsiveBar } from "@nivo/bar";

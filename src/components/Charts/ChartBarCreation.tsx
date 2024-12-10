@@ -1,15 +1,13 @@
 "use client";
 import React, { useEffect, useState } from "react";
 
-import { DATACHARTBAR } from "@/app/_mocks/datachartbar";
 import PALETTE from "@/styles/_palette";
-import { Box, colors, Typography } from "@mui/material";
+import { Box, Typography } from "@mui/material";
 import { ResponsiveBar } from "@nivo/bar";
 
 import { Card } from "../Card/Card";
 import { ChartBarProps } from "./types";
 import { useFetchTopEconomicGroup } from "@/hooks";
-import { title } from "process";
 
 const groupByTrimestre = (data: any) => {
   const trimestres = {
@@ -43,9 +41,6 @@ const groupByTrimestre = (data: any) => {
     { trimestre: "4 Trimestre", quantidade: trimestres["4 Trimestre"].size }
   ];
 };
-
-// const { topEconomicGroup } = useFetchTopEconomicGroup();
-// const groupedData = groupByTrimestre(topEconomicGroup);
 
 export const ChartBarCreation = ({
   title,
