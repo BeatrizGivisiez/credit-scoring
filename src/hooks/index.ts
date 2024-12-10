@@ -27,3 +27,5 @@ export { useEditUser } from "./user/useEditUser";
 export { useFetchUser } from "./user/useFetchUser";
 
 export { useFetchTotalEntity } from "./dashboardGRE/useFetchTotalEntity";
+export { useFetchTotalEconomicGroup } from "./dashboardGRE/useFetchTotalEconomicGroup";
+export { useFetchTopEconomicGroup } from "./dashboardGRE/useFetchTopEconomicGroup";

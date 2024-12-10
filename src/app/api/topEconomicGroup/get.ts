@@ -1,4 +1,4 @@
-export const fetchCache = "force-no-store";
+import { TopEconomicGroupDTO } from "@/app/dto/TopEconomicGroupDto";
 import { NextResponse } from "next/server";
 
 export async function GET(): Promise<NextResponse> {
@@ -9,14 +9,13 @@ export async function GET(): Promise<NextResponse> {
   }
 
   // Construir a URL final para a rota correta
-  const url: string = `${apiUrl}api/Home/GetTotalEntidades`; // Adicione o endpoint correto aqui
+  const url: string = `${apiUrl}api/Home/GetTop5GruposEconomicos`; // Adicione o endpoint correto aqui
   const headers: HeadersInit = {
     accept: "application/ld+json"
   };
 
   try {
     const response = await fetch(url, {
-      cache: "no-cache",
       method: "GET",
       headers: headers
     });
@@ -25,7 +24,8 @@ export async function GET(): Promise<NextResponse> {
       throw new Error(`Error fetching data: ${response.statusText}`);
     }
 
-    const data: number = await response.json();
+    const data: TopEconomicGroupDTO = await response.json();
+    // console.log("Dados recebidos GetWithTree:", data); // Log para verificar a resposta
 
     return NextResponse.json(data); // Retorna os dados em formato JSON
   } catch (error: any) {

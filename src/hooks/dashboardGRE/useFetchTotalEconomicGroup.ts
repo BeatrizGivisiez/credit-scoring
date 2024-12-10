@@ -1,15 +1,15 @@
 "use client";
 import { useEffect, useState } from "react";
 
-export const useFetchTotalEntity = () => {
-  const [totalEntity, setTotalEntity] = useState<string>("");
+export const useFetchTotalEconomicGroup = () => {
+  const [totalEconomicGroup, setTotalEconomicGroup] = useState<string>("");
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    const fetchTotalEntity = async () => {
+    const fetchTotalEconomicGroup = async () => {
       try {
-        const response = await fetch(`/api/totalEntity`, {
+        const response = await fetch(`/api/totalEconomicGroup`, {
           method: "GET",
           headers: {
             accept: "application/ld+json"
@@ -21,8 +21,8 @@ export const useFetchTotalEntity = () => {
         }
 
         const data: string = await response.json(); // API retorna um array
-        setTotalEntity(data); // Atualiza o estado com as entidades recebidas
-        // console.log("Dados recebidos setTotalEntity:", data); // Log para verificar a resposta
+        setTotalEconomicGroup(data); // Atualiza o estado com as entidades recebidas
+        // console.log("Dados recebidos setTotalEconomicGroup:", data); // Log para verificar a resposta
       } catch (err: any) {
         setError(err.message);
       } finally {
@@ -30,8 +30,8 @@ export const useFetchTotalEntity = () => {
       }
     };
 
-    fetchTotalEntity();
+    fetchTotalEconomicGroup();
   }, []);
 
-  return { totalEntity, loading, error };
+  return { totalEconomicGroup, loading, error };
 };
