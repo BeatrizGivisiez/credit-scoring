@@ -12,7 +12,7 @@ export const CardInfo = ({ title, subTitle, icon: Icon, padding = 3 }: CardInfoP
     <Paper sx={{ ...cardinfo, padding: paddingDefault }} elevation={0}>
       <Box sx={cardinfo__box}>
         <Icon
-          size={52}
+          size={60}
           style={{ cursor: "pointer" }}
           color={PALETTE.PRIMARY_MAIN}
           weight="duotone"

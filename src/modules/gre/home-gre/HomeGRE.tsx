@@ -1,16 +1,22 @@
 "use client";
 
-import { Button, CardInfo, ChartBarCreation, ChartBarRelation } from "@/components";
+import { Alert, Button, CardInfo, ChartBarCreation, ChartBarRelation, Loading } from "@/components";
 import PALETTE from "@/styles/_palette";
 import { Box, Stack, Typography } from "@mui/material";
-import { ArrowLeft, Graph, MagnifyingGlass, UsersThree } from "@phosphor-icons/react";
+import {
+  ArrowLeft,
+  BuildingOffice,
+  Graph,
+  MagnifyingGlass,
+  WarningCircle
+} from "@phosphor-icons/react";
 
 import { homegre__box, homegre__graphs } from "./styles";
 import { HomeGREPageProps } from "./types";
 import { useFetchTotalEconomicGroup, useFetchTotalEntity } from "@/hooks";
 
 export const HomeGREPage = ({ isConsult, setIsConsult }: HomeGREPageProps) => {
-  const { totalEntity } = useFetchTotalEntity();
+  const { totalEntity, loading, error } = useFetchTotalEntity();
   const { totalEconomicGroup } = useFetchTotalEconomicGroup();
   const handleToggleConsult = () => setIsConsult(!isConsult);
   return (
@@ -27,8 +33,15 @@ export const HomeGREPage = ({ isConsult, setIsConsult }: HomeGREPageProps) => {
         />
       </Stack>
       <Box sx={{ display: "flex", gap: 3, justifyContent: "center" }}>
-        <CardInfo icon={UsersThree} title={totalEntity} subTitle="Clientes" />
-        <CardInfo icon={Graph} title={totalEconomicGroup} subTitle="Grupos Económicos" />
+        {loading ? (
+          <Loading />
+        ) : error ? (
+          <Alert severity="error" label="Erro ao carregar entidades" icon={WarningCircle} />
+        ) : (
+          <CardInfo icon={BuildingOffice} title={totalEntity} subTitle="Total de Entidades" />
+        )}
+
+        <CardInfo icon={Graph} title={totalEconomicGroup} subTitle="Todal de Grupos Económico" />
       </Box>
 
       <Box sx={homegre__graphs}>

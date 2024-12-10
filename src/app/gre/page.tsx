@@ -1,12 +1,12 @@
-import dynamic from "next/dynamic";
-import { LayoutDefault } from "../templates/LayoutDefault";
 import {
-  StepperContextProvider,
   CharacteristicRelationProvider,
-  EconomicGroupProvider
+  EconomicGroupProvider,
+  StepperContextProvider
 } from "@/app/context";
 import { getServerSession } from "next-auth";
+import dynamic from "next/dynamic";
 import { redirect } from "next/navigation";
+import { LayoutDefault } from "../templates/LayoutDefault";
 
 const EconomicGroupsPage = dynamic(
   () => import("@/modules/gre").then((mod) => mod.EconomicGroupsPage),
@@ -14,11 +14,9 @@ const EconomicGroupsPage = dynamic(
 );
 
 export default async function EconomicGroups() {
-  // Verifique a sessão no servidor
   const session = await getServerSession();
 
   if (!session) {
-    // Redirecione o usuário se ele não estiver autenticado
     redirect("/");
   }
   return (
