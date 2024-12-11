@@ -8,6 +8,15 @@ export const useFetchTotalEconomicGroup = () => {
 
   useEffect(() => {
     const fetchTotalEconomicGroup = async () => {
+      const cacheKey = "totalEconomicGroupCache";
+      const cachedData = localStorage.getItem(cacheKey);
+
+      if (cachedData) {
+        setTotalEconomicGroup(cachedData);
+        setLoading(false);
+        return;
+      }
+
       try {
         const response = await fetch(`/api/totalEconomicGroup`, {
           method: "GET",
@@ -20,9 +29,12 @@ export const useFetchTotalEconomicGroup = () => {
           throw new Error(`Error fetching data: ${response.statusText}`);
         }
 
-        const data: string = await response.json(); // API retorna um array
-        setTotalEconomicGroup(data); // Atualiza o estado com as entidades recebidas
-        // console.log("Dados recebidos setTotalEconomicGroup:", data); // Log para verificar a resposta
+        const data: string = await response.json();
+        setTotalEconomicGroup(data);
+
+        localStorage.setItem(cacheKey, data);
+
+        console.log("Dados recebidos setTotalEntity:", data);
       } catch (err: any) {
         setError(err.message);
       } finally {
