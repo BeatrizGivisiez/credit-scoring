@@ -34,6 +34,8 @@ export { ModalRelateEntityEdit } from "./Modal/ModalRelateEntityEdit";
 export { ModalRelationAdd } from "./Modal/ModalRelationAdd";
 export { ModalCreateUserEdit } from "./Modal/ModalUser/ModalCreateUserEdit";
 
+export { NotFoundCustom } from "./NotFoundCustom/NotFoundCustom";
+
 export { PowerBI } from "./PowerBI/PowerBI";
 
 export { Stepper } from "./Stepper/Stepper";
