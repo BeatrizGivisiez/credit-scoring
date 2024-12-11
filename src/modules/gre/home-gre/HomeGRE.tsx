@@ -11,14 +11,14 @@ import {
   WarningCircle
 } from "@phosphor-icons/react";
 
-import { useFetchTotalEntity } from "@/hooks";
 import { homegre__box, homegre__graphs } from "./styles";
 import { HomeGREPageProps } from "./types";
+import { useFetchTotalEconomicGroup, useFetchTotalEntity } from "@/hooks";
 
 export const HomeGREPage = ({ isConsult, setIsConsult }: HomeGREPageProps) => {
   const { totalEntity, loading, error } = useFetchTotalEntity();
+  const { totalEconomicGroup, loading: loadingEG, error: errorEG } = useFetchTotalEconomicGroup();
   const handleToggleConsult = () => setIsConsult(!isConsult);
-  console.log("Passou", totalEntity);
   return (
     <>
       <Stack sx={homegre__box}>
@@ -36,17 +36,23 @@ export const HomeGREPage = ({ isConsult, setIsConsult }: HomeGREPageProps) => {
         {loading ? (
           <Loading />
         ) : error ? (
-          <Alert severity="error" label="Erro ao carregar usuários" icon={WarningCircle} />
+          <Alert severity="error" label="Erro ao carregar entidades" icon={WarningCircle} />
         ) : (
           <CardInfo icon={BuildingOffice} title={totalEntity} subTitle="Total de Entidades" />
         )}
 
-        <CardInfo icon={Graph} title="15" subTitle="Todal de Grupos Económicos" />
+        {loadingEG ? (
+          <Loading />
+        ) : errorEG ? (
+          <Alert severity="error" label="Erro ao carregar entidades" icon={WarningCircle} />
+        ) : (
+          <CardInfo icon={Graph} title={totalEconomicGroup} subTitle="Todal de Grupos Económico" />
+        )}
       </Box>
 
       <Box sx={homegre__graphs}>
-        <ChartBarRelation title="Top 5 maiores Grupos Económicos" height={450} width={645} />
-        <ChartBarCreation title="Grupos Económicos criado por trimestre" height={450} width={645} />
+        <ChartBarRelation title="Top 5 maiores Grupos Económicos" height={580} width={645} />
+        <ChartBarCreation title="Grupos Económicos criado por trimestre" height={580} width={645} />
       </Box>
     </>
   );

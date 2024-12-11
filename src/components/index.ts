@@ -8,7 +8,6 @@ export { Card } from "./Card/Card";
 export { CardInfo } from "./Card/CardInfo";
 export { ChartBarCreation } from "./Charts/ChartBarCreation";
 export { ChartBarRelation } from "./Charts/ChartBarRelation";
-export { ChartPie } from "./Charts/ChartPie";
 export { Divider } from "./Divider/Divider";
 
 export { Header } from "./Header/Header";

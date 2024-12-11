@@ -1,12 +1,7 @@
 "use client";
 
-import dynamic from "next/dynamic";
 import { models } from "powerbi-client";
-
-// Desativa SSR para o componente PowerBI
-const PowerBIEmbed = dynamic(() => import("powerbi-client-react").then((mod) => mod.PowerBIEmbed), {
-  ssr: false
-});
+import { PowerBIEmbed } from "powerbi-client-react";
 
 export const PowerBI = () => {
   return (
