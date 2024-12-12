@@ -19,7 +19,7 @@ const handler = NextAuth({
           password: credentials.password
         };
 
-        const url = process.env.NEXT_API_HOST + "/api/authentication";
+        const url = process.env.NEXTAUTH_URL + "/api/authentication";
 
         const response = await fetch(url, {
           method: "POST",
