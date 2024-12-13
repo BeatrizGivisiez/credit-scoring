@@ -8,7 +8,6 @@ export { Card } from "./Card/Card";
 export { CardInfo } from "./Card/CardInfo";
 export { ChartBarCreation } from "./Charts/ChartBarCreation";
 export { ChartBarRelation } from "./Charts/ChartBarRelation";
-export { ChartPie } from "./Charts/ChartPie";
 export { Divider } from "./Divider/Divider";
 
 export { Header } from "./Header/Header";
@@ -34,6 +33,8 @@ export { ModalRelateEntityAdd } from "./Modal/ModalRelateEntityAdd";
 export { ModalRelateEntityEdit } from "./Modal/ModalRelateEntityEdit";
 export { ModalRelationAdd } from "./Modal/ModalRelationAdd";
 export { ModalCreateUserEdit } from "./Modal/ModalUser/ModalCreateUserEdit";
+
+export { NotFoundCustom } from "./NotFoundCustom/NotFoundCustom";
 
 export { PowerBI } from "./PowerBI/PowerBI";
 

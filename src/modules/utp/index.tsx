@@ -1,17 +1,17 @@
 "use client";
 
 import { Tabs } from "@/components";
-import { PresentationChart, FileText, BuildingOffice } from "@phosphor-icons/react";
-import { HomeUTP } from "./home-utp/HomeUTP";
-import { EntityUTP } from "./entity-utp/EntityUTP";
+import { BuildingOffice, FileText, PresentationChart } from "@phosphor-icons/react";
 import { ContractUTP } from "./contract-utp/ContractUTP";
+import { EntityUTP } from "./entity-utp/EntityUTP";
+import { HomeUTP } from "./home-utp/HomeUTP";
 
 const tabs = [
   {
     value: 0,
     label: "Power BI",
     iconStart: PresentationChart,
-    content: <HomeUTP /> // integracao com o PowerBi
+    content: <HomeUTP />
   },
   {
     value: 1,

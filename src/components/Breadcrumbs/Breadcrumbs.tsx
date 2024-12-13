@@ -14,10 +14,12 @@ export const Breadcrumbs = ({ breadcrumbs }: BreadcrumbsProps) => {
   const router = useRouter();
 
   const handleBreadcrumbClick = (href: string) => {
-    if (href === window.location.pathname) {
-      window.location.reload(); // Recarrega a página se clicar na rota atual
-    } else {
-      router.push(href); // Navega para a rota desejada
+    if (typeof window !== "undefined") {
+      if (href === window.location.pathname) {
+        window.location.reload(); // Recarrega a página se clicar na rota atual
+      } else {
+        router.push(href); // Navega para a rota desejada
+      }
     }
   };
 
