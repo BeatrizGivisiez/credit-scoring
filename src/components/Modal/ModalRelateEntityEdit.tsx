@@ -74,8 +74,14 @@ export const ModalRelateEntityEdit = ({
           <Box sx={{ display: "flex", gap: 1, alignItems: "center" }}>
             <InputDate
               label="Data Fim:"
-              value={value}
-              onChange={(newValue) => setValue(newValue)}
+              value={value} // Espera um valor do tipo Dayjs | null
+              onChange={(newValue) => {
+                setValue(newValue); // Armazena Dayjs no estado
+                if (newValue) {
+                  const formattedDate = newValue.format("YYYY-MM-DD"); // Converte para o formato desejado
+                  console.log("Data formatada:", formattedDate); // Use conforme necessário
+                }
+              }}
               disabled={!!selectedRelation?.deleted}
             />
           </Box>
