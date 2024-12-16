@@ -1,23 +1,24 @@
 "use client";
 
-import { InputSearch, TableListEntity } from "@/components";
-import { Box, Card, Typography } from "@mui/material";
-import { entityutp__box, entityutp__card } from "./styles";
-import PALETTE from "@/styles/_palette";
 import { TABLEENTITY } from "@/app/_mocks/tableentity";
-import { ModalEntity } from "@/components/Modal/ModalEntity/ModalEntity";
+import { InputSearch, ModalEntityEdit, ModalEntityView, TableListEntity } from "@/components";
+import PALETTE from "@/styles/_palette";
+import { Box, Card, Typography } from "@mui/material";
 import { useState } from "react";
+import { entityutp__box, entityutp__card } from "./styles";
 
 export const EntityUTP = () => {
   const [modalMode, setModalMode] = useState<"view" | "edit" | null>(null);
-  // Função para abrir o modal com a entidade selecionada
-  const handleOpenModal = (mode: "view" | "edit") => {
+  const [selectedEntity, setSelectedEntity] = useState<any>(null); // Estado para a entidade selecionada
+
+  const handleOpenModal = (mode: "view" | "edit", entity: any) => {
     setModalMode(mode);
+    setSelectedEntity(entity); // Armazena a entidade selecionada
   };
 
-  // Função para fechar o modal
   const handleCloseModal = () => {
     setModalMode(null);
+    setSelectedEntity(null); // Limpa a entidade selecionada
   };
 
   return (
@@ -36,31 +37,25 @@ export const EntityUTP = () => {
               id: item.id,
               name: item.name,
               nif: item.nif,
-              email: item.email,
-              phone: item.phone,
-              address: item.address
+              documentType: item.documentType,
+              clientSegment: item.clientSegment,
+              location: item.location,
+              comments: item.comments,
+              lastUpdate: item.lastUpdate
             }))}
-            onViewModal={() => handleOpenModal("view")}
-            onEditModal={() => handleOpenModal("edit")}
+            onViewModal={(entity) => handleOpenModal("view", entity)}
+            onEditModal={(entity) => handleOpenModal("edit", entity)}
           />
         </Card>
       </Box>
 
-      <ModalEntity
-        open={modalMode !== null}
-        handleClose={handleCloseModal}
-        entityData={{
-          id: "123",
-          nif: "123456789",
-          documentType: "Passaporte",
-          clientSegment: "Premium",
-          location: "Lisboa",
-          socialDebt: "Sim",
-          financialDifficulty: "Alta",
-          comments: "Nenhum comentário",
-          lastUpdate: "2024-11-27"
-        }}
-      />
+      {modalMode === "view" && selectedEntity && (
+        <ModalEntityView open={true} handleClose={handleCloseModal} entityData={selectedEntity} />
+      )}
+
+      {modalMode === "edit" && selectedEntity && (
+        <ModalEntityEdit open={true} handleClose={handleCloseModal} entityData={selectedEntity} />
+      )}
     </>
   );
 };

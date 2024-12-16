@@ -33,6 +33,8 @@ export { ModalRelateEntityAdd } from "./Modal/ModalRelateEntityAdd";
 export { ModalRelateEntityEdit } from "./Modal/ModalRelateEntityEdit";
 export { ModalRelationAdd } from "./Modal/ModalRelationAdd";
 export { ModalCreateUserEdit } from "./Modal/ModalUser/ModalCreateUserEdit";
+export { ModalEntityEdit } from "@/components/Modal/ModalEntity/ModalEntityEdit";
+export { ModalEntityView } from "@/components/Modal/ModalEntity/ModalEntityView";
 
 export { NotFoundCustom } from "./NotFoundCustom/NotFoundCustom";
 

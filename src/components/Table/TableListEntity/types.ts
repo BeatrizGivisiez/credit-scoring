@@ -2,14 +2,16 @@ export type EntityList = {
   id: number;
   name: string;
   nif: string;
-  email: string;
-  phone: string;
-  address: string;
+  documentType: string; // Type of document
+  clientSegment: string; // Segment of the client
+  location: string; // Location
+  comments: string; // Comments
+  lastUpdate: string; // Last update date
 };
 
 export interface TableListEntityProps {
   entityList: EntityList[];
   pageSize?: number;
-  onViewModal: () => void;
-  onEditModal: () => void;
+  onViewModal: (entity: EntityList) => void;
+  onEditModal: (entity: EntityList) => void;
 }

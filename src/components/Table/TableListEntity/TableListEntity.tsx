@@ -15,29 +15,53 @@ export const TableListEntity = ({
 }: TableListEntityProps) => {
   const columns: GridColDef<EntityList>[] = [
     { field: "id", headerName: "ID", width: 50, headerAlign: "center", align: "center" },
-    { field: "name", headerName: "Nome", width: 400 },
-    { field: "nif", headerName: "NIF", width: 100 },
-    { field: "email", headerName: "E-mail", width: 200 },
-    { field: "phone", headerName: "Telefone", width: 100 },
-    { field: "address", headerName: "Morada", width: 380 },
+    { field: "name", headerName: "Nome", headerAlign: "left", align: "left", width: 230 },
+    { field: "nif", headerName: "NIF", headerAlign: "left", align: "left", width: 100 },
+    {
+      field: "documentType",
+      headerName: "Tipo de Documento",
+      headerAlign: "left",
+      align: "left",
+      width: 185
+    },
+    {
+      field: "clientSegment",
+      headerName: "Segmento",
+      headerAlign: "left",
+      align: "left",
+      width: 150
+    },
+    { field: "location", headerName: "Localidade", headerAlign: "left", align: "left", width: 150 },
+    { field: "comments", headerName: "Comentário", headerAlign: "left", align: "left", width: 200 },
+    {
+      field: "lastUpdate",
+      headerName: "Última Atualização",
+      headerAlign: "left",
+      align: "left",
+      width: 180
+    },
+
     {
       field: "actions",
       headerName: "Ações",
-      width: 80,
-      renderCell: () => {
+      width: 100,
+      headerAlign: "center",
+      align: "center",
+      renderCell: (params) => {
+        const entity = params.row;
         return (
           <Box sx={gridcoldef}>
             <ButtonIcon
               placement="top-start"
               title="Visualizar"
               icon={Eye}
-              onClick={() => onViewModal()} // Passa a entidade para a função
+              onClick={() => onViewModal(entity)}
             />
             <ButtonIcon
               placement="top-end"
               title="Editar"
               icon={Pencil}
-              onClick={() => onEditModal()} // Passa a entidade para a função
+              onClick={() => onEditModal(entity)}
             />
           </Box>
         );

@@ -1,7 +1,8 @@
 "use client";
 
-import { ButtonIcon, Divider } from "@/components";
+import { Button, ButtonIcon, Divider } from "@/components";
 import {
+  Alert,
   Box,
   Checkbox,
   Dialog,
@@ -9,13 +10,17 @@ import {
   FormControlLabel,
   FormGroup,
   Grid,
+  TextField,
   Typography
 } from "@mui/material";
-import { X } from "@phosphor-icons/react";
-import { ModalEntityProps } from "./types";
+import { Check, FloppyDiskBack, X } from "@phosphor-icons/react";
+import { ModalEntityEditProps } from "./types";
 import PALETTE from "@/styles/_palette";
+import { useState } from "react";
 
-export const ModalEntity = ({ open, handleClose, entityData }: ModalEntityProps) => {
+export const ModalEntityEdit = ({ open, handleClose, entityData }: ModalEntityEditProps) => {
+  const [alertOpen, setAlertOpen] = useState(false); // Estado para o modal de alerta
+
   const options = [
     "Falha da principal fonte de receita",
     "Dúvidas de capacidade de pagamento",
@@ -46,7 +51,7 @@ export const ModalEntity = ({ open, handleClose, entityData }: ModalEntityProps)
     <Dialog onClose={handleClose} open={open} maxWidth="md" fullWidth>
       <DialogTitle>
         <Typography variant="h6" color={PALETTE.PRIMARY_MAIN}>
-          Visualizar Informações da Entidade
+          Editar Informações da Entidade
         </Typography>
         <ButtonIcon
           placement="top-start"
@@ -68,13 +73,28 @@ export const ModalEntity = ({ open, handleClose, entityData }: ModalEntityProps)
             <GridItem label="Tipo de documento" value={entityData?.documentType} />
             <GridItem label="Segmento de cliente" value={entityData?.clientSegment} />
             <GridItem label="Localidade" value={entityData?.location} />
-            <GridItem label="Dívidas à Segurança Social" value={entityData?.socialDebt} />
-            <GridItem
-              label="Tipo de Dificuldades Financeiras"
-              value={entityData?.financialDifficulty}
-            />
-            <GridItem label="Comentários" value={entityData?.comments} />
             <GridItem label="Última data de edição" value={entityData?.lastUpdate} />
+            <TextField
+              label="Dívidas à Segurança Social"
+              variant="outlined"
+              value={entityData?.socialDebt || ""}
+              fullWidth
+              margin="normal"
+            />
+            <TextField
+              label="Tipo de Dificuldades Financeiras"
+              variant="outlined"
+              value={entityData?.financialDifficulty || ""}
+              fullWidth
+              margin="normal"
+            />
+            <TextField
+              label="Comentários"
+              variant="outlined"
+              value={entityData?.comments || ""}
+              fullWidth
+              margin="normal"
+            />
           </Grid>
         </Box>
         <Divider />
@@ -86,6 +106,33 @@ export const ModalEntity = ({ open, handleClose, entityData }: ModalEntityProps)
           </FormGroup>
         </Box>
       </Box>
+
+      <Divider />
+
+      <Box sx={{ display: "flex", justifyContent: "space-between", p: 2, gap: 2 }}>
+        <Button label="Cancelar" color="success" onClick={handleClose} iconEnd={X} />
+        <Button
+          label="Gravar"
+          color="success"
+          // onClick={handleEditUser}
+          iconEnd={FloppyDiskBack}
+          // disabled={buttonDisabled}
+        />
+      </Box>
+
+      <Dialog
+        open={alertOpen}
+        // onClose={() => setAlertOpen(false)}
+      >
+        <Alert
+          icon={<Check />}
+          // severity={alertSeverity}
+          // onClose={() => setAlertOpen(false)}
+          sx={{ padding: 2 }}
+        >
+          {/* {alertMessage} */}
+        </Alert>
+      </Dialog>
     </Dialog>
   );
 };
