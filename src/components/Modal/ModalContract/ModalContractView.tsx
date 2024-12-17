@@ -12,10 +12,10 @@ import {
   Typography
 } from "@mui/material";
 import { FloppyDiskBack, X } from "@phosphor-icons/react";
-import { ModalContractProps } from "./types";
+import { ModalContractViewProps } from "./types";
 import PALETTE from "@/styles/_palette";
 
-export const ModalContract = ({ open, handleClose, handleSubmit }: ModalContractProps) => {
+export const ModalContractView = ({ open, handleClose, handleSubmit }: ModalContractViewProps) => {
   const options = [
     "Reestruturado por dificuldades financeiras",
     "Reestruturado SEM dificuldades financeiras",

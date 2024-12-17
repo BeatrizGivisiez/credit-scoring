@@ -21,6 +21,10 @@ export { InputText } from "./Inputs/InputText/InputText";
 export { Loading } from "./Loading/Loading";
 export { Login } from "./Login/Login";
 
+export { ModalContractEdit } from "@/components/Modal/ModalContract/ModalContractEdit";
+export { ModalContractView } from "@/components/Modal/ModalContract/ModalContractView";
+export { ModalEntityEdit } from "@/components/Modal/ModalEntity/ModalEntityEdit";
+export { ModalEntityView } from "@/components/Modal/ModalEntity/ModalEntityView";
 export { Menu } from "./Menu/Menu";
 export { MenuItem } from "./Menu/MenuItem";
 export { MenuWrapper } from "./MenuWrapper/MenuWrapper";
@@ -33,8 +37,6 @@ export { ModalRelateEntityAdd } from "./Modal/ModalRelateEntityAdd";
 export { ModalRelateEntityEdit } from "./Modal/ModalRelateEntityEdit";
 export { ModalRelationAdd } from "./Modal/ModalRelationAdd";
 export { ModalCreateUserEdit } from "./Modal/ModalUser/ModalCreateUserEdit";
-export { ModalEntityEdit } from "@/components/Modal/ModalEntity/ModalEntityEdit";
-export { ModalEntityView } from "@/components/Modal/ModalEntity/ModalEntityView";
 
 export { NotFoundCustom } from "./NotFoundCustom/NotFoundCustom";
 

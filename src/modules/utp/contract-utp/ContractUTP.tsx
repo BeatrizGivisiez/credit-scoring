@@ -1,12 +1,16 @@
 "use client";
 
-import { InputSearch, TableListContracts } from "@/components";
-import { Box, Card, Typography } from "@mui/material";
-import { contractsutp__box, contractsutp__card } from "./styles";
-import PALETTE from "@/styles/_palette";
 import { TABLECONTRACTS } from "@/app/_mocks/tablecontracts";
+import {
+  InputSearch,
+  ModalContractEdit,
+  ModalContractView,
+  TableListContracts
+} from "@/components";
+import PALETTE from "@/styles/_palette";
+import { Box, Card, Typography } from "@mui/material";
 import { useState } from "react";
-import { ModalContract } from "@/components/Modal/ModalContract/ModalContract";
+import { contractsutp__box, contractsutp__card } from "./styles";
 
 export const ContractUTP = () => {
   const [openModal, setOpenModal] = useState<boolean>(false);
@@ -42,7 +46,8 @@ export const ContractUTP = () => {
           />
         </Card>
       </Box>
-      <ModalContract open={openModal} handleClose={handleCloseModal} handleSubmit={() => {}} />
+      <ModalContractEdit open={openModal} handleClose={handleCloseModal} handleSubmit={() => {}} />
+      <ModalContractView open={openModal} handleClose={handleCloseModal} handleSubmit={() => {}} />
     </>
   );
 };
