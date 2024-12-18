@@ -120,10 +120,7 @@ export const ModalEntityEdit = ({ open, handleClose, entityData }: ModalEntityEd
         />
       </Box>
 
-      <Dialog
-        open={alertOpen}
-        // onClose={() => setAlertOpen(false)}
-      >
+      <Dialog open={alertOpen} onClose={() => setAlertOpen(false)}>
         <Alert
           icon={<Check />}
           // severity={alertSeverity}
