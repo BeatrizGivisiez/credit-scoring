@@ -9,16 +9,16 @@ import { entityutp__box, entityutp__card } from "./styles";
 
 export const EntityUTP = () => {
   const [modalMode, setModalMode] = useState<"view" | "edit" | null>(null);
-  const [selectedEntity, setSelectedEntity] = useState<any>(null); // Estado para a entidade selecionada
+  const [selectedEntity, setSelectedEntity] = useState<any>(null);
 
   const handleOpenModal = (mode: "view" | "edit", entity: any) => {
     setModalMode(mode);
-    setSelectedEntity(entity); // Armazena a entidade selecionada
+    setSelectedEntity(entity);
   };
 
   const handleCloseModal = () => {
     setModalMode(null);
-    setSelectedEntity(null); // Limpa a entidade selecionada
+    setSelectedEntity(null);
   };
 
   return (
@@ -54,7 +54,12 @@ export const EntityUTP = () => {
       )}
 
       {modalMode === "edit" && selectedEntity && (
-        <ModalEntityEdit open={true} handleClose={handleCloseModal} entityData={selectedEntity} />
+        <ModalEntityEdit
+          open={true}
+          handleClose={handleCloseModal}
+          entityData={selectedEntity}
+          handleSubmit={() => {}}
+        />
       )}
     </>
   );

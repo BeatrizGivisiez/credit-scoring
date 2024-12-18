@@ -17,6 +17,7 @@ export interface ModalEntityViewProps {
 export interface ModalEntityEditProps {
   open: boolean;
   handleClose: () => void;
+  handleSubmit: () => void;
   entityData: {
     id: string;
     nif: string;

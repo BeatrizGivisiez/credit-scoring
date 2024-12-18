@@ -13,15 +13,19 @@ import { useState } from "react";
 import { contractsutp__box, contractsutp__card } from "./styles";
 
 export const ContractUTP = () => {
-  const [openModal, setOpenModal] = useState<boolean>(false);
+  const [modalMode, setModalMode] = useState<"view" | "edit" | null>(null);
+  const [selectedContract, setSelectedContract] = useState<any>(null);
+
+  const handleOpenModal = (mode: "view" | "edit", entity: any) => {
+    setModalMode(mode);
+    setSelectedContract(entity);
+  };
 
   const handleCloseModal = () => {
-    setOpenModal(false);
+    setModalMode(null);
+    setSelectedContract(null);
   };
 
-  const handleOpenModal = () => {
-    setOpenModal(true);
-  };
   return (
     <>
       <Box sx={contractsutp__box}>
@@ -38,16 +42,40 @@ export const ContractUTP = () => {
               id: item.id,
               name: item.name,
               nif: item.nif,
-              email: item.email,
-              phone: item.phone,
-              address: item.address
+              reestruturadoPorDificuldadesFinanceiras: item.reestruturadoPorDificuldadesFinanceiras,
+              reestruturadoSemDificuldadesFinanceiras: item.reestruturadoSemDificuldadesFinanceiras,
+              defaultTecnico: item.defaultTecnico,
+              writeOff: item.writeOff,
+              chargeOff: item.chargeOff,
+              quebraDeContrato: item.quebraDeContrato,
+              emNegociacao: item.emNegociacao,
+              reestruturado: item.reestruturado,
+              pari: item.pari,
+              persi: item.persi,
+              per: item.per,
+              tribunal: item.tribunal
             }))}
-            openModal={handleOpenModal}
+            onViewModal={(contract) => handleOpenModal("view", contract)}
+            onEditModal={(contract) => handleOpenModal("edit", contract)}
           />
         </Card>
       </Box>
-      <ModalContractEdit open={openModal} handleClose={handleCloseModal} handleSubmit={() => {}} />
-      <ModalContractView open={openModal} handleClose={handleCloseModal} handleSubmit={() => {}} />
+      {modalMode === "view" && selectedContract && (
+        <ModalContractView
+          open={true}
+          handleClose={handleCloseModal}
+          contractData={selectedContract}
+        />
+      )}
+
+      {modalMode === "edit" && selectedContract && (
+        <ModalContractEdit
+          open={true}
+          handleClose={handleCloseModal}
+          contractData={selectedContract}
+          handleSubmit={() => {}}
+        />
+      )}
     </>
   );
 };

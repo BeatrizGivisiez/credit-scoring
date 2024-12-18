@@ -1,6 +1,6 @@
 "use client";
 
-import { ButtonIcon, Divider, Button } from "@/components";
+import { ButtonIcon, Divider } from "@/components";
 import {
   Box,
   Checkbox,
@@ -8,14 +8,14 @@ import {
   DialogTitle,
   FormControlLabel,
   FormGroup,
-  TextField,
+  Grid,
   Typography
 } from "@mui/material";
-import { FloppyDiskBack, X } from "@phosphor-icons/react";
+import { X } from "@phosphor-icons/react";
 import { ModalContractViewProps } from "./types";
 import PALETTE from "@/styles/_palette";
 
-export const ModalContractView = ({ open, handleClose, handleSubmit }: ModalContractViewProps) => {
+export const ModalContractView = ({ open, handleClose, contractData }: ModalContractViewProps) => {
   const options = [
     "Reestruturado por dificuldades financeiras",
     "Reestruturado SEM dificuldades financeiras",
@@ -31,11 +31,19 @@ export const ModalContractView = ({ open, handleClose, handleSubmit }: ModalCont
     "Tribunal"
   ];
 
+  const GridItem = ({ label, value }: { label: string; value: string }) => (
+    <Grid item xs={6} marginBottom={2}>
+      <Typography variant="body1">
+        <strong>{label}</strong>: {value}
+      </Typography>
+    </Grid>
+  );
+
   return (
     <Dialog onClose={handleClose} open={open} maxWidth="md" fullWidth>
       <DialogTitle>
         <Typography variant="h6" color={PALETTE.PRIMARY_MAIN}>
-          Editar Informações do Contrato
+          Visualizar Informações do Contrato
         </Typography>
         <ButtonIcon
           placement="top-start"
@@ -60,36 +68,19 @@ export const ModalContractView = ({ open, handleClose, handleSubmit }: ModalCont
             width: "400px"
           }}
         >
-          <TextField label="ID_Contrato" variant="outlined" defaultValue="1010" fullWidth />
-          <TextField
-            label="Data de suspensão pelo tribunal, da contagem do prazo"
-            variant="outlined"
-            type="datetime-local"
-            InputLabelProps={{ shrink: true }}
-            fullWidth
-          />
-          <TextField
-            label="Data da suspensão do recurso de tribunal"
-            variant="outlined"
-            type="datetime-local"
-            InputLabelProps={{ shrink: true }}
-            fullWidth
-          />
-          <TextField
-            label="Data de reestruturação"
-            variant="outlined"
-            type="datetime-local"
-            InputLabelProps={{ shrink: true }}
-            fullWidth
-          />
-          <TextField
-            label="Última data de edição"
-            variant="outlined"
-            type="datetime-local"
-            InputLabelProps={{ shrink: true }}
-            defaultValue="0001-01-01T00:00"
-            fullWidth
-          />
+          <Grid item>
+            <GridItem label="ID Contrato" value={contractData?.id} />
+            <GridItem
+              label="Data de suspensão pelo tribunal, da contagem do prazo"
+              value={contractData?.courtSuspensionDate}
+            />
+            <GridItem
+              label="Data da suspensão do recurso de tribunal"
+              value={contractData?.courtAppealSuspensionDate}
+            />
+            <GridItem label="Data de reestruturação" value={contractData?.restructuringDate} />
+            <GridItem label="Última data de edição" value={contractData?.lastUpdate} />
+          </Grid>
         </Box>
         <Divider />
         <Box sx={{ width: "50%", margin: "24px 40px 40px 40px" }}>
@@ -99,11 +90,6 @@ export const ModalContractView = ({ open, handleClose, handleSubmit }: ModalCont
             ))}
           </FormGroup>
         </Box>
-      </Box>
-      <Divider />
-      <Box sx={{ display: "flex", justifyContent: "space-between", p: 2, gap: 2 }}>
-        <Button label="Cancelar" color="success" onClick={handleClose} iconEnd={X} />
-        <Button label="Gravar" color="success" onClick={handleSubmit} iconEnd={FloppyDiskBack} />
       </Box>
     </Dialog>
   );
