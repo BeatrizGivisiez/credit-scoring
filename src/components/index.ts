@@ -38,6 +38,9 @@ export { ModalRelateEntityEdit } from "./Modal/ModalRelateEntityEdit";
 export { ModalRelationAdd } from "./Modal/ModalRelationAdd";
 export { ModalCreateUserEdit } from "./Modal/ModalUser/ModalCreateUserEdit";
 
+export { TableBackofficeEntity } from "@/components/Table/TableBackofficeEntity/TableBackofficeEntity";
+export { TableBackofficeContract } from "@/components/Table/TableBackofficeContract/TableBackofficeContract";
+
 export { NotFoundCustom } from "./NotFoundCustom/NotFoundCustom";
 
 export { PowerBI } from "./PowerBI/PowerBI";

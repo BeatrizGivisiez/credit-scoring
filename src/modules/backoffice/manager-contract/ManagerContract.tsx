@@ -1,10 +1,11 @@
 "use client";
-import { Breadcrumbs, Button, Card } from "@/components";
+import { Breadcrumbs, Button, Card, TableBackofficeContract } from "@/components";
 import PALETTE from "@/styles/_palette";
 import { Box, Stack, Typography } from "@mui/material";
 import { backoffice__box, backoffice__manager } from "./styles";
 import { Plus } from "@phosphor-icons/react";
 import { breadcrumbsBackofficeUTPContract } from "@/constants/breadcrumbs";
+import { UTP_CONTRACT } from "@/app/_mocks/listcontract";
 
 export const ManagerContract = () => {
   return (
@@ -28,20 +29,18 @@ export const ManagerContract = () => {
         <Alert severity="error" label={`Erro ao carregar dados: ${error}`} icon={Check} />
       )} */}
 
-          {/* {!loading && !error && (
-        <TableListRelation
-          pageSize={10}
-          relationList={characteristicRelation.map((item) => ({
-            id: item.economicGroupTypeId,
-            characteristicRelation: item.name,
-            status: item.status,
-            createdAt: item.created,
-            deletedAt: item.deleted || undefined,
-            inativar: item.inativar
-          }))}
-          onInactivate={handleInactivateRelation}
-        />
-      )} */}
+          {/* {!loading && !error && ( */}
+          <TableBackofficeContract
+            pageSize={10}
+            backofficeContract={UTP_CONTRACT.map((item) => ({
+              id: item.id,
+              name: item.name,
+              status: item.status,
+              inativar: item.inativar
+            }))}
+            onInactivate={() => {}}
+          />
+          {/* // )}  */}
         </Card>
       </Box>
 
