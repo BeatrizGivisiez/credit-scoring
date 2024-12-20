@@ -8,7 +8,10 @@ export { Card } from "./Card/Card";
 export { CardInfo } from "./Card/CardInfo";
 export { ChartBarCreation } from "./Charts/ChartBarCreation";
 export { ChartBarRelation } from "./Charts/ChartBarRelation";
+
 export { Divider } from "./Divider/Divider";
+
+export { GridItem } from "./GridItem/GridItem";
 
 export { Header } from "./Header/Header";
 
@@ -28,20 +31,20 @@ export { ModalEntityView } from "@/components/Modal/ModalEntity/ModalEntityView"
 export { Menu } from "./Menu/Menu";
 export { MenuItem } from "./Menu/MenuItem";
 export { MenuWrapper } from "./MenuWrapper/MenuWrapper";
+export { ModalManagerContract } from "./Modal/ModalContract/ModalManagerContract";
 export { ModalCreateGroupEdit } from "./Modal/ModalCreateGroupEdit";
 export { ModalCreateRelationGroup } from "./Modal/ModalCreateRelationGroup";
 export { ModalCreateUser } from "./Modal/ModalCreateUser";
+export { ModalManagerEntity } from "./Modal/ModalEntity/ModalManagerEntity";
 export { ModalListGroupEdit } from "./Modal/ModalListGroupEdit";
 export { ModalListGroupView } from "./Modal/ModalListGroupView";
 export { ModalRelateEntityAdd } from "./Modal/ModalRelateEntityAdd";
 export { ModalRelateEntityEdit } from "./Modal/ModalRelateEntityEdit";
 export { ModalRelationAdd } from "./Modal/ModalRelationAdd";
 export { ModalCreateUserEdit } from "./Modal/ModalUser/ModalCreateUserEdit";
-export { ModalManagerEntity } from "./Modal/ModalEntity/ModalManagerEntity";
-export { ModalManagerContract } from "./Modal/ModalContract/ModalManagerContract";
 
-export { TableBackofficeEntity } from "@/components/Table/TableBackofficeEntity/TableBackofficeEntity";
 export { TableBackofficeContract } from "@/components/Table/TableBackofficeContract/TableBackofficeContract";
+export { TableBackofficeEntity } from "@/components/Table/TableBackofficeEntity/TableBackofficeEntity";
 
 export { NotFoundCustom } from "./NotFoundCustom/NotFoundCustom";
 

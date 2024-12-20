@@ -15,7 +15,7 @@ export const TableListEntity = ({
 }: TableListEntityProps) => {
   const columns: GridColDef<EntityList>[] = [
     { field: "id", headerName: "ID", width: 50, headerAlign: "center", align: "center" },
-    { field: "name", headerName: "Nome", headerAlign: "left", align: "left", width: 230 },
+    { field: "name", headerName: "Nome", headerAlign: "left", align: "left", width: 240 },
     { field: "nif", headerName: "NIF", headerAlign: "left", align: "left", width: 100 },
     {
       field: "documentType",
@@ -38,7 +38,7 @@ export const TableListEntity = ({
       headerName: "Última Atualização",
       headerAlign: "left",
       align: "left",
-      width: 180
+      width: 170
     },
 
     {

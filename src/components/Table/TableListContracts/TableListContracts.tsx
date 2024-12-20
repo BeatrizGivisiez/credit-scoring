@@ -20,62 +20,74 @@ export const TableListContracts = ({
     {
       field: "reestruturadoPorDificuldadesFinanceiras",
       headerName: "Dif. Financeiras",
-      width: 140
+      width: 140,
+      renderCell: (params) => (params.row.reestruturadoPorDificuldadesFinanceiras ? "Sim" : "Não")
     },
     {
       field: "reestruturadoSemDificuldadesFinanceiras",
       headerName: "Sem Dif. Financeiras",
-      width: 140
+      width: 140,
+      renderCell: (params) => (params.row.reestruturadoSemDificuldadesFinanceiras ? "Sim" : "Não")
     },
     {
       field: "defaultTecnico",
-      headerName: "defaultTecnico",
-      width: 100
+      headerName: "Default Técnico",
+      width: 100,
+      renderCell: (params) => (params.row.defaultTecnico ? "Sim" : "Não")
     },
     {
       field: "writeOff",
-      headerName: "writeOff",
-      width: 80
+      headerName: "Write Off",
+      width: 80,
+      renderCell: (params) => (params.row.writeOff ? "Sim" : "Não")
     },
     {
       field: "chargeOff",
-      headerName: "chargeOff",
-      width: 80
+      headerName: "Charge Off",
+      width: 80,
+      renderCell: (params) => (params.row.chargeOff ? "Sim" : "Não")
     },
     {
       field: "quebraDeContrato",
-      headerName: "quebraDeContrato",
-      width: 80
+      headerName: "Quebra de Contrato",
+      width: 80,
+      renderCell: (params) => (params.row.quebraDeContrato ? "Sim" : "Não")
     },
     {
       field: "emNegociacao",
-      headerName: "emNegociacao",
-      width: 80
+      headerName: "Em Negociação",
+      width: 80,
+      renderCell: (params) => (params.row.emNegociacao ? "Sim" : "Não")
     },
     {
       field: "reestruturado",
-      headerName: "reestruturado",
-      width: 80
+      headerName: "Reestruturado",
+      width: 80,
+      renderCell: (params) => (params.row.reestruturado ? "Sim" : "Não")
     },
     {
       field: "pari",
-      headerName: "pari",
-      width: 80
+      headerName: "PARI",
+      width: 80,
+      renderCell: (params) => (params.row.pari ? "Sim" : "Não")
     },
     {
       field: "persi",
-      headerName: "persi",
-      width: 80
+      headerName: "PERSI",
+      width: 80,
+      renderCell: (params) => (params.row.persi ? "Sim" : "Não")
     },
     {
       field: "per",
-      headerName: "per",
-      width: 80
+      headerName: "PER",
+      width: 80,
+      renderCell: (params) => (params.row.per ? "Sim" : "Não")
     },
     {
       field: "tribunal",
-      headerName: "tribunal",
-      width: 80
+      headerName: "Tribunal",
+      width: 80,
+      renderCell: (params) => (params.row.tribunal ? "Sim" : "Não")
     },
     {
       field: "actions",

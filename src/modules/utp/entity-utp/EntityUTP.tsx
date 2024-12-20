@@ -6,6 +6,7 @@ import PALETTE from "@/styles/_palette";
 import { Box, Card, Typography } from "@mui/material";
 import { useState } from "react";
 import { entityutp__box, entityutp__card } from "./styles";
+import { formatDateTime } from "@/utils/formatDateTime";
 
 export const EntityUTP = () => {
   const [modalMode, setModalMode] = useState<"view" | "edit" | null>(null);
@@ -41,7 +42,7 @@ export const EntityUTP = () => {
               clientSegment: item.clientSegment,
               location: item.location,
               comments: item.comments,
-              lastUpdate: item.lastUpdate
+              lastUpdate: formatDateTime(item.lastUpdate)
             }))}
             onViewModal={(entity) => handleOpenModal("view", entity)}
             onEditModal={(entity) => handleOpenModal("edit", entity)}
