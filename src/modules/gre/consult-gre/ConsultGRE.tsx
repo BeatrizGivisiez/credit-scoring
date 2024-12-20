@@ -34,10 +34,6 @@ export const ConsultGREPage = ({
   error,
   fetchEconomicGroup
 }: ConsultGREPageProps) => {
-  // useEffect(() => {
-  //   console.log("selectedGroup", selectedGroup);
-  // }, [selectedGroup]);
-
   return (
     <>
       <Stack sx={consultgre__breadcrumbs}>

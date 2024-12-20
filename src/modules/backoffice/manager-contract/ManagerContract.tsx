@@ -1,13 +1,22 @@
 "use client";
-import { Breadcrumbs, Button, Card, TableBackofficeContract } from "@/components";
+import { UTP_CONTRACT } from "@/app/_mocks/listcontract";
+import {
+  Breadcrumbs,
+  Button,
+  Card,
+  ModalManagerContract,
+  TableBackofficeContract
+} from "@/components";
+import { breadcrumbsBackofficeUTPContract } from "@/constants/breadcrumbs";
 import PALETTE from "@/styles/_palette";
 import { Box, Stack, Typography } from "@mui/material";
-import { backoffice__box, backoffice__manager } from "./styles";
 import { Plus } from "@phosphor-icons/react";
-import { breadcrumbsBackofficeUTPContract } from "@/constants/breadcrumbs";
-import { UTP_CONTRACT } from "@/app/_mocks/listcontract";
+import { useState } from "react";
+import { backoffice__box, backoffice__manager } from "./styles";
 
 export const ManagerContract = () => {
+  const [modalOpen, setModalOpen] = useState(false);
+
   return (
     <>
       <Box sx={backoffice__box}>
@@ -16,7 +25,7 @@ export const ManagerContract = () => {
           <Button
             iconEnd={Plus}
             label={"Criar Característica"}
-            // onClick={() => setModalOpen(true)}
+            onClick={() => setModalOpen(true)}
           />
         </Stack>
         <Card>
@@ -44,12 +53,12 @@ export const ManagerContract = () => {
         </Card>
       </Box>
 
-      {/* <ModalRelationAdd
-    open={modalOpen}
-    handleClose={() => setModalOpen(false)}
-    onSave={handleAddRelation}
-    relationList={[]}
-  /> */}
+      <ModalManagerContract
+        open={modalOpen}
+        handleClose={() => setModalOpen(false)}
+        onSave={() => {}}
+        relationContract={""}
+      />
     </>
   );
 };

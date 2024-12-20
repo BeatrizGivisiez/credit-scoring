@@ -30,3 +30,10 @@ export interface ModalEntityEditProps {
     lastUpdate: string;
   };
 }
+
+export interface ModalManagerEntityProps {
+  open: boolean;
+  handleClose: () => void;
+  onSave: any;
+  relationEntity: any;
+}

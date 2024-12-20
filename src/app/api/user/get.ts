@@ -27,7 +27,6 @@ export async function GET(): Promise<NextResponse> {
     }
 
     const data: UserDTO[] = await response.json();
-    //console.log("Dados recebidos UsersDto:", data); // Log para verificar a resposta
 
     return NextResponse.json(data); // Retorna os dados em formato JSON
   } catch (error: any) {

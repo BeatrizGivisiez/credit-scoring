@@ -33,8 +33,6 @@ export const useFetchTotalEntity = () => {
         setTotalEntity(data);
 
         localStorage.setItem(cacheKey, data);
-
-        console.log("Dados recebidos setTotalEntity:", data);
       } catch (err: any) {
         setError(err.message);
       } finally {

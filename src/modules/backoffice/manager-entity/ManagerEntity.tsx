@@ -1,13 +1,16 @@
 "use client";
-import { Breadcrumbs, Button, Card, TableBackofficeEntity } from "@/components";
-import { Box, Stack, Typography } from "@mui/material";
-import { backoffice__box, backoffice__manager } from "./styles";
-import { Plus } from "@phosphor-icons/react";
-import PALETTE from "@/styles/_palette";
-import { breadcrumbsBackofficeUTPEntity } from "@/constants/breadcrumbs";
 import { UTP_ENTITY } from "@/app/_mocks/utpentity";
+import { Breadcrumbs, Button, Card, ModalManagerEntity, TableBackofficeEntity } from "@/components";
+import { breadcrumbsBackofficeUTPEntity } from "@/constants/breadcrumbs";
+import PALETTE from "@/styles/_palette";
+import { Box, Stack, Typography } from "@mui/material";
+import { Plus } from "@phosphor-icons/react";
+import { useState } from "react";
+import { backoffice__box, backoffice__manager } from "./styles";
 
 export const ManagerEntity = () => {
+  const [modalOpen, setModalOpen] = useState(false);
+
   return (
     <>
       <Box sx={backoffice__box}>
@@ -16,7 +19,7 @@ export const ManagerEntity = () => {
           <Button
             iconEnd={Plus}
             label={"Criar Característica"}
-            // onClick={() => setModalOpen(true)}
+            onClick={() => setModalOpen(true)}
           />
         </Stack>
         <Card>
@@ -44,12 +47,12 @@ export const ManagerEntity = () => {
         </Card>
       </Box>
 
-      {/* <ModalRelationAdd
+      <ModalManagerEntity
         open={modalOpen}
         handleClose={() => setModalOpen(false)}
-        onSave={handleAddRelation}
-        relationList={[]}
-      /> */}
+        onSave={() => {}}
+        relationEntity={""}
+      />
     </>
   );
 };

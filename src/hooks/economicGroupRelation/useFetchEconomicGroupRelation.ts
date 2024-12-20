@@ -24,9 +24,8 @@ export const useFetchEconomicGroupRelation = () => {
           throw new Error(`Error fetching data: ${response.statusText}`);
         }
 
-        const data: EconomicGroupRelationDTO[] = await response.json(); // API retorna um array
+        const data: EconomicGroupRelationDTO[] = await response.json();
         setEconomicGroupRelation(data);
-        // console.log("Dados recebidos setEconomicGroupRelation:", data);
       } catch (err: any) {
         setError(err.message);
       } finally {

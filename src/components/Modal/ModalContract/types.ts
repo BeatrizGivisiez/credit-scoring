@@ -22,3 +22,10 @@ export interface ModalContractViewProps {
     lastUpdate: string; // Última atualização
   };
 }
+
+export interface ModalManagerContractProps {
+  open: boolean;
+  handleClose: () => void;
+  onSave: any;
+  relationContract: any;
+}

@@ -37,6 +37,8 @@ export { ModalRelateEntityAdd } from "./Modal/ModalRelateEntityAdd";
 export { ModalRelateEntityEdit } from "./Modal/ModalRelateEntityEdit";
 export { ModalRelationAdd } from "./Modal/ModalRelationAdd";
 export { ModalCreateUserEdit } from "./Modal/ModalUser/ModalCreateUserEdit";
+export { ModalManagerEntity } from "./Modal/ModalEntity/ModalManagerEntity";
+export { ModalManagerContract } from "./Modal/ModalContract/ModalManagerContract";
 
 export { TableBackofficeEntity } from "@/components/Table/TableBackofficeEntity/TableBackofficeEntity";
 export { TableBackofficeContract } from "@/components/Table/TableBackofficeContract/TableBackofficeContract";

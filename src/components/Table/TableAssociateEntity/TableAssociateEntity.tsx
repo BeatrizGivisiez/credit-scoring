@@ -34,8 +34,6 @@ export const TableAssociateEntity = ({
   };
 
   const handleEditChild = (child: any) => {
-    // console.log(">>>", child, associatedEntities);
-
     setAssociatedEntities((prev: any) => {
       const index = prev.findIndex((entity: any) => entity.documentNumber === child.documentNumber); // Encontrar o índice da entidade
 
