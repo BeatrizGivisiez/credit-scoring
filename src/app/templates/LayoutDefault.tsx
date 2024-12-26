@@ -9,7 +9,7 @@ import { SessionProvider } from "next-auth/react";
 
 interface LayoutDefaultProps {
   children: React.ReactNode;
-  session?: any;
+  session: any;
 }
 
 export const metadata: Metadata = {

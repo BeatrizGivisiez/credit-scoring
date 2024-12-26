@@ -3,8 +3,8 @@ const nextConfig = {
   images: {
     remotePatterns: [
       {
-        protocol: "https",
-        hostname: "credit-score-dbgfaceagwhphsb2.canadacentral-01.azurewebsites.net",
+        protocol: "http",
+        hostname: "localhost:8080",
         port: "",
         pathname: "/swagger/**"
       },
