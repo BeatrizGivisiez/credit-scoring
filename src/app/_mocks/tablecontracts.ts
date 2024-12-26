@@ -8,7 +8,7 @@ export const TABLECONTRACTS = [
     defaultTecnico: false,
     writeOff: false,
     chargeOff: false,
-    quebraDeContrato: false,
+    quebraDeContrato: true,
     emNegociacao: false,
     reestruturado: false,
     pari: false,
@@ -26,7 +26,7 @@ export const TABLECONTRACTS = [
     writeOff: false,
     chargeOff: false,
     quebraDeContrato: false,
-    emNegociacao: false,
+    emNegociacao: true,
     reestruturado: false,
     pari: false,
     persi: false,
@@ -54,7 +54,7 @@ export const TABLECONTRACTS = [
     id: 4,
     name: "Maria",
     nif: "222333444",
-    reestruturadoPorDificuldadesFinanceiras: false,
+    reestruturadoPorDificuldadesFinanceiras: true,
     reestruturadoSemDificuldadesFinanceiras: false,
     defaultTecnico: false,
     writeOff: false,
@@ -72,7 +72,7 @@ export const TABLECONTRACTS = [
     name: "Pedro",
     nif: "333444555",
     reestruturadoPorDificuldadesFinanceiras: false,
-    reestruturadoSemDificuldadesFinanceiras: false,
+    reestruturadoSemDificuldadesFinanceiras: true,
     defaultTecnico: false,
     writeOff: false,
     chargeOff: false,
@@ -99,7 +99,7 @@ export const TABLECONTRACTS = [
     pari: false,
     persi: false,
     per: false,
-    tribunal: false
+    tribunal: true
   },
   {
     id: 7,
@@ -109,7 +109,7 @@ export const TABLECONTRACTS = [
     reestruturadoSemDificuldadesFinanceiras: false,
     defaultTecnico: false,
     writeOff: false,
-    chargeOff: false,
+    chargeOff: true,
     quebraDeContrato: false,
     emNegociacao: false,
     reestruturado: false,
@@ -131,7 +131,7 @@ export const TABLECONTRACTS = [
     emNegociacao: false,
     reestruturado: false,
     pari: false,
-    persi: false,
+    persi: true,
     per: false,
     tribunal: false
   },
@@ -149,7 +149,7 @@ export const TABLECONTRACTS = [
     reestruturado: false,
     pari: false,
     persi: false,
-    per: false,
+    per: true,
     tribunal: false
   },
   {

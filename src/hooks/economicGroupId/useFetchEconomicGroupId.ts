@@ -21,9 +21,8 @@ export const useFetchEconomicGroupId = () => {
         throw new Error(`Error fetching data: ${response.statusText}`);
       }
 
-      const data: EconomicGroupId[] = await response.json(); // API retorna um array
+      const data: EconomicGroupId[] = await response.json();
       setEconomicGroupId(data);
-      // console.log("Dados recebidos setEconomicGroupRelation:", data);
       return data;
     } catch (err: any) {
       setError(err.message);

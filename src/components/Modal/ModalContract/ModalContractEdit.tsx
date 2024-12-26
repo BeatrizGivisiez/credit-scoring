@@ -1,6 +1,9 @@
 "use client";
 
-import { ButtonIcon, Divider, Button } from "@/components";
+import dayjs, { Dayjs } from "dayjs";
+
+import { Button, ButtonIcon, Divider, GridItem, InputDate } from "@/components";
+import PALETTE from "@/styles/_palette";
 import {
   Box,
   Checkbox,
@@ -8,12 +11,12 @@ import {
   DialogTitle,
   FormControlLabel,
   FormGroup,
-  TextField,
   Typography
 } from "@mui/material";
 import { FloppyDiskBack, X } from "@phosphor-icons/react";
+import { useState } from "react";
 import { ModalContractEditProps } from "./types";
-import PALETTE from "@/styles/_palette";
+dayjs.locale("pt-br");
 
 export const ModalContractEdit = ({ open, handleClose, handleSubmit }: ModalContractEditProps) => {
   const options = [
@@ -30,6 +33,11 @@ export const ModalContractEdit = ({ open, handleClose, handleSubmit }: ModalCont
     "Per",
     "Tribunal"
   ];
+
+  // Estados para gerenciar os valores das datas
+  const [suspensionDate, setSuspensionDate] = useState<Dayjs | null>(null);
+  const [courtSuspensionDate, setCourtSuspensionDate] = useState<Dayjs | null>(null);
+  const [restructuringDate, setRestructuringDate] = useState<Dayjs | null>(null);
 
   return (
     <Dialog onClose={handleClose} open={open} maxWidth="md" fullWidth>
@@ -55,41 +63,60 @@ export const ModalContractEdit = ({ open, handleClose, handleSubmit }: ModalCont
           sx={{
             display: "flex",
             flexDirection: "column",
-            gap: 5,
             margin: "40px",
             width: "400px"
           }}
         >
-          <TextField label="ID_Contrato" variant="outlined" defaultValue="1010" fullWidth />
-          <TextField
-            label="Data de suspensão pelo tribunal, da contagem do prazo"
-            variant="outlined"
-            type="datetime-local"
-            InputLabelProps={{ shrink: true }}
-            fullWidth
-          />
-          <TextField
-            label="Data da suspensão do recurso de tribunal"
-            variant="outlined"
-            type="datetime-local"
-            InputLabelProps={{ shrink: true }}
-            fullWidth
-          />
-          <TextField
-            label="Data de reestruturação"
-            variant="outlined"
-            type="datetime-local"
-            InputLabelProps={{ shrink: true }}
-            fullWidth
-          />
-          <TextField
-            label="Última data de edição"
-            variant="outlined"
-            type="datetime-local"
-            InputLabelProps={{ shrink: true }}
-            defaultValue="0001-01-01T00:00"
-            fullWidth
-          />
+          <GridItem label="ID Contrato" value={"1010"} />
+          <GridItem label="Última data de edição" value={"2024-12-20 09:45"} />
+
+          <Box
+            sx={{
+              display: "flex",
+              flexDirection: "column",
+              gap: 4,
+              marginTop: "24px"
+            }}
+          >
+            <Box sx={{ display: "flex", gap: 1, alignItems: "center" }}>
+              <InputDate
+                label="Data de suspensão pelo tribunal, da contagem do prazo"
+                value={suspensionDate}
+                onChange={setSuspensionDate}
+              />
+            </Box>
+            <InputDate
+              label="Data da suspensão do recurso de tribunal"
+              value={courtSuspensionDate}
+              onChange={setCourtSuspensionDate}
+            />
+            <InputDate
+              label="Data de reestruturação"
+              value={restructuringDate}
+              onChange={setRestructuringDate}
+            />
+            {/* <TextField
+              label="Data de suspensão pelo tribunal, da contagem do prazo"
+              variant="outlined"
+              type="datetime-local"
+              InputLabelProps={{ shrink: true }}
+              fullWidth
+            />
+            <TextField
+              label="Data da suspensão do recurso de tribunal"
+              variant="outlined"
+              type="datetime-local"
+              InputLabelProps={{ shrink: true }}
+              fullWidth
+            />
+            <TextField
+              label="Data de reestruturação"
+              variant="outlined"
+              type="datetime-local"
+              InputLabelProps={{ shrink: true }}
+              fullWidth
+            /> */}
+          </Box>
         </Box>
         <Divider />
         <Box sx={{ width: "50%", margin: "24px 40px 40px 40px" }}>

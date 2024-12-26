@@ -20,10 +20,8 @@ export const EconomicGroupsPage = () => {
   const [modalMode, setModalMode] = useState<"view" | "edit" | null>(null);
 
   useEffect(() => {
-    // console.log("useEffect chamado com economicGroup:", economicGroup); // Verifique se o efeito está sendo chamado
     if (economicGroup.length > 0) {
       setFilteredGroups(economicGroup);
-      // console.log("Dados filtrados atualizados:", economicGroup); // Verifique se os dados filtrados estão corretos
     }
   }, [economicGroup]);
 

@@ -26,7 +26,6 @@ export async function GET(): Promise<NextResponse> {
     }
 
     const data: EconomicGroupRelationDTO = await response.json();
-    // console.log("Dados recebidos EconomicGroupRelationDto:", data); // Log para verificar a resposta
 
     return NextResponse.json(data); // Retorna os dados em formato JSON
   } catch (error: any) {

@@ -47,8 +47,8 @@ export const ManagerUserPage = () => {
   // Função para adicionar um novo usuário
   const handleAddUser = async (newUser: UserCreateDTO) => {
     try {
-      const createdUser = await createUser(newUser); // Salva no backend
-      setAddUser((prevUsers) => [...prevUsers, createdUser]); // Adiciona o novo usuário
+      const createdUser = await createUser(newUser);
+      setAddUser((prevUsers) => [...prevUsers, createdUser]);
     } catch (error) {
       console.log("Erro ao criar o utillizador", error);
     } finally {

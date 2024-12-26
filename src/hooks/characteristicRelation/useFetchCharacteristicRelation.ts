@@ -26,7 +26,7 @@ export const useFetchCharacteristicRelation = () => {
         throw new Error(`Error fetching data: ${response.statusText}`);
       }
 
-      const data: CharacteristicRelationDTO[] = await response.json(); // API retorna um array
+      const data: CharacteristicRelationDTO[] = await response.json();
       setCharacteristicRelation(data);
     } catch (err: any) {
       setError(err.message);

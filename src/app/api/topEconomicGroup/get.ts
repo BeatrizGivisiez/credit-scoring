@@ -25,7 +25,6 @@ export async function GET(): Promise<NextResponse> {
     }
 
     const data: TopEconomicGroupDTO = await response.json();
-    // console.log("Dados recebidos GetWithTree:", data); // Log para verificar a resposta
 
     return NextResponse.json(data); // Retorna os dados em formato JSON
   } catch (error: any) {

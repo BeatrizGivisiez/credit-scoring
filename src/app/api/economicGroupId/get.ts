@@ -3,7 +3,7 @@ import { NextResponse } from "next/server";
 
 export async function GET(request: Request): Promise<NextResponse> {
   const { searchParams } = new URL(request.url);
-  const id: string = searchParams.get("id") || ""; // Padrão para a página 1 se não especificado
+  const id: string = searchParams.get("id") || "";
 
   // Garantir que a variável de ambiente seja carregada corretamente
   const apiUrl: string | undefined = process.env.API_URL;
@@ -28,11 +28,8 @@ export async function GET(request: Request): Promise<NextResponse> {
     if (!response.ok) {
       throw new Error(`Error fetching data: ${response.statusText}`);
     }
-
     const data: EconomicGroupId = await response.json();
-    // console.log("Dados recebidos EconomicGroupRelationDto:", data); // Log para verificar a resposta
-
-    return NextResponse.json(data); // Retorna os dados em formato JSON
+    return NextResponse.json(data);
   } catch (error: any) {
     return NextResponse.json({ error: error.message }, { status: 500 });
   }

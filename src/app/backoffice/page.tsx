@@ -12,11 +12,9 @@ const BackOfficePage = dynamic(
 );
 
 export default async function BackOffice() {
-  // Verifique a sessão no servidor
   const session = await getServerSession();
 
   if (!session) {
-    // Redirecione o usuário se ele não estiver autenticado
     redirect("/");
   }
 

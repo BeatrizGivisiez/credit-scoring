@@ -1,19 +1,12 @@
 "use client";
-
 import { Box, Typography } from "@mui/material";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import dayjs, { Dayjs } from "dayjs";
+import { InputDateProps } from "./types";
 
 dayjs.locale("pt-br");
-
-interface InputDateProps {
-  label: string;
-  value: Dayjs | null;
-  onChange: (newValue: Dayjs | null) => void;
-  disabled?: boolean;
-}
 
 export const InputDate = ({ label, value, onChange, disabled = false }: InputDateProps) => {
   const handleDateChange = (newValue: Dayjs | null) => {
@@ -26,7 +19,7 @@ export const InputDate = ({ label, value, onChange, disabled = false }: InputDat
   };
 
   return (
-    <Box sx={{ display: "flex", gap: 1, alignItems: "center" }}>
+    <Box sx={{ display: "flex", flexDirection: "column", gap: 1, width: "100%" }}>
       <Typography variant="body1" sx={{ fontWeight: "bold" }}>
         {label}
       </Typography>
@@ -39,7 +32,8 @@ export const InputDate = ({ label, value, onChange, disabled = false }: InputDat
           views={["year", "month", "day"]}
           slotProps={{
             textField: {
-              inputProps: { readOnly: true }
+              inputProps: { readOnly: true },
+              fullWidth: true // Garante que o campo ocupe toda a largura disponível
             }
           }}
         />

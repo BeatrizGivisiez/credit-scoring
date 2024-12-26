@@ -42,6 +42,24 @@ export const breadcrumbsBackofficeGRE = [
   },
   { key: "2", label: "Gestão da Característica Relação", href: "/backoffice" }
 ];
+export const breadcrumbsBackofficeUTPEntity = [
+  {
+    key: "1",
+    label: "BackOffice",
+    href: "/backoffice",
+    icon: <UserGear size={24} color={PALETTE.PRIMARY_MAIN} />
+  },
+  { key: "3", label: "Gestão da Característica Entidades", href: "/backoffice" }
+];
+export const breadcrumbsBackofficeUTPContract = [
+  {
+    key: "1",
+    label: "BackOffice",
+    href: "/backoffice",
+    icon: <UserGear size={24} color={PALETTE.PRIMARY_MAIN} />
+  },
+  { key: "3", label: "Gestão da Característica Contratos", href: "/backoffice" }
+];
 
 export const breadcrumbsUTP = [
   {

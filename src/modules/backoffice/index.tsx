@@ -1,9 +1,11 @@
 "use client";
 import { Tabs } from "@/components";
-import { Graph, UserGear } from "@phosphor-icons/react";
+import { BuildingOffice, Graph, UserGear } from "@phosphor-icons/react";
 
 import { ManagerGREPage } from "./manager-gre/ManagerGRE";
 import { ManagerUserPage } from "./manager-user/ManagerUser";
+import { ManagerEntity } from "./manager-entity/ManagerEntity";
+import { ManagerContract } from "./manager-contract/ManagerContract";
 
 const tabs = [
   {
@@ -17,6 +19,18 @@ const tabs = [
     label: "Gestão da Característica Relação",
     iconStart: Graph,
     content: <ManagerGREPage />
+  },
+  {
+    value: 2,
+    label: "Gestão da Característica Entidades",
+    iconStart: BuildingOffice,
+    content: <ManagerEntity />
+  },
+  {
+    value: 3,
+    label: "Gestão da Característica Contratos",
+    iconStart: BuildingOffice,
+    content: <ManagerContract />
   }
 ];
 

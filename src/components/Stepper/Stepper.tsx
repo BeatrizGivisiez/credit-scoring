@@ -69,7 +69,6 @@ export const Stepper = () => {
   }, [entityNotInGroup, selectedEntityRelation]);
 
   const handleAddChild = (child: any) => {
-    // console.log("child", child);
     const newArray = [...associatedEntities];
     newArray.push(child);
     setAssociatedEntities(newArray);
