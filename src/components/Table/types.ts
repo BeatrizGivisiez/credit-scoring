@@ -9,6 +9,7 @@ export interface Group {
   nif: string; // NIF da entidade mãe
   deletedAt: string; // Status do grupo (Inativo ou Ativo)
   status: boolean;
+  entityMotherId: string;
 }
 
 export interface TableListGroupProps {

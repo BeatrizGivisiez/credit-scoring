@@ -74,6 +74,7 @@ export const ConsultGREPage = ({
               quantityRelation: item.relationsCount,
               parentClient: item.entityMotherName,
               nif: item.entityMotherNIF,
+              entityMotherId: item.entityMotherId,
               deletedAt: item.deleted ? "Inativo" : "Ativo",
               status: item.status
             }))}
@@ -98,22 +99,24 @@ export const ConsultGREPage = ({
         )}
 
         {modalMode === "edit" && selectedGroup && (
-          <ModalListGroupEdit
-            open={modalMode === "edit"}
-            handleClose={handleCloseModal}
-            id={selectedGroup.id}
-            groupName={selectedGroup.groupName}
-            parentClient={selectedGroup.parentClient}
-            parentId={selectedGroup.entityMotherId}
-            nif={selectedGroup.nif}
-            user="Admin"
-            version="1.0"
-            createdAt={selectedGroup.createdAt}
-            deletedAt={selectedGroup.deletedAt}
-            lastUpdate={selectedGroup.createdAt}
-            relations={selectedGroup.groupName}
-            fetchEconomicGroup={fetchEconomicGroup}
-          />
+          <>
+            <ModalListGroupEdit
+              open={modalMode === "edit"}
+              handleClose={handleCloseModal}
+              id={selectedGroup.id}
+              groupName={selectedGroup.groupName}
+              parentClient={selectedGroup.parentClient}
+              parentId={selectedGroup.entityMotherId}
+              nif={selectedGroup.nif}
+              user="Admin"
+              version="1.0"
+              createdAt={selectedGroup.createdAt}
+              deletedAt={selectedGroup.deletedAt}
+              lastUpdate={selectedGroup.createdAt}
+              relations={selectedGroup.groupName}
+              fetchEconomicGroup={fetchEconomicGroup}
+            />
+          </>
         )}
       </Card>
     </>

@@ -46,9 +46,7 @@ export const ModalListGroupEdit = ({
   const { economicGroupId, fetchEconomicGroupId, loading } = useFetchEconomicGroupId();
   const { disableGroup } = useDisableEconomicGroup();
   const { createEconomicGroupRelation } = useCreateEconomicGroupRelation();
-
   const { disableRelationGroupId } = useDisableEconomicGroupRelationId();
-
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(5);
   const [relateEntityAddOpen, setRelateEntityAddOpen] = useState(false);
@@ -60,8 +58,6 @@ export const ModalListGroupEdit = ({
   const [alertMessage, setAlertMessage] = useState("");
   const [alertSeverity, setAlertSeverity] = useState<"success" | "error">("success");
   const [localRelations, setLocalRelations] = useState<EconomicGroupId[]>(economicGroupId);
-
-  // Estado de loading para aguardar o POST ser refletido
   const [iconLoading, setIconLoading] = useState(false);
 
   // Função para abrir o modal de adição
@@ -185,6 +181,15 @@ export const ModalListGroupEdit = ({
       setAlertOpen(true);
     }
   };
+
+  // useEffect(() => {
+  //   if (parentId && parentClient && nif) {
+  //     // Coloque a lógica necessária aqui
+  //     executarLogica(parentId, parentClient, nif);
+  //   }
+  // }, [parentId, parentClient, nif]);
+
+  // const executarLogica = (id: number, client: string, nif: string) => {};
 
   return (
     <Dialog onClose={handleClose} open={open} maxWidth="lg" fullWidth>
