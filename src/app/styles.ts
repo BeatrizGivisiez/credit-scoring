@@ -1,5 +1,4 @@
 import { SxProps } from "@mui/system";
-
 import PALETTE from "@/styles/_palette";
 
 export const button: SxProps = {
