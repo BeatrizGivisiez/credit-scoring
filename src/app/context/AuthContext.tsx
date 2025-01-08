@@ -1,7 +1,7 @@
 "use client";
-
-import { createContext, useContext, ReactNode, useEffect, useState } from "react";
+import { createContext, useContext, ReactNode } from "react";
 import { useSession } from "next-auth/react";
+import { CustomSession } from "@/types/next-auth";
 
 type AuthContextType = {
   perfilId: number | null;
@@ -10,14 +10,8 @@ type AuthContextType = {
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
-  const { data: session } = useSession();
-  const [perfilId, setPerfilId] = useState<number | null>(null);
-
-  useEffect(() => {
-    if (session?.user?.perfilId) {
-      setPerfilId(session.user.perfilId);
-    }
-  }, [session]);
+  const { data: session } = useSession() as { data: CustomSession };
+  const perfilId = session?.user?.perfilId || null;
 
   return <AuthContext.Provider value={{ perfilId }}>{children}</AuthContext.Provider>;
 };

@@ -7,6 +7,7 @@ import { getServerSession } from "next-auth";
 import dynamic from "next/dynamic";
 import { redirect } from "next/navigation";
 import { LayoutDefault } from "../templates/LayoutDefault";
+import { AuthProvider } from "../context/AuthContext";
 
 const EconomicGroupsPage = dynamic(
   () => import("@/modules/gre").then((mod) => mod.EconomicGroupsPage),
@@ -19,15 +20,18 @@ export default async function EconomicGroups() {
   if (!session) {
     redirect("/");
   }
+
   return (
     <LayoutDefault session={session}>
-      <CharacteristicRelationProvider>
-        <EconomicGroupProvider>
-          <StepperContextProvider>
-            <EconomicGroupsPage />
-          </StepperContextProvider>
-        </EconomicGroupProvider>
-      </CharacteristicRelationProvider>
+      <AuthProvider>
+        <CharacteristicRelationProvider>
+          <EconomicGroupProvider>
+            <StepperContextProvider>
+              <EconomicGroupsPage />
+            </StepperContextProvider>
+          </EconomicGroupProvider>
+        </CharacteristicRelationProvider>
+      </AuthProvider>
     </LayoutDefault>
   );
 }
