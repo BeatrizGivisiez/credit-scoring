@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 
 import { Button, ButtonIcon, Divider, InputRadio, InputSelect } from "@/components";
 import { useEntitySelect, useRelationOption } from "@/hooks";
@@ -10,6 +10,7 @@ import { FloppyDiskBack, X } from "@phosphor-icons/react";
 
 import { modalrelateentityadd__box } from "./styles";
 import { ModalRelateEntityAddProps } from "./types";
+import { EntitySelectOption } from "@/hooks/entity/useEntitySelect";
 
 export const ModalRelateEntityAdd = ({
   open,
@@ -20,9 +21,18 @@ export const ModalRelateEntityAdd = ({
   const [selectedOption, setSelectedOption] = useState<number>(0);
   const [selectedEntity, setSelectedEntity] = useState<string>(""); // Entidade filha e nova
   const [selectedParentEntity, setSelectedParentEntity] = useState<string>(""); // Entidade mãe
-
-  const [entitySelect, loadingEntity] = useEntitySelect(); // Seleção de entidades (tanto mãe quanto filha)
+  // const [entitySelect, loadingEntity] = useEntitySelect(); // Seleção de entidades (tanto mãe quanto filha)
   const [relationSelect] = useRelationOption(); // Seleção de característica de relação
+  const [combinedEntities, setCombinedEntities] = useState<EntitySelectOption[]>([]);
+
+  const [entitySelect, loadingEntity] = useEntitySelect();
+
+  useEffect(() => {
+    const newCombinedEntities = [...entitySelect, ...listEntities];
+    if (newCombinedEntities.length !== combinedEntities.length) {
+      setCombinedEntities(newCombinedEntities);
+    }
+  }, [entitySelect, listEntities, combinedEntities]);
 
   // Função para lidar com a seleção de relação (valor numérico)
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -30,14 +40,14 @@ export const ModalRelateEntityAdd = ({
   };
 
   // Função para lidar com a seleção da entidade filha
-  const handleChangeSelect = (newValue: string) => {
-    setSelectedEntity(newValue); // Atualiza a entidade selecionada
-  };
+  const handleChangeSelect = useCallback((newValue: string) => {
+    setSelectedEntity(newValue);
+  }, []);
 
   // Função para lidar com a seleção da entidade mãe
-  const handleChangeParentSelect = (newValue: string) => {
-    setSelectedParentEntity(newValue); // Atualiza a entidade mãe selecionada
-  };
+  const handleChangeParentSelect = useCallback((newValue: string) => {
+    setSelectedParentEntity(newValue);
+  }, []);
 
   // Verifica se todos os campos foram preenchidos (entidade mãe, filha e relação)
   const isSubmitDisabled = !selectedEntity || !selectedParentEntity || selectedOption === 0;
@@ -70,7 +80,7 @@ export const ModalRelateEntityAdd = ({
         <InputSelect
           fullWidth
           loading={loadingEntity}
-          options={entitySelect}
+          options={combinedEntities}
           value={selectedEntity}
           onChange={handleChangeSelect}
           label="Indique a nova Entidade"
