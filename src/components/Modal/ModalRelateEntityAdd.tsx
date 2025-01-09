@@ -27,8 +27,10 @@ export const ModalRelateEntityAdd = ({
   const [copyEntities, setCopyEntities] = useState<EntitySelectOption[]>([]);
 
   useEffect(() => {
-    const newCombinedEntities = [...entitySelect, ...listEntities];
-
+    const getUniqueListBy = (arr: any[], key: string) => {
+      return [...new Map(arr.map((item) => [item[key], item])).values()];
+    };
+    const newCombinedEntities = getUniqueListBy([...entitySelect, ...listEntities], "label");
     if (newCombinedEntities.length !== combinedEntities.length) {
       setCombinedEntities(newCombinedEntities);
     }
@@ -38,10 +40,7 @@ export const ModalRelateEntityAdd = ({
     const uniqueEntities = listEntities.filter(
       (entity, index, self) => index === self.findIndex((e) => e.label === entity.label)
     );
-
     setCopyEntities(uniqueEntities);
-    console.log(listEntities);
-    console.log(uniqueEntities);
   }, [listEntities]);
 
   // Função para lidar com a seleção de relação (valor numérico)
