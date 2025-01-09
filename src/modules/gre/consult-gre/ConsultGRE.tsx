@@ -54,10 +54,9 @@ export const ConsultGREPage = ({
           placeholder="Nome Grupo, Entidades ou NIF"
           onSearch={handleSearch}
         />
-        {data?.user.perfilId === 1 ||
-          (data?.user.perfilId === 2 && (
-            <Button iconEnd={Plus} label="Criar Grupo" onClick={() => setIsCreatingGroup(true)} />
-          ))}
+        {(data?.user.perfilId === 1 || data?.user.perfilId === 2) && (
+          <Button iconEnd={Plus} label="Criar Grupo" onClick={() => setIsCreatingGroup(true)} />
+        )}
       </Stack>
 
       <Card sx={consultgre__table}>

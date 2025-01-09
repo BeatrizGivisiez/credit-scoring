@@ -10,8 +10,11 @@ import { Eye, Pencil } from "@phosphor-icons/react";
 
 import { gridcoldef } from "./styles";
 import { TableListGroupProps } from "./types";
+import { useSession } from "next-auth/react";
 
 export const TableListGroup = memo(({ groups, onViewGroup, onEditGroup }: TableListGroupProps) => {
+  const { data } = useSession();
+
   const columns: GridColDef<(typeof groups)[number]>[] = [
     { field: "id", headerName: "ID", width: 90, headerAlign: "center", align: "center" },
     { field: "groupName", headerName: "Nome Grupo", width: 320 },
@@ -64,14 +67,15 @@ export const TableListGroup = memo(({ groups, onViewGroup, onEditGroup }: TableL
             icon={Eye}
             onClick={() => onViewGroup(params.row)}
           />
-          {params.row.status && ( // Só exibe o botão de edição se o status for "Ativo"
-            <ButtonIcon
-              placement="top-end"
-              title="Editar"
-              icon={Pencil}
-              onClick={() => onEditGroup(params.row)}
-            />
-          )}
+          {params.row.status && // Só exibe o botão de edição se o status for "Ativo"
+            (data?.user.perfilId === 1 || data?.user.perfilId === 2) && (
+              <ButtonIcon
+                placement="top-end"
+                title="Editar"
+                icon={Pencil}
+                onClick={() => onEditGroup(params.row)}
+              />
+            )}
         </Box>
       )
     }
