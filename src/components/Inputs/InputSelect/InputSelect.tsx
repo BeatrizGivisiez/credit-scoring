@@ -1,12 +1,9 @@
-//src/components/Inputs/InputSelect/InputSelect.tsx
 "use client";
 
-import { Autocomplete, FormControl, SxProps, TextField } from "@mui/material";
-
-import { select } from "./styles";
-
-import { Theme } from "@emotion/react";
 import { EntitySelectOption } from "@/hooks/entity/useEntitySelect";
+import { Theme } from "@emotion/react";
+import { Autocomplete, FormControl, SxProps, TextField } from "@mui/material";
+import { select } from "./styles";
 
 export type InputSelectProps = {
   options: EntitySelectOption[];

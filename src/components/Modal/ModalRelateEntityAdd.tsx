@@ -21,18 +21,28 @@ export const ModalRelateEntityAdd = ({
   const [selectedOption, setSelectedOption] = useState<number>(0);
   const [selectedEntity, setSelectedEntity] = useState<string>(""); // Entidade filha e nova
   const [selectedParentEntity, setSelectedParentEntity] = useState<string>(""); // Entidade mãe
-  // const [entitySelect, loadingEntity] = useEntitySelect(); // Seleção de entidades (tanto mãe quanto filha)
   const [relationSelect] = useRelationOption(); // Seleção de característica de relação
   const [combinedEntities, setCombinedEntities] = useState<EntitySelectOption[]>([]);
-
-  const [entitySelect, loadingEntity] = useEntitySelect();
+  const [entitySelect, loadingEntity] = useEntitySelect(); // Seleção de entidades (tanto mãe quanto filha)
+  const [copyEntities, setCopyEntities] = useState<EntitySelectOption[]>([]);
 
   useEffect(() => {
     const newCombinedEntities = [...entitySelect, ...listEntities];
+
     if (newCombinedEntities.length !== combinedEntities.length) {
       setCombinedEntities(newCombinedEntities);
     }
   }, [entitySelect, listEntities, combinedEntities]);
+
+  useEffect(() => {
+    const uniqueEntities = listEntities.filter(
+      (entity, index, self) => index === self.findIndex((e) => e.label === entity.label)
+    );
+
+    setCopyEntities(uniqueEntities);
+    console.log(listEntities);
+    console.log(uniqueEntities);
+  }, [listEntities]);
 
   // Função para lidar com a seleção de relação (valor numérico)
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -92,7 +102,7 @@ export const ModalRelateEntityAdd = ({
         <InputSelect
           fullWidth
           loading={loadingEntity}
-          options={listEntities}
+          options={copyEntities}
           value={selectedParentEntity}
           onChange={handleChangeParentSelect}
           label="Indique a Entidade Associada"
