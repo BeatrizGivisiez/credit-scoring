@@ -6,6 +6,8 @@ import { ManagerGREPage } from "./manager-gre/ManagerGRE";
 import { ManagerUserPage } from "./manager-user/ManagerUser";
 import { ManagerEntity } from "./manager-entity/ManagerEntity";
 import { ManagerContract } from "./manager-contract/ManagerContract";
+import { useSession } from "next-auth/react";
+import { useRouter } from "next/navigation";
 
 const tabs = [
   {
@@ -35,5 +37,13 @@ const tabs = [
 ];
 
 export const BackOfficePage = () => {
+  const { data } = useSession();
+  const router = useRouter();
+
+  if (data?.user.perfilId !== 1) {
+    router.push("/gre");
+    return null;
+  }
+
   return <Tabs tabs={tabs} />;
 };
