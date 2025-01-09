@@ -15,6 +15,7 @@ import PALETTE from "@/styles/_palette";
 import { Stack, Typography } from "@mui/material";
 import { ArrowLeft, Check, MagnifyingGlass, Plus } from "@phosphor-icons/react";
 
+import { useSession } from "next-auth/react";
 import { consultgre__breadcrumbs, consultgre__search, consultgre__table } from "./styles";
 import { ConsultGREPageProps } from "./types";
 
@@ -34,6 +35,8 @@ export const ConsultGREPage = ({
   error,
   fetchEconomicGroup
 }: ConsultGREPageProps) => {
+  const { data } = useSession();
+
   return (
     <>
       <Stack sx={consultgre__breadcrumbs}>
@@ -51,7 +54,10 @@ export const ConsultGREPage = ({
           placeholder="Nome Grupo, Entidades ou NIF"
           onSearch={handleSearch}
         />
-        <Button iconEnd={Plus} label="Criar Grupo" onClick={() => setIsCreatingGroup(true)} />
+        {data?.user.perfilId === 1 ||
+          (data?.user.perfilId === 2 && (
+            <Button iconEnd={Plus} label="Criar Grupo" onClick={() => setIsCreatingGroup(true)} />
+          ))}
       </Stack>
 
       <Card sx={consultgre__table}>

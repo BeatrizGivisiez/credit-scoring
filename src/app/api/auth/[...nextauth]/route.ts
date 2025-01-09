@@ -36,14 +36,13 @@ const handler = NextAuth({
 
         const user = await response.json();
 
-        if (user && response.status) {
+        if (user) {
           return {
             id: user.id,
             nome: user.nome,
             name: user.nome,
             email: user.email,
-            perfilId: user.perfilId,
-            status: user.status
+            perfilId: user.perfilId
           };
         }
         return null;
@@ -53,7 +52,23 @@ const handler = NextAuth({
   session: {
     strategy: "jwt" // Usar JWT para autenticação de sessão
   },
-  secret: process.env.NEXTAUTH_SECRET // Defina o segredo no seu arquivo .env
+  secret: process.env.NEXTAUTH_SECRET, // Defina o segredo no seu arquivo .env
+  callbacks: {
+    // Adiciona o perfilId ao JWT
+    async jwt({ token, user }) {
+      if (user) {
+        token.perfilId = user.perfilId; // Adiciona perfilId ao token JWT
+      }
+      return token;
+    },
+    // Adiciona perfilId à sessão acessível pelo cliente
+    async session({ session, token }) {
+      if (token?.perfilId) {
+        session.user.perfilId = token.perfilId as number; // Adiciona perfilId ao objeto de sessão
+      }
+      return session;
+    }
+  }
 });
 
 export { handler as GET, handler as POST };
