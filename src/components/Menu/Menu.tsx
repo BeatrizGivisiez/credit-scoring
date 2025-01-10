@@ -8,7 +8,7 @@ import { Menu as MuiMenu, MenuItem as MuiMenuItem, Sidebar } from "react-pro-sid
 import { MenuItem } from "@/components";
 import { IMAGE_LOGO_BIG, IMAGE_LOGO_SMALL } from "@/constants/images";
 import PALETTE from "@/styles/_palette";
-import { Box, IconButton, Typography } from "@mui/material";
+import { Box, CircularProgress, IconButton, Typography } from "@mui/material";
 import { ChartLine, Graph, List, UserGear } from "@phosphor-icons/react";
 
 import { itemmenu, menu, menu__logo } from "./styles";
@@ -17,13 +17,21 @@ import { useSession } from "next-auth/react";
 export const Menu = () => {
   const [isCollapsed, setIsCollapsed] = useState(true);
   const [selected, setSelected] = useState("");
+  const [loadingBackOffice, setLoadingBackOffice] = useState(true); // Estado para o item BackOffice
   const router = useRouter();
 
-  const { data } = useSession();
+  const { data, status } = useSession();
 
   useEffect(() => {
-    setSelected(window.location.pathname || "/gre"); // Define a rota atual ao carregar, default para "/"
-  }, []);
+    // Define a rota atual ao carregar, default para "/gre"
+    setSelected(window.location.pathname || "/gre");
+
+    // Aguarda o status e simula o tempo de carregamento do BackOffice
+    if (status === "authenticated") {
+      const timer = setTimeout(() => setLoadingBackOffice(false), 1000); // Ajuste o tempo, se necessário
+      return () => clearTimeout(timer); // Limpa o timer ao desmontar o componente
+    }
+  }, [status]);
 
   const handleNavigation = (path: string) => {
     setSelected(path); // Atualiza o estado do item selecionado
@@ -78,16 +86,21 @@ export const Menu = () => {
             setSelected={setSelected} // Passa a função setSelected corretamente
             onClick={() => handleNavigation("/utp")} // Navega
           />
-          {data?.user.perfilId === 1 && (
-            <MenuItem
-              title="BackOffice"
-              to="/backoffice"
-              icon={<UserGear size={28} color={PALETTE.PRIMARY_MAIN} />}
-              selected={selected === "/backoffice"} // Verifica a rota atual é "/"
-              setSelected={setSelected} // Passa a função setSelected corretamente
-              onClick={() => handleNavigation("/backoffice")} // Navega
-            />
-          )}
+          {data?.user?.perfilId === 1 &&
+            (loadingBackOffice ? (
+              <Box display="flex" justifyContent="center" alignItems="center" height="50px">
+                <CircularProgress size={24} />
+              </Box>
+            ) : (
+              <MenuItem
+                title="BackOffice"
+                to="/backoffice"
+                icon={<UserGear size={28} color={PALETTE.PRIMARY_MAIN} />}
+                selected={selected === "/backoffice"} // Verifica a rota atual
+                setSelected={setSelected} // Passa a função setSelected corretamente
+                onClick={() => handleNavigation("/backoffice")} // Navega
+              />
+            ))}
         </MuiMenu>
       </Sidebar>
     </Box>
