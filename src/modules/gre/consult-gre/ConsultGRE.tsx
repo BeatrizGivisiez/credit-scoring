@@ -18,6 +18,7 @@ import { ArrowLeft, Check, MagnifyingGlass, Plus } from "@phosphor-icons/react";
 import { useSession } from "next-auth/react";
 import { consultgre__breadcrumbs, consultgre__search, consultgre__table } from "./styles";
 import { ConsultGREPageProps } from "./types";
+import { useEffect, useState } from "react";
 
 export const ConsultGREPage = ({
   isConsult,
@@ -35,7 +36,22 @@ export const ConsultGREPage = ({
   error,
   fetchEconomicGroup
 }: ConsultGREPageProps) => {
-  const { data } = useSession();
+  const { data, status } = useSession();
+  const [cachedPerfilId, setCachedPerfilId] = useState<number | null>(null);
+
+  useEffect(() => {
+    // Cache o perfilId assim que os dados da sessão estiverem disponíveis
+    if (status === "authenticated" && data?.user?.perfilId !== undefined) {
+      setCachedPerfilId(data.user.perfilId);
+      localStorage.setItem("perfilId", data.user.perfilId.toString());
+    } else {
+      // Carrega o perfilId do cache, se disponível
+      const storedPerfilId = localStorage.getItem("perfilId");
+      if (storedPerfilId) {
+        setCachedPerfilId(parseInt(storedPerfilId, 10));
+      }
+    }
+  }, [data, status]);
 
   return (
     <>
@@ -54,7 +70,7 @@ export const ConsultGREPage = ({
           placeholder="Nome Grupo, Entidades ou NIF"
           onSearch={handleSearch}
         />
-        {(data?.user.perfilId === 1 || data?.user.perfilId === 2) && (
+        {(cachedPerfilId === 1 || cachedPerfilId === 2) && (
           <Button iconEnd={Plus} label="Criar Grupo" onClick={() => setIsCreatingGroup(true)} />
         )}
       </Stack>

@@ -61,10 +61,14 @@ const handler = NextAuth({
       }
       return token;
     },
-    // Adiciona perfilId à sessão acessível pelo cliente
+    // Adiciona perfilId à sessão acessível pelo cliente e salva no localStorage
     async session({ session, token }) {
       if (token?.perfilId) {
         session.user.perfilId = token.perfilId as number; // Adiciona perfilId ao objeto de sessão
+        // Salva o perfilId no localStorage
+        if (typeof window !== "undefined") {
+          localStorage.setItem("perfilId", token.perfilId.toString());
+        }
       }
       return session;
     }

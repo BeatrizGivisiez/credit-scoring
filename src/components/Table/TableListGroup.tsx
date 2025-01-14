@@ -1,6 +1,6 @@
 "use client";
 
-import { memo } from "react";
+import { memo, useEffect, useState } from "react";
 
 import { ButtonIcon } from "@/components";
 import { Typography } from "@mui/material";
@@ -13,7 +13,23 @@ import { TableListGroupProps } from "./types";
 import { useSession } from "next-auth/react";
 
 export const TableListGroup = memo(({ groups, onViewGroup, onEditGroup }: TableListGroupProps) => {
-  const { data } = useSession();
+  const { data, status } = useSession();
+
+  const [cachedPerfilId, setCachedPerfilId] = useState<number | null>(null);
+
+  useEffect(() => {
+    // Cache o perfilId assim que os dados da sessão estiverem disponíveis
+    if (status === "authenticated" && data?.user?.perfilId !== undefined) {
+      setCachedPerfilId(data.user.perfilId);
+      localStorage.setItem("perfilId", data.user.perfilId.toString());
+    } else {
+      // Carrega o perfilId do cache, se disponível
+      const storedPerfilId = localStorage.getItem("perfilId");
+      if (storedPerfilId) {
+        setCachedPerfilId(parseInt(storedPerfilId, 10));
+      }
+    }
+  }, [data, status]);
 
   const columns: GridColDef<(typeof groups)[number]>[] = [
     { field: "id", headerName: "ID", width: 90, headerAlign: "center", align: "center" },
@@ -68,7 +84,7 @@ export const TableListGroup = memo(({ groups, onViewGroup, onEditGroup }: TableL
             onClick={() => onViewGroup(params.row)}
           />
           {params.row.status && // Só exibe o botão de edição se o status for "Ativo"
-            (data?.user.perfilId === 1 || data?.user.perfilId === 2) && (
+            (cachedPerfilId === 1 || cachedPerfilId === 2) && (
               <ButtonIcon
                 placement="top-end"
                 title="Editar"

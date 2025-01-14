@@ -9,7 +9,7 @@ import { MenuItem } from "@/components";
 import { IMAGE_LOGO_BIG, IMAGE_LOGO_SMALL } from "@/constants/images";
 import PALETTE from "@/styles/_palette";
 import { Box, CircularProgress, IconButton, Typography } from "@mui/material";
-import { ChartLine, Graph, List, UserGear } from "@phosphor-icons/react";
+import { Graph, List, UserGear } from "@phosphor-icons/react";
 
 import { itemmenu, menu, menu__logo } from "./styles";
 import { useSession } from "next-auth/react";
@@ -18,20 +18,33 @@ export const Menu = () => {
   const [isCollapsed, setIsCollapsed] = useState(true);
   const [selected, setSelected] = useState("");
   const [loadingBackOffice, setLoadingBackOffice] = useState(true); // Estado para o item BackOffice
-  const router = useRouter();
+  const [cachedPerfilId, setCachedPerfilId] = useState<number | null>(null);
 
+  const router = useRouter();
   const { data, status } = useSession();
 
+  console.log("Id perfil", data?.user?.perfilId);
+
   useEffect(() => {
-    // Define a rota atual ao carregar, default para "/gre"
+    // Define a rota atual ao carregar
     setSelected(window.location.pathname || "/gre");
 
-    // Aguarda o status e simula o tempo de carregamento do BackOffice
-    if (status === "authenticated") {
-      const timer = setTimeout(() => setLoadingBackOffice(false), 1000); // Ajuste o tempo, se necessário
-      return () => clearTimeout(timer); // Limpa o timer ao desmontar o componente
+    // Cache o perfilId assim que os dados da sessão estiverem disponíveis
+    if (status === "authenticated" && data?.user?.perfilId !== undefined) {
+      setCachedPerfilId(data.user.perfilId);
+      localStorage.setItem("perfilId", data.user.perfilId.toString());
+      setLoadingBackOffice(false); // Já temos os dados, não precisa carregar mais
+    } else {
+      // Carrega o perfilId do cache, se disponível
+      const storedPerfilId = localStorage.getItem("perfilId");
+      if (storedPerfilId) {
+        setCachedPerfilId(parseInt(storedPerfilId, 10));
+        setLoadingBackOffice(false); // Dados carregados do cache
+      } else if (status === "unauthenticated") {
+        setLoadingBackOffice(false); // Usuário não autenticado, sem necessidade de carregamento
+      }
     }
-  }, [status]);
+  }, [data, status]);
 
   const handleNavigation = (path: string) => {
     setSelected(path); // Atualiza o estado do item selecionado
@@ -78,15 +91,15 @@ export const Menu = () => {
             setSelected={setSelected} // Passa a função setSelected corretamente
             onClick={() => handleNavigation("/gre")} // Navega
           />
-          <MenuItem
+          {/* <MenuItem
             title="Scoring"
             to="/utp"
             icon={<ChartLine size={28} color={PALETTE.PRIMARY_MAIN} />}
             selected={selected === "/utp"} // Verifica a rota atual é "/"
             setSelected={setSelected} // Passa a função setSelected corretamente
             onClick={() => handleNavigation("/utp")} // Navega
-          />
-          {data?.user?.perfilId === 1 &&
+          /> */}
+          {cachedPerfilId === 1 &&
             (loadingBackOffice ? (
               <Box display="flex" justifyContent="center" alignItems="center" height="50px">
                 <CircularProgress size={24} />

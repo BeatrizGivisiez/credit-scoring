@@ -41,17 +41,30 @@ const tabs = [
 export const BackOfficePage = () => {
   const { data, status } = useSession();
   const [showAccessDenied, setShowAccessDenied] = useState(false);
+  const [cachedPerfilId, setCachedPerfilId] = useState<number | null>(null);
 
-  // Configura um temporizador para exibir a mensagem de acesso negado após 10 segundos
   useEffect(() => {
-    if (status === "authenticated" && data?.user.perfilId !== 1) {
+    // Cache o perfilId assim que os dados da sessão estiverem disponíveis
+    if (status === "authenticated" && data?.user?.perfilId !== undefined) {
+      setCachedPerfilId(data.user.perfilId);
+      localStorage.setItem("perfilId", data.user.perfilId.toString());
+    } else {
+      // Carrega o perfilId do cache, se disponível
+      const storedPerfilId = localStorage.getItem("perfilId");
+      if (storedPerfilId) {
+        setCachedPerfilId(parseInt(storedPerfilId, 10));
+      }
+    }
+
+    // Configura um temporizador para exibir a mensagem de acesso negado após 10 segundos
+    if (status === "authenticated" && data?.user?.perfilId !== 1) {
       const timer = setTimeout(() => setShowAccessDenied(true), 10000);
       return () => clearTimeout(timer); // Limpa o temporizador ao desmontar o componente
     }
   }, [status, data]);
 
   // Enquanto a sessão está carregando ou dados não estão prontos, exibe o carregamento
-  if (status === "loading" || (!data?.user && !showAccessDenied)) {
+  if (status === "loading" || (!cachedPerfilId && !showAccessDenied)) {
     return (
       <Box display="flex" justifyContent="center" alignItems="center" height="100vh">
         <CircularProgress />
@@ -72,7 +85,7 @@ export const BackOfficePage = () => {
   }
 
   // Renderiza as abas apenas quando a autenticação e as permissões são confirmadas
-  if (status === "authenticated" && data?.user.perfilId === 1) {
+  if (status === "authenticated" && cachedPerfilId === 1) {
     return <Tabs tabs={tabs} />;
   }
 
