@@ -11,44 +11,36 @@ import PALETTE from "@/styles/_palette";
 import { Box, CircularProgress, IconButton, Typography } from "@mui/material";
 import { Graph, List, UserGear } from "@phosphor-icons/react";
 
-import { itemmenu, menu, menu__logo } from "./styles";
+import { useFetchPerfil } from "@/hooks/perfil/useFetchPerfil";
 import { useSession } from "next-auth/react";
+import { itemmenu, menu, menu__logo } from "./styles";
 
 export const Menu = () => {
   const [isCollapsed, setIsCollapsed] = useState(true);
   const [selected, setSelected] = useState("");
-  const [loadingBackOffice, setLoadingBackOffice] = useState(true); // Estado para o item BackOffice
-  const [cachedPerfilId, setCachedPerfilId] = useState<number | null>(null);
+  const [perfilId, setPerfilId] = useState<number | null>(null);
 
   const router = useRouter();
-  const { data, status } = useSession();
-
-  console.log("Id perfil", data?.user?.perfilId);
+  const { data, status } = useSession(); // Dados da sessão
+  const { perfil, loading: loadingPerfil } = useFetchPerfil();
 
   useEffect(() => {
-    // Define a rota atual ao carregar
-    setSelected(window.location.pathname || "/gre");
-
-    // Cache o perfilId assim que os dados da sessão estiverem disponíveis
-    if (status === "authenticated" && data?.user?.perfilId !== undefined) {
-      setCachedPerfilId(data.user.perfilId);
-      localStorage.setItem("perfilId", data.user.perfilId.toString());
-      setLoadingBackOffice(false); // Já temos os dados, não precisa carregar mais
-    } else {
-      // Carrega o perfilId do cache, se disponível
-      const storedPerfilId = localStorage.getItem("perfilId");
-      if (storedPerfilId) {
-        setCachedPerfilId(parseInt(storedPerfilId, 10));
-        setLoadingBackOffice(false); // Dados carregados do cache
-      } else if (status === "unauthenticated") {
-        setLoadingBackOffice(false); // Usuário não autenticado, sem necessidade de carregamento
+    const matchEmailWithPerfil = async () => {
+      if (status === "authenticated" && data?.user?.email && !loadingPerfil && perfil.length > 0) {
+        const userPerfil = perfil.find((p) => p.email === data.user.email); // Compara o email
+        if (userPerfil) {
+          setPerfilId(userPerfil.perfilId); // Define o perfilId do usuário
+        }
       }
-    }
-  }, [data, status]);
+    };
+
+    matchEmailWithPerfil();
+    setSelected(window.location.pathname || "/gre");
+  }, [data, status, perfil, loadingPerfil]);
 
   const handleNavigation = (path: string) => {
-    setSelected(path); // Atualiza o estado do item selecionado
-    router.push(path); // Navega para a rota desejada
+    setSelected(path);
+    router.push(path);
   };
 
   return (
@@ -63,7 +55,7 @@ export const Menu = () => {
                   color={PALETTE.PRIMARY_MAIN}
                   sx={{ "&:hover": { backgroundColor: "transparent" } }}
                 >
-                  {data?.user?.name}
+                  {data?.user?.name || "Usuário"}
                 </Typography>
                 <IconButton onClick={() => setIsCollapsed(!isCollapsed)}>
                   <List size={24} color={PALETTE.PRIMARY_MAIN} weight="bold" />
@@ -87,33 +79,24 @@ export const Menu = () => {
             title="Grupos Económicos"
             to="/gre"
             icon={<Graph size={28} color={PALETTE.PRIMARY_MAIN} />}
-            selected={selected === "/gre"} // Verifica a rota atual
-            setSelected={setSelected} // Passa a função setSelected corretamente
-            onClick={() => handleNavigation("/gre")} // Navega
+            selected={selected === "/gre"}
+            setSelected={setSelected}
+            onClick={() => handleNavigation("/gre")}
           />
-          {/* <MenuItem
-            title="Scoring"
-            to="/utp"
-            icon={<ChartLine size={28} color={PALETTE.PRIMARY_MAIN} />}
-            selected={selected === "/utp"} // Verifica a rota atual é "/"
-            setSelected={setSelected} // Passa a função setSelected corretamente
-            onClick={() => handleNavigation("/utp")} // Navega
-          /> */}
-          {cachedPerfilId === 1 &&
-            (loadingBackOffice ? (
-              <Box display="flex" justifyContent="center" alignItems="center" height="50px">
-                <CircularProgress size={24} />
-              </Box>
-            ) : (
-              <MenuItem
-                title="BackOffice"
-                to="/backoffice"
-                icon={<UserGear size={28} color={PALETTE.PRIMARY_MAIN} />}
-                selected={selected === "/backoffice"} // Verifica a rota atual
-                setSelected={setSelected} // Passa a função setSelected corretamente
-                onClick={() => handleNavigation("/backoffice")} // Navega
-              />
-            ))}
+          {perfilId === 1 ? (
+            <MenuItem
+              title="BackOffice"
+              to="/backoffice"
+              icon={<UserGear size={28} color={PALETTE.PRIMARY_MAIN} />}
+              selected={selected === "/backoffice"}
+              setSelected={setSelected}
+              onClick={() => handleNavigation("/backoffice")}
+            />
+          ) : loadingPerfil ? (
+            <Box display="flex" justifyContent="center" alignItems="center" height="50px">
+              <CircularProgress size={24} />
+            </Box>
+          ) : null}
         </MuiMenu>
       </Sidebar>
     </Box>

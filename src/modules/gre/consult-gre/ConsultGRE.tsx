@@ -12,9 +12,10 @@ import {
   TableListGroup
 } from "@/components";
 import PALETTE from "@/styles/_palette";
-import { Stack, Typography } from "@mui/material";
+import { Stack, Typography, CircularProgress, Box } from "@mui/material";
 import { ArrowLeft, Check, MagnifyingGlass, Plus } from "@phosphor-icons/react";
 
+import { useFetchPerfil } from "@/hooks/perfil/useFetchPerfil";
 import { useSession } from "next-auth/react";
 import { consultgre__breadcrumbs, consultgre__search, consultgre__table } from "./styles";
 import { ConsultGREPageProps } from "./types";
@@ -36,22 +37,22 @@ export const ConsultGREPage = ({
   error,
   fetchEconomicGroup
 }: ConsultGREPageProps) => {
-  const { data, status } = useSession();
-  const [cachedPerfilId, setCachedPerfilId] = useState<number | null>(null);
+  const { data, status } = useSession(); // Dados da sessão
+  const { perfil, loading: loadingPerfil } = useFetchPerfil(); // Hook para buscar perfis
+  const [perfilId, setPerfilId] = useState<number | null>(null);
 
   useEffect(() => {
-    // Cache o perfilId assim que os dados da sessão estiverem disponíveis
-    if (status === "authenticated" && data?.user?.perfilId !== undefined) {
-      setCachedPerfilId(data.user.perfilId);
-      localStorage.setItem("perfilId", data.user.perfilId.toString());
-    } else {
-      // Carrega o perfilId do cache, se disponível
-      const storedPerfilId = localStorage.getItem("perfilId");
-      if (storedPerfilId) {
-        setCachedPerfilId(parseInt(storedPerfilId, 10));
+    const matchEmailWithPerfil = () => {
+      if (status === "authenticated" && data?.user?.email && perfil.length > 0) {
+        const userPerfil = perfil.find((p) => p.email === data.user.email); // Compara o email
+        if (userPerfil) {
+          setPerfilId(userPerfil.perfilId); // Define o perfilId do usuário
+        }
       }
-    }
-  }, [data, status]);
+    };
+
+    matchEmailWithPerfil();
+  }, [data, status, perfil]);
 
   return (
     <>
@@ -70,8 +71,16 @@ export const ConsultGREPage = ({
           placeholder="Nome Grupo, Entidades ou NIF"
           onSearch={handleSearch}
         />
-        {(cachedPerfilId === 1 || cachedPerfilId === 2) && (
-          <Button iconEnd={Plus} label="Criar Grupo" onClick={() => setIsCreatingGroup(true)} />
+        {perfilId === null && loadingPerfil ? (
+          // Exibe o carregamento enquanto o perfilId está sendo determinado
+          <Box display="flex" justifyContent="center" alignItems="center" height="50px">
+            <CircularProgress size={24} />
+          </Box>
+        ) : (
+          (perfilId === 1 || perfilId === 2) && (
+            // Exibe o botão "Criar Grupo" quando o carregamento é concluído
+            <Button iconEnd={Plus} label="Criar Grupo" onClick={() => setIsCreatingGroup(true)} />
+          )
         )}
       </Stack>
 

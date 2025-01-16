@@ -3,33 +3,33 @@
 import { memo, useEffect, useState } from "react";
 
 import { ButtonIcon } from "@/components";
-import { Typography } from "@mui/material";
+import { CircularProgress, Typography } from "@mui/material";
 import Box from "@mui/material/Box";
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
 import { Eye, Pencil } from "@phosphor-icons/react";
 
 import { gridcoldef } from "./styles";
 import { TableListGroupProps } from "./types";
+import { useFetchPerfil } from "@/hooks/perfil/useFetchPerfil";
 import { useSession } from "next-auth/react";
 
 export const TableListGroup = memo(({ groups, onViewGroup, onEditGroup }: TableListGroupProps) => {
-  const { data, status } = useSession();
-
-  const [cachedPerfilId, setCachedPerfilId] = useState<number | null>(null);
+  const { data, status } = useSession(); // Dados da sessão
+  const { perfil, loading: loadingPerfil } = useFetchPerfil(); // Hook para buscar perfis
+  const [perfilId, setPerfilId] = useState<number | null>(null);
 
   useEffect(() => {
-    // Cache o perfilId assim que os dados da sessão estiverem disponíveis
-    if (status === "authenticated" && data?.user?.perfilId !== undefined) {
-      setCachedPerfilId(data.user.perfilId);
-      localStorage.setItem("perfilId", data.user.perfilId.toString());
-    } else {
-      // Carrega o perfilId do cache, se disponível
-      const storedPerfilId = localStorage.getItem("perfilId");
-      if (storedPerfilId) {
-        setCachedPerfilId(parseInt(storedPerfilId, 10));
+    const matchEmailWithPerfil = () => {
+      if (status === "authenticated" && data?.user?.email && perfil.length > 0) {
+        const userPerfil = perfil.find((p) => p.email === data.user.email); // Compara o email
+        if (userPerfil) {
+          setPerfilId(userPerfil.perfilId); // Define o perfilId do usuário
+        }
       }
-    }
-  }, [data, status]);
+    };
+
+    matchEmailWithPerfil();
+  }, [status, data, perfil]);
 
   const columns: GridColDef<(typeof groups)[number]>[] = [
     { field: "id", headerName: "ID", width: 90, headerAlign: "center", align: "center" },
@@ -83,15 +83,21 @@ export const TableListGroup = memo(({ groups, onViewGroup, onEditGroup }: TableL
             icon={Eye}
             onClick={() => onViewGroup(params.row)}
           />
-          {params.row.status && // Só exibe o botão de edição se o status for "Ativo"
-            (cachedPerfilId === 1 || cachedPerfilId === 2) && (
-              <ButtonIcon
-                placement="top-end"
-                title="Editar"
-                icon={Pencil}
-                onClick={() => onEditGroup(params.row)}
-              />
-            )}
+          {params.row.status &&
+            (loadingPerfil ? ( // Enquanto `loadingPerfil` for true, mostra o indicador de carregamento
+              <Box display="flex" justifyContent="center" alignItems="center" height="50px">
+                <CircularProgress size={24} />
+              </Box>
+            ) : (
+              (perfilId === 1 || perfilId === 2) && (
+                <ButtonIcon
+                  placement="top-end"
+                  title="Editar"
+                  icon={Pencil}
+                  onClick={() => onEditGroup(params.row)}
+                />
+              )
+            ))}
         </Box>
       )
     }
