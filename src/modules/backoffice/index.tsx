@@ -24,20 +24,26 @@ const tabs = [
     label: "Gestão da Característica Relação",
     iconStart: Graph,
     content: <ManagerGREPage />
-  },
-  {
-    value: 2,
-    label: "Gestão da Característica Entidades",
-    iconStart: BuildingOffice,
-    content: <ManagerEntity />
-  },
-  {
-    value: 3,
-    label: "Gestão da Característica Contratos",
-    iconStart: BuildingOffice,
-    content: <ManagerContract />
   }
 ];
+
+// Se NEXT_PUBLIC_IS_UTP for "true", adiciona as abas extras
+if (process.env.NEXT_PUBLIC_IS_UTP === "true") {
+  tabs.push(
+    {
+      value: 2,
+      label: "Gestão da Característica Entidades",
+      iconStart: BuildingOffice,
+      content: <ManagerEntity />
+    },
+    {
+      value: 3,
+      label: "Gestão da Característica Contratos",
+      iconStart: BuildingOffice,
+      content: <ManagerContract />
+    }
+  );
+}
 
 export const BackOfficePage = () => {
   const { data, status } = useSession(); // Dados da sessão

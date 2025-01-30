@@ -9,7 +9,7 @@ import { MenuItem } from "@/components";
 import { IMAGE_LOGO_BIG, IMAGE_LOGO_SMALL } from "@/constants/images";
 import PALETTE from "@/styles/_palette";
 import { Box, CircularProgress, IconButton, Typography } from "@mui/material";
-import { Graph, List, UserGear } from "@phosphor-icons/react";
+import { ChartLine, Graph, List, UserGear } from "@phosphor-icons/react";
 
 import { useFetchPerfil } from "@/hooks/perfil/useFetchPerfil";
 import { useSession } from "next-auth/react";
@@ -83,6 +83,17 @@ export const Menu = () => {
             setSelected={setSelected}
             onClick={() => handleNavigation("/gre")}
           />
+          {/* Se NEXT_PUBLIC_IS_UTP for "true", adiciona a rota de utp */}
+          {process.env.NEXT_PUBLIC_IS_UTP === "true" && (
+            <MenuItem
+              title="Scoring"
+              to="/utp"
+              icon={<ChartLine size={28} color={PALETTE.PRIMARY_MAIN} />}
+              selected={selected === "/utp"}
+              setSelected={setSelected}
+              onClick={() => handleNavigation("/utp")}
+            />
+          )}
           {perfilId === 1 ? (
             <MenuItem
               title="BackOffice"
