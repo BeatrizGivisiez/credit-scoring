@@ -8,14 +8,8 @@ export const useFetchTotalEconomicGroup = () => {
 
   useEffect(() => {
     const fetchTotalEconomicGroup = async () => {
-      const cacheKey = "totalEconomicGroupCache";
-      const cachedData = localStorage.getItem(cacheKey);
-
-      if (cachedData) {
-        setTotalEconomicGroup(cachedData);
-        setLoading(false);
-        return;
-      }
+      setLoading(true);
+      setError(null);
 
       try {
         const response = await fetch(`/api/totalEconomicGroup`, {
@@ -31,8 +25,6 @@ export const useFetchTotalEconomicGroup = () => {
 
         const data: string = await response.json();
         setTotalEconomicGroup(data);
-
-        localStorage.setItem(cacheKey, data);
       } catch (err: any) {
         setError(err.message);
       } finally {

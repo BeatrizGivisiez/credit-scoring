@@ -8,14 +8,8 @@ export const useFetchTotalEntity = () => {
 
   useEffect(() => {
     const fetchTotalEntity = async () => {
-      const cacheKey = "totalEntityCache";
-      const cachedData = localStorage.getItem(cacheKey);
-
-      if (cachedData) {
-        setTotalEntity(cachedData);
-        setLoading(false);
-        return;
-      }
+      setLoading(true);
+      setError(null);
 
       try {
         const response = await fetch(`/api/totalEntity`, {
@@ -31,8 +25,6 @@ export const useFetchTotalEntity = () => {
 
         const data = await response.json();
         setTotalEntity(data);
-
-        localStorage.setItem(cacheKey, data);
       } catch (err: any) {
         setError(err.message);
       } finally {
