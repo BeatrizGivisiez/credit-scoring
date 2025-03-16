@@ -2,6 +2,15 @@
 
 Projeto frontend construído com [Next.js](https://nextjs.org/) e estilizado utilizando [Material UI](https://mui.com/). Ele é integrado com autenticação utilizando [NextAuth](https://next-auth.js.org/) e fornece visualizações de dados usando bibliotecas como Nivo Charts.
 
+
+## Informações sobre o Software
+
+Este software **não possui suporte para responsividade**, pois não foi adquirido para esse propósito. Ele foi desenvolvido para ser utilizado **exclusivamente em computadores** e não oferecerá suporte para dispositivos móveis ou telas menores.
+
+**Atenção:** Qualquer tentativa de execução em dispositivos móveis pode resultar em comportamento inesperado.
+
+---
+
 ## Índice
 
 - [Requisitos](#requisitos)
@@ -23,8 +32,8 @@ Antes de começar, certifique-se de ter as seguintes ferramentas instaladas:
 ## Instalação
 1. Clone o repositório:
 ```bash
-git clone https://github.com/pkf2p/web-utp-frontend.git
-cd web-utp-frontend
+git clone https://github.com/BeatrizGivisiez/credit-scoring.git
+cd credit-scoring
 ```
 
 2. Instale as dependências:
